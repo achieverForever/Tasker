@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <Switch 
+        android:id="@+id/wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="wifi" />
+	<Switch 
+        android:id="@+id/bluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bluetooth" />
+    <Switch 
+        android:id="@+id/airplane_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="airplane mode" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Brightness"/>
+    <SeekBar
+        android:id="@+id/brightness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button 
+        android:id="@+id/set_wallpaper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set wallpaper" />
+    <EditText
+        android:id="@+id/timeout" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10000" />
+    <Button 
+        android:id="@+id/screen_off_timeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set screen off timeout" />
+    <Switch 
+        android:id="@+id/track_top_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="track top app" />
+    <Button
+        android:id="@+id/battery_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get current battery level"/>
+    <Switch
+        android:id="@+id/schedule_one_shot_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="schedule one-shot job"/>
+    <Switch
+        android:id="@+id/schedule_fixed_rate_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="schedule fixed rate job"/>
+    <Switch
+        android:id="@+id/orientation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="orientation"/>
+    <Switch
+        android:id="@+id/caller"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="caller"/>
+    <Switch
+        android:id="@+id/sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sms"/>
+    <Button
+        android:id="@+id/ringtone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set ringtone"/>
+
+</LinearLayout>

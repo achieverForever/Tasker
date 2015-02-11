@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <style name="TaskerTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- selector -->
+        <item name="android:selectableItemBackground">@drawable/list_selector_sg</item>
+
+        <!-- action bar -->
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <!--   your app's branding color (for the app bar) -->
+        <item name="colorPrimary">@color/accent_primary</item>
+        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="colorPrimaryDark">@color/accent_primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/accent_primary</item>
+    </style>
+
+
+</resources>

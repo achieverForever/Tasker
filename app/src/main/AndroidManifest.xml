@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wilson.tasker" >
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/TaskerTheme" >
+        <activity
+            android:name="com.wilson.tasker.ui.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.wilson.tasker.ui.TestActivity" >
+
+        </activity>
+        <activity
+            android:name="com.wilson.tasker.ui.PriorityActivity"
+            android:label="@string/title_activity_priority" >
+        </activity>
+        <activity
+            android:name="com.wilson.tasker.ui.EditTaskActivity"
+            android:label="@string/title_activity_edit_task" >
+        </activity>
+        <activity
+            android:name="com.wilson.tasker.ui.EditConditionActivity"
+            android:label="@string/title_activity_edit_condition" >
+        </activity>
+    </application>
+
+</manifest>

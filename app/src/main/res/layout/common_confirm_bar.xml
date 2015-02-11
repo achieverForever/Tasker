@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99666666"
+        android:layout_margin="2dp"
+        android:layout_gravity="bottom"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="bottom"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/iv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/twofortyfouram_locale_ic_menu_dontsave"
+            android:scaleType="centerInside"
+            android:contentDescription="@null"/>
+
+        <ImageView
+            android:id="@+id/iv_dont_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/twofortyfouram_locale_ic_menu_save"
+            android:scaleType="centerInside"
+            android:contentDescription="@null"/>
+
+    </RelativeLayout>
+
+</merge>

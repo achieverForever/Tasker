@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="light_blue">#ff007cb0</color>
+    <color name="accent_primary">#ff6545a0</color>
+    <color name="accent_primary_light">#bb7555B0</color>
+    <color name="accent_primary_26">#426545a0</color>
+    <color name="accent_primary_dark">#ff523991</color>
+</resources>
