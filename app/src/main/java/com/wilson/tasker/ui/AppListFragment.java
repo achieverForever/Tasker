@@ -83,8 +83,6 @@ public class AppListFragment extends Fragment
 		adapter = new AppListAdapter(getActivity());
 		appList.setAdapter(adapter);
 		getLoaderManager().initLoader(LOADER_APP_LIST, null, this);
-		android.app.Fragment f;
-		f.getLoaderManager()
 	}
 
 	@Override

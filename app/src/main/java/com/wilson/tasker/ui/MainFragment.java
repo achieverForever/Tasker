@@ -34,7 +34,6 @@ public class MainFragment extends Fragment {
 		taskList = (ListView) view.findViewById(R.id.lv_task_list);
 		setupViews();
 		return view;
-		Loader
 	}
 
 	@Override

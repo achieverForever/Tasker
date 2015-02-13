@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
-					.replace(R.id.content, AppListFragment.newInstance())
+					.replace(R.id.content, MainFragment.newInstance())
 					.commit();
 		}
 	}
