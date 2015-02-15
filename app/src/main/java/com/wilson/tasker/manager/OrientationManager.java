@@ -24,6 +24,7 @@ public class OrientationManager implements SensorEventListener {
 	private float[] orientationVector = new float[3];
 
 	private SensorManager sensorManager;
+	private boolean registered;
 
 	private static OrientationManager sInstance;
 
@@ -31,7 +32,7 @@ public class OrientationManager implements SensorEventListener {
 		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
 
-	public static OrientationManager getsInstance(Context context) {
+	public static synchronized OrientationManager getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new OrientationManager(context);
 		}
@@ -42,10 +43,12 @@ public class OrientationManager implements SensorEventListener {
 		sensorManager.registerListener(this,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
 				SensorManager.SENSOR_DELAY_NORMAL);
+		registered = true;
 	}
 
 	public void unregister() {
 		sensorManager.unregisterListener(this);
+		registered = false;
 	}
 
 	@Override

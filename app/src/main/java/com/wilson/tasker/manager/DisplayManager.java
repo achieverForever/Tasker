@@ -24,7 +24,7 @@ public class DisplayManager {
 		mContext = context;
 	}
 
-	public static DisplayManager getsInstance(Context context) {
+	public static synchronized DisplayManager getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new DisplayManager(context);
 		}

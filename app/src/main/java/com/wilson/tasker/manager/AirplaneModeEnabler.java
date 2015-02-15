@@ -16,7 +16,7 @@ public class AirplaneModeEnabler {
 		mContext = context;
 	}
 
-    public static AirplaneModeEnabler getInstance(Context context) {
+    public static synchronized AirplaneModeEnabler getInstance(Context context) {
 	    if (sInstance == null) {
 		    sInstance = new AirplaneModeEnabler(context);
 	    }

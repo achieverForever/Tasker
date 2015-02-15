@@ -14,13 +14,14 @@ import de.greenrobot.event.EventBus;
 
 public class SmsManager {
 	private Context context;
+	private boolean registered;
 	private static SmsManager sInstance;
 
 	private SmsManager(Context context) {
 		this.context = context;
 	}
 
-	public static SmsManager getsInstance(Context context) {
+	public static synchronized SmsManager getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new SmsManager(context);
 		}
@@ -30,10 +31,12 @@ public class SmsManager {
 	public void register() {
 		IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 		context.registerReceiver(smsReceiver, intentFilter);
+		registered = true;
 	}
 
 	public void unregister() {
 		context.unregisterReceiver(smsReceiver);
+		registered = false;
 	}
 
 	public BroadcastReceiver smsReceiver = new BroadcastReceiver() {
@@ -59,4 +62,8 @@ public class SmsManager {
 			}
 		}
 	};
+
+	public boolean isRegistered() {
+		return registered;
+	}
 }

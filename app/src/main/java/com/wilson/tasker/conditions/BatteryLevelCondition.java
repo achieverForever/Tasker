@@ -3,19 +3,16 @@ package com.wilson.tasker.conditions;
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Task;
+import com.wilson.tasker.model.Scene;
 
 public class BatteryLevelCondition extends Condition {
-	public enum BatteryLevelType {
-		ABOVE,
-		BELOW
-	}
+	public enum BatteryLevelType { ABOVE, BELOW }
 
 	public BatteryLevelType type;
 	public float targetValue;
 
-	public BatteryLevelCondition(Task task, BatteryLevelType type, float targetValue) {
-		super(Event.EVENT_BATTERY_LEVEL, task);
+	public BatteryLevelCondition(Scene scene, BatteryLevelType type, float targetValue) {
+		super(Event.EVENT_BATTERY_LEVEL, scene);
 		this.type = type;
 		this.targetValue = targetValue;
 	}

@@ -13,15 +13,15 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	private Context context;
 	private TelephonyManager telephonyManager;
-
+	private boolean registered;
 	private static PhoneCallManager sInstance;
 
 	private PhoneCallManager(Context context) {
 		this.context = context;
-		telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		this.telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	}
 
-	public static PhoneCallManager getsInstance(Context context) {
+	public static synchronized PhoneCallManager getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new PhoneCallManager(context);
 		}
@@ -30,10 +30,12 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	public void register() {
 		telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
+		registered = true;
 	}
 
 	public void unregister() {
 		telephonyManager.listen(this, 0);
+		registered = false;
 	}
 
 	@Override

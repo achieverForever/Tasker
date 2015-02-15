@@ -3,14 +3,14 @@ package com.wilson.tasker.conditions;
 import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Task;
+import com.wilson.tasker.model.Scene;
 
 public class SmsCondition extends Condition {
 	public String msgFrom;
 	public String msgBody;
 
-	public SmsCondition(Task task, String msgFrom, String msgBody) {
-		super(Event.EVENT_SMS, task);
+	public SmsCondition(Scene scene, String msgFrom, String msgBody) {
+		super(Event.EVENT_SMS, scene);
 		this.msgFrom = msgFrom.trim();
 		this.msgBody = msgBody.trim();
 	}

@@ -50,13 +50,9 @@ public class ApplicationManager {
 		mLastTopApp= "";
 	}
 	
-	public static ApplicationManager getInstance(Context context) {
+	public static synchronized ApplicationManager getInstance(Context context) {
 		if (sInstance == null) {
-			synchronized (ApplicationManager.class) {
-				if (sInstance == null) {
-					sInstance = new ApplicationManager(context);
-				}
-			}
+			sInstance = new ApplicationManager(context);
 		}
 		return sInstance;
 	}

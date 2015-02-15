@@ -1,11 +1,8 @@
 package com.wilson.tasker.ui;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.wilson.tasker.R;
-import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.manager.AirplaneModeEnabler;
 import com.wilson.tasker.manager.ApplicationManager;
 import com.wilson.tasker.manager.BatteryLevelMonitor;
@@ -15,11 +12,9 @@ import com.wilson.tasker.manager.JobScheduler;
 import com.wilson.tasker.manager.OrientationManager;
 import com.wilson.tasker.manager.PhoneCallManager;
 import com.wilson.tasker.manager.RingtoneManager;
+import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.manager.SmsManager;
-import com.wilson.tasker.manager.TaskManager;
 import com.wilson.tasker.manager.WifiEnabler;
-import com.wilson.tasker.model.Condition;
-import com.wilson.tasker.model.Task;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -277,12 +272,12 @@ public class TestActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		TaskManager.getInstance().onStart();
+		SceneManager.getInstance().onStart();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		TaskManager.getInstance().onStop();
+		SceneManager.getInstance().onStop();
 	}
 }

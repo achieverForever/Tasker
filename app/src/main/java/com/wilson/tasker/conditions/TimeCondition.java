@@ -4,7 +4,7 @@ import com.wilson.tasker.events.TimeEvent;
 import com.wilson.tasker.manager.JobScheduler;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Task;
+import com.wilson.tasker.model.Scene;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +15,8 @@ public class TimeCondition extends Condition {
 	public long start;
 	public long end;
 
-	public TimeCondition(Task task, long start, long end) {
-		super(Event.EVENT_TIME, task);
+	public TimeCondition(Scene scene, long start, long end) {
+		super(Event.EVENT_TIME, scene);
 		long now = Calendar.getInstance().getTimeInMillis();
 		if (start < now || end < start) {
 			throw new IllegalArgumentException("Invalid value of TimeCondition");

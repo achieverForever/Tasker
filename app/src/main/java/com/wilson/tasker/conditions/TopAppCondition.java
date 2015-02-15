@@ -5,14 +5,14 @@ import android.content.Intent;
 import com.wilson.tasker.events.TopAppChangedEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Task;
+import com.wilson.tasker.model.Scene;
 
 public class TopAppCondition extends Condition {
 	public String targetPkgName;
 	public Intent launchIntent;
 
-	public TopAppCondition(Task task, String targetPkgName) {
-		super(Event.EVENT_TOP_APP_CHANGED, task);
+	public TopAppCondition(Scene scene, String targetPkgName) {
+		super(Event.EVENT_TOP_APP_CHANGED, scene);
 		this.targetPkgName = targetPkgName;
 	}
 

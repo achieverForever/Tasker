@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.util.Log;
 
+import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.events.ChargerEvent;
 
@@ -14,13 +15,14 @@ import de.greenrobot.event.EventBus;
 
 public class BatteryLevelMonitor {
 	private Context context;
+	private boolean registered;
 	private static BatteryLevelMonitor sInstance;
 
 	private BatteryLevelMonitor(Context context) {
 		this.context = context;
 	}
 
-	public static BatteryLevelMonitor getsInstance(Context context) {
+	public static synchronized BatteryLevelMonitor getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new BatteryLevelMonitor(context);
 		}
@@ -39,10 +41,12 @@ public class BatteryLevelMonitor {
 	public void register() {
 		IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 		context.registerReceiver(chargingStateReceiver, intentFilter);
+		registered = true;
 	}
 
 	public void unregister() {
 		context.unregisterReceiver(chargingStateReceiver);
+		registered = false;
 	}
 
 	private BroadcastReceiver chargingStateReceiver = new BroadcastReceiver() {

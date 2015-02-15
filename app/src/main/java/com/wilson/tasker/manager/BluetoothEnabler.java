@@ -19,15 +19,11 @@ public final class BluetoothEnabler {
         mLocalAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-	public static BluetoothEnabler getsInstance(Context context) {
+	public static synchronized BluetoothEnabler getsInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new BluetoothEnabler(context);
 		}
 		return sInstance;
-	}
-
-	public static BluetoothEnabler from(Context context) {
-		return new BluetoothEnabler(context);
 	}
 
     /**
