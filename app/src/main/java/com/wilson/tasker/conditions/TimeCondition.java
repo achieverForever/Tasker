@@ -15,8 +15,8 @@ public class TimeCondition extends Condition {
 	public long start;
 	public long end;
 
-	public TimeCondition(Scene scene, long start, long end) {
-		super(Event.EVENT_TIME, scene);
+	public TimeCondition(long start, long end) {
+		super(Event.EVENT_TIME);
 		long now = Calendar.getInstance().getTimeInMillis();
 		if (start < now || end < start) {
 			throw new IllegalArgumentException("Invalid value of TimeCondition");

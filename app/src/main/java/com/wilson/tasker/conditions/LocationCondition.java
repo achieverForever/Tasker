@@ -6,8 +6,8 @@ import com.wilson.tasker.model.Scene;
 
 //TODO - implement me
 public class LocationCondition extends Condition {
-	public LocationCondition(Scene scene) {
-		super(Event.EVENT_LOCATION, scene);
+	public LocationCondition() {
+		super(Event.EVENT_LOCATION);
 	}
 
 	@Override

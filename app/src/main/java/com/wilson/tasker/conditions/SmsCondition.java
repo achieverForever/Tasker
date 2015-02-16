@@ -9,8 +9,8 @@ public class SmsCondition extends Condition {
 	public String msgFrom;
 	public String msgBody;
 
-	public SmsCondition(Scene scene, String msgFrom, String msgBody) {
-		super(Event.EVENT_SMS, scene);
+	public SmsCondition(String msgFrom, String msgBody) {
+		super(Event.EVENT_SMS);
 		this.msgFrom = msgFrom.trim();
 		this.msgBody = msgBody.trim();
 	}

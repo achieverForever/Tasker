@@ -51,6 +51,10 @@ public class OrientationManager implements SensorEventListener {
 		registered = false;
 	}
 
+	public boolean isRegistered() {
+		return registered;
+	}
+
 	@Override
 	public void onSensorChanged(SensorEvent sensorEvent) {
 		if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {

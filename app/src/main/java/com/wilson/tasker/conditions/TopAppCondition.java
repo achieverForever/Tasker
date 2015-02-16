@@ -11,8 +11,8 @@ public class TopAppCondition extends Condition {
 	public String targetPkgName;
 	public Intent launchIntent;
 
-	public TopAppCondition(Scene scene, String targetPkgName) {
-		super(Event.EVENT_TOP_APP_CHANGED, scene);
+	public TopAppCondition(String targetPkgName) {
+		super(Event.EVENT_TOP_APP_CHANGED);
 		this.targetPkgName = targetPkgName;
 	}
 

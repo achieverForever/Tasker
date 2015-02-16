@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.wilson.tasker.R;
 import com.wilson.tasker.model.Condition;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ConditionListAdapter extends BaseAdapter {
@@ -22,8 +23,8 @@ public class ConditionListAdapter extends BaseAdapter {
 
 		public ConditionItem(int eventCode) {
 			this.eventCode = eventCode;
-			this.name = Condition.getConditionName(eventCode);
-			this.icon = Condition.getConditionIcon(eventCode);
+			this.name = "name";
+			this.icon = 0;
 		}
 	}
 
@@ -35,7 +36,7 @@ public class ConditionListAdapter extends BaseAdapter {
 
 	private static List<ConditionItem> items;
 	static {
-		items = Condition.asList();
+		items = Collections.emptyList();
 	}
 
 	@Override

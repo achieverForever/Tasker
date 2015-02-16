@@ -16,10 +16,10 @@ public class BluetoothAction extends Action {
 
 	@Override
 	public boolean performAction(Context context) {
-		if (!BluetoothEnabler.getsInstance(context).isBluetoothSupported()) {
+		if (!BluetoothEnabler.getsInstance().isBluetoothSupported()) {
 			return false;
 		}
-		BluetoothEnabler.getsInstance(context).setBluetoothEnabled(on);
+		BluetoothEnabler.getsInstance().setBluetoothEnabled(on);
 		return true;
 	}
 }

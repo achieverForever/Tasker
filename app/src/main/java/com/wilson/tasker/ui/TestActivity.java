@@ -74,7 +74,7 @@ public class TestActivity extends Activity {
 		ringtone = (Button) findViewById(R.id.ringtone);
 
 		final WifiEnabler wifiEnabler = WifiEnabler.getsInstance(this);
-		final BluetoothEnabler bluetoothEnabler = BluetoothEnabler.getsInstance(this);
+		final BluetoothEnabler bluetoothEnabler = BluetoothEnabler.getsInstance();
 		final AirplaneModeEnabler airplaneModeEnabler = AirplaneModeEnabler.getInstance(this);
 		final DisplayManager displayManager = DisplayManager.getsInstance(this);
 		final BatteryLevelMonitor batteryLevelMonitor = BatteryLevelMonitor.getInstance(this);
@@ -168,7 +168,7 @@ public class TestActivity extends Activity {
 				}
 			}
 		});
-		
+
 		scheduleFixedRate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -225,17 +225,7 @@ public class TestActivity extends Activity {
 			}
 		});
 
-		final ApplicationManager am = ApplicationManager.getInstance(this);
-		trackApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				if (b) {
-					am.startTracking();
-				} else {
-					am.stopTracking();
-				}
-			}
-		});
+
 
 	}
 
@@ -267,17 +257,5 @@ public class TestActivity extends Activity {
 				Log.d(TAG, "silence selected");
 			}
 		}
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		SceneManager.getInstance().onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		SceneManager.getInstance().onStop();
 	}
 }

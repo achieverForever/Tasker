@@ -8,8 +8,8 @@ import com.wilson.tasker.model.Scene;
 public class ChargerCondition extends Condition {
 	public boolean charging;
 
-	public ChargerCondition(Scene scene, boolean charging) {
-		super(Event.EVENT_CHARGER, scene);
+	public ChargerCondition(boolean charging) {
+		super(Event.EVENT_CHARGER);
 		this.charging = charging;
 	}
 

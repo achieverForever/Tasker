@@ -1,6 +1,5 @@
 package com.wilson.tasker.ui;
 
-import android.app.Fragment;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +23,7 @@ public class BatteryConditionFragment extends BaseFragment {
 	private TextView tvBatteryLevelPct;
 
 	public BatteryConditionFragment() {
-		condition = new BatteryLevelCondition(null, BatteryLevelCondition.BatteryLevelType.ABOVE, 0.0f);
+		condition = new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 0.0f);
 	}
 
 	@Nullable
@@ -81,7 +80,6 @@ public class BatteryConditionFragment extends BaseFragment {
 		BatteryLevelCondition c = (BatteryLevelCondition) condition;
 		String aboveOrBelow = c.type == BatteryLevelCondition.BatteryLevelType.ABOVE ?
 				"Above" : "Below";
-		condition.desc = aboveOrBelow + " " + (int) (c.targetValue * 100);
 		return c;
 	}
 

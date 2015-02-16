@@ -60,4 +60,8 @@ public class BatteryLevelMonitor {
 		}
 	};
 
+	public boolean isRegistered() {
+		return registered;
+	}
+
 }

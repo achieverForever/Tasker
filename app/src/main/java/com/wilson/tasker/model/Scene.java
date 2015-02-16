@@ -1,9 +1,13 @@
 package com.wilson.tasker.model;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.wilson.tasker.events.RunSceneEvent;
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
+import com.wilson.tasker.service.WorkerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,9 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		this.state = STATE_ENABLED;
 		this.conditions = conditions;
 		this.actions = actions;
+		for (Condition c : this.conditions) {
+			c.listener = this;
+		}
 	}
 
 	public void dispatchEvent(Event event) {
@@ -46,7 +53,6 @@ public class Scene implements Condition.ConditionStateChangedListener {
 			Log.d("Tasker", "Scene [" + name  + "] activated");
 			state = STATE_ACTIVATED;
 			notifySceneActivated();
-			runScene();
 		}
 	}
 
@@ -60,10 +66,12 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		return true;
 	}
 
-	private void runScene() {
+	public boolean runScene(Context context) {
+		boolean success = true;
 		for (Action action : actions) {
-			// TODO - Post actions to IntentService to execute
+			success &= action.performAction(context);
 		}
+		return success;
 	}
 
 	private void notifySceneActivated() {

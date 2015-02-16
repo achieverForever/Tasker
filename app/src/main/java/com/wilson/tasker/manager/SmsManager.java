@@ -39,6 +39,10 @@ public class SmsManager {
 		registered = false;
 	}
 
+	public boolean isRegistered() {
+		return registered;
+	}
+
 	public BroadcastReceiver smsReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -62,8 +66,4 @@ public class SmsManager {
 			}
 		}
 	};
-
-	public boolean isRegistered() {
-		return registered;
-	}
 }

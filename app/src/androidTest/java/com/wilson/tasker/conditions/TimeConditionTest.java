@@ -17,7 +17,7 @@ public class TimeConditionTest extends TestCase {
 	public void testperformCheckEvent() throws Exception {
 		final Handler h = new Handler(Looper.getMainLooper());
 		long now = Calendar.getInstance().getTimeInMillis();
-		timeCondition = new TimeCondition(null, now + 1000, now + 2000);
+		timeCondition = new TimeCondition(now + 1000, now + 2000);
 
 		final TimeEvent event = new TimeEvent();
 		h.postDelayed(new Runnable() {

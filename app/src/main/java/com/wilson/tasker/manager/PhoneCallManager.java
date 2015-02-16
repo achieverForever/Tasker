@@ -38,6 +38,10 @@ public class PhoneCallManager extends PhoneStateListener {
 		registered = false;
 	}
 
+	public boolean isRegistered() {
+		return registered;
+	}
+
 	@Override
 	public void onCallStateChanged(int state, String incomingNumber) {
 		super.onCallStateChanged(state, incomingNumber);

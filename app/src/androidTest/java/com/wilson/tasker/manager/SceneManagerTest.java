@@ -37,13 +37,13 @@ public class SceneManagerTest extends TestCase {
 	public void testFindTasksByEvent() throws Exception {
 		Scene scene1 = new Scene("task1");
 		List<Condition> conditions1 = new ArrayList<Condition>();
-		conditions1.add(new OrientationCondition(scene1, OrientationManager.ORIENTATION_FACE_DOWN));
-		conditions1.add(new CallerCondition(scene1, "111"));
+		conditions1.add(new OrientationCondition(OrientationManager.ORIENTATION_FACE_DOWN));
+		conditions1.add(new CallerCondition("111"));
 		scene1.conditions = conditions1;
 
 		Scene scene2 = new Scene("task2");
 		List<Condition> conditions2 = new ArrayList<Condition>();
-		conditions2.add(new SmsCondition(scene2, "me", "hi"));
+		conditions2.add(new SmsCondition("me", "hi"));
 		scene2.conditions = conditions2;
 
 		SceneManager.getInstance().addScene(scene1);

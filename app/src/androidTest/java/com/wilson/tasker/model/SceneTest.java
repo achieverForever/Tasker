@@ -21,9 +21,9 @@ public class SceneTest extends TestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		scene = new Scene("test");
-		conditions.add(new SmsCondition(scene, "me", "hi"));
-		conditions.add(new BatteryLevelCondition(scene, BatteryLevelCondition.BatteryLevelType.ABOVE, 0.5f));
-		conditions.add(new SmsCondition(scene, "*", "hello"));
+		conditions.add(new SmsCondition("me", "hi"));
+		conditions.add(new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 0.5f));
+		conditions.add(new SmsCondition("*", "hello"));
 		actions.add(new Runnable() {
 			@Override
 			public void run() {

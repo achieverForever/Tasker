@@ -9,8 +9,8 @@ import com.wilson.tasker.model.Scene;
 public class CallerCondition extends Condition {
 	public String callerNumber;
 
-	public CallerCondition(Scene scene, String callerNumber) {
-		super(Event.EVENT_CALLER, scene);
+	public CallerCondition(String callerNumber) {
+		super(Event.EVENT_CALLER);
 		this.callerNumber = callerNumber;
 	}
 

@@ -11,9 +11,8 @@ public abstract class Condition {
 
 	private boolean called = false;
 
-	protected Condition(int eventCode, ConditionStateChangedListener listener) {
+	protected Condition(int eventCode) {
 		this.eventCode = eventCode;
-		this.listener = listener;
 		this.state = STATE_UNSATISFIED;
 	}
 

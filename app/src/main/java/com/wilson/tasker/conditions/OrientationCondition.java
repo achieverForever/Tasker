@@ -8,8 +8,8 @@ import com.wilson.tasker.model.Scene;
 public class OrientationCondition extends Condition {
 	private int targetOrientation;
 
-	public OrientationCondition(Scene scene, int targetOrientation) {
-		super(Event.EVENT_ORIENTATION, scene);
+	public OrientationCondition(int targetOrientation) {
+		super(Event.EVENT_ORIENTATION);
 		this.targetOrientation = targetOrientation;
 	}
 
