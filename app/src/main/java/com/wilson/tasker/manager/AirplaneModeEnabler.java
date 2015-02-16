@@ -9,11 +9,11 @@ import android.provider.Settings;
  */
 public class AirplaneModeEnabler {
 
-	private Context mContext;
+	private Context context;
 	private static AirplaneModeEnabler sInstance;
 
 	private AirplaneModeEnabler(Context context) {
-		mContext = context;
+		this.context = context;
 	}
 
     public static synchronized AirplaneModeEnabler getInstance(Context context) {
@@ -25,16 +25,16 @@ public class AirplaneModeEnabler {
 
     @SuppressWarnings("deprecation")
 	public boolean isAirplaneModeOn() {
-        return Settings.System.getInt(mContext.getContentResolver(),
+        return Settings.System.getInt(context.getContentResolver(),
                 Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     @SuppressWarnings("deprecation")
 	public void setAirplaneModeOn(boolean enable) {
-        Settings.System.putInt(mContext.getContentResolver(), Settings.System.AIRPLANE_MODE_ON,
+        Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON,
                                 enable ? 1 : 0);
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         intent.putExtra("state", enable);
-        mContext.sendBroadcast(intent);
+        context.sendBroadcast(intent);
     }
 }
