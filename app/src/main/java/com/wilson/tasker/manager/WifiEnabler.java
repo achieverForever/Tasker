@@ -18,7 +18,7 @@ public class WifiEnabler {
 
 	public static WifiEnabler getsInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new WifiEnabler(context);
+			sInstance = new WifiEnabler(context.getApplicationContext());
 		}
 		return sInstance;
 

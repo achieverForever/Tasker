@@ -11,16 +11,16 @@ public class RingtoneManager {
 	public static final int REQUEST_CODE_SET_RINGTONE = 100;
 	public static final int REQUEST_CODE_SET_NOTIFICATION = 200;
 
-	private AudioManager mAudioManager;
+	private AudioManager audioManager;
 	private static RingtoneManager sInstance;
 
 	private RingtoneManager(Context context) {
-		mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+		audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 	}
 
 	public static RingtoneManager getsInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new RingtoneManager(context);
+			sInstance = new RingtoneManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}
@@ -28,11 +28,10 @@ public class RingtoneManager {
 	/**
 	 * 设置响铃模式
 	 * 
-	 * @param ringerMode 响铃模式，取值为RINGER_MODE_NORMAL, RINGER_MODE_SILENT, 
-	 * 		or RINGER_MODE_VIBRATE.
+	 * @param ringerMode 响铃模式，取值为RINGER_MODE_NORMAL, RINGER_MODE_SILENT或者RINGER_MODE_VIBRATE.
 	 */
 	public void setRingerMode(int ringerMode) {
-		mAudioManager.setRingerMode(ringerMode);
+		audioManager.setRingerMode(ringerMode);
 	}
 
 	//TODO - fixme (require the Activity to call startActivityForResult() and get the returned URI in onActivityResult())

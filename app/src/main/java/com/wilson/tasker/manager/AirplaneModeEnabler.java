@@ -18,7 +18,7 @@ public class AirplaneModeEnabler {
 
     public static synchronized AirplaneModeEnabler getInstance(Context context) {
 	    if (sInstance == null) {
-		    sInstance = new AirplaneModeEnabler(context);
+		    sInstance = new AirplaneModeEnabler(context.getApplicationContext());
 	    }
 	    return sInstance;
     }
@@ -30,12 +30,11 @@ public class AirplaneModeEnabler {
     }
 
     @SuppressWarnings("deprecation")
-	public void setAirplaneModeOn(boolean enabling) {
+	public void setAirplaneModeOn(boolean enable) {
         Settings.System.putInt(mContext.getContentResolver(), Settings.System.AIRPLANE_MODE_ON,
-                                enabling ? 1 : 0);
-        
+                                enable ? 1 : 0);
         Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        intent.putExtra("state", enabling);
+        intent.putExtra("state", enable);
         mContext.sendBroadcast(intent);
     }
 }

@@ -77,7 +77,7 @@ public class TestActivity extends Activity {
 		final BluetoothEnabler bluetoothEnabler = BluetoothEnabler.getsInstance(this);
 		final AirplaneModeEnabler airplaneModeEnabler = AirplaneModeEnabler.getInstance(this);
 		final DisplayManager displayManager = DisplayManager.getsInstance(this);
-		final BatteryLevelMonitor batteryLevelMonitor = BatteryLevelMonitor.getsInstance(this);
+		final BatteryLevelMonitor batteryLevelMonitor = BatteryLevelMonitor.getInstance(this);
 
 		wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override

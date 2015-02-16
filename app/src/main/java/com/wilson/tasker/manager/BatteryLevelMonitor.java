@@ -22,9 +22,9 @@ public class BatteryLevelMonitor {
 		this.context = context;
 	}
 
-	public static synchronized BatteryLevelMonitor getsInstance(Context context) {
+	public static synchronized BatteryLevelMonitor getInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new BatteryLevelMonitor(context);
+			sInstance = new BatteryLevelMonitor(context.getApplicationContext());
 		}
 		return sInstance;
 	}

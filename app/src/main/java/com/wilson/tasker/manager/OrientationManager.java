@@ -34,7 +34,7 @@ public class OrientationManager implements SensorEventListener {
 
 	public static synchronized OrientationManager getsInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new OrientationManager(context);
+			sInstance = new OrientationManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}

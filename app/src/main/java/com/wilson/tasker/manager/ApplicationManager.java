@@ -26,69 +26,63 @@ public class ApplicationManager {
 	
 	private static ApplicationManager sInstance; 
 	
-	private ActivityManager mAM;
-	private PackageManager mPM;
-	private Context mContext;
-	private boolean mStartTracking = false;
-	
-	private Runnable mTrackRunnable;
-
-	private String mLastTopApp;
-	
-	private Object mLock = new Object();
+	private ActivityManager am;
+	private PackageManager pm;
+	private boolean isTracking = false;
+	private Runnable trackRunnable;
+	private String lastTopApp;
+	private Object lock = new Object();
 	
 	private ApplicationManager(Context context) {
-		mContext = context;
-		mAM = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-		mPM = context.getPackageManager();
-		mTrackRunnable = new Runnable() {
+		this.am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		this.pm = context.getPackageManager();
+		this.trackRunnable = new Runnable() {
 			@Override
 			public void run() {
 				getCurrTopApp();
 			}
 		};
-		mLastTopApp= "";
+		this.lastTopApp = "";
 	}
 	
 	public static synchronized ApplicationManager getInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new ApplicationManager(context);
+			sInstance = new ApplicationManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}
 	
 	public void startTracking() {
-		synchronized (mLock) {
-			if (!mStartTracking) {
+		synchronized (lock) {
+			if (!isTracking) {
 				Log.d(TAG, "startTracking");
-				mStartTracking = true;
-				JobScheduler.getInstance().scheduleAtFixRate(mTrackRunnable, 3, TimeUnit.SECONDS);
+				isTracking = true;
+				JobScheduler.getInstance().scheduleAtFixRate(trackRunnable, 3, TimeUnit.SECONDS);
 			}
 		}
 	}
 	
 	public void stopTracking() {
-		Log.d(TAG, mTrackRunnable.toString());
-		synchronized (mLock) {
-			if (mStartTracking) {
-				mStartTracking = false;
-				JobScheduler.getInstance().removeCallback(mTrackRunnable);
+		Log.d(TAG, trackRunnable.toString());
+		synchronized (lock) {
+			if (isTracking) {
+				isTracking = false;
+				JobScheduler.getInstance().removeCallback(trackRunnable);
 			}
 		}
 	}
 	
 	public void getCurrTopApp() {
 		Log.d(TAG, "getCurrTopApp");
-		String pkgName = mAM.getRunningTasks(1).get(0).topActivity.getPackageName();
+		String pkgName = am.getRunningTasks(1).get(0).topActivity.getPackageName();
 
-		if (!mLastTopApp.equals(pkgName)) {
-			mLastTopApp= pkgName;
-
-			Intent launchIntent = mPM.getLaunchIntentForPackage(pkgName);
+		if (!lastTopApp.equals(pkgName)) {
+			lastTopApp = pkgName;
+			Intent launchIntent = pm.getLaunchIntentForPackage(pkgName);
 			notifyTopAppChanged(pkgName, launchIntent);
 			Log.d(TAG, "Top app changed: pkgName=" + pkgName + ", intent=" + launchIntent.toString());
 		}
-		ComponentName component = mAM.getRunningTasks(1).get(0).topActivity;
+		ComponentName component = am.getRunningTasks(1).get(0).topActivity;
 		Log.d(TAG, "top activity: " + component.getClassName());
 	}
 	
@@ -97,7 +91,7 @@ public class ApplicationManager {
 	}
 	
 	public List<ApplicationInfo> getAllAppsInfo() {
-		return mPM.getInstalledApplications(0);
+		return pm.getInstalledApplications(0);
 	}
 }
 

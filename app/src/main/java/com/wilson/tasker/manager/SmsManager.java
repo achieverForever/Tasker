@@ -23,7 +23,7 @@ public class SmsManager {
 
 	public static synchronized SmsManager getsInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new SmsManager(context);
+			sInstance = new SmsManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}

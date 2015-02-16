@@ -23,7 +23,7 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	public static synchronized PhoneCallManager getsInstance(Context context) {
 		if (sInstance == null) {
-			sInstance = new PhoneCallManager(context);
+			sInstance = new PhoneCallManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}
