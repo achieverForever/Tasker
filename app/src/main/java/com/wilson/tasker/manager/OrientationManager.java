@@ -41,8 +41,8 @@ public class OrientationManager implements SensorEventListener {
 
 	public void register() {
 		sensorManager.registerListener(this,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
-				SensorManager.SENSOR_DELAY_NORMAL);
+			sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
+			SensorManager.SENSOR_DELAY_NORMAL);
 		registered = true;
 	}
 

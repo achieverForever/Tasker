@@ -31,8 +31,10 @@ import de.greenrobot.event.EventBus;
 public class WorkerService extends Service {
 	private static final String TAG = "WorkerService";
 
-	private static final Set<Integer> PASSIVE_POLLING_CONDITIONS = new HashSet<>(Arrays.asList(new Integer[] {
-		Event.EVENT_BATTERY_LEVEL, Event.EVENT_TOP_APP_CHANGED,
+	// 需要定时轮询的条件
+	private static final Set<Integer> PASSIVE_POLLING_CONDITIONS
+		= new HashSet<>(Arrays.asList(new Integer[]{
+		Event.EVENT_BATTERY_LEVEL, Event.EVENT_TOP_APP_CHANGED
 	}));
 
 	private ServiceHandler handler;
@@ -82,16 +84,6 @@ public class WorkerService extends Service {
 		EventBus.getDefault().unregister(this);
 	}
 
-//	/**
-//	 * 重复调度执行WorkerService，间隔5秒
-//	 */
-//	private void scheduleSelf() {
-//		AlarmManager alarmMgr =  (AlarmManager) getSystemService(ALARM_SERVICE);
-//		Intent intent = new Intent(this, WorkerService.class);
-//		PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-//		alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 5000, pi);
-//	}
-
 	public void onEvent(final Event event) {
 		Log.d(TAG, "onEvent [" + Event.eventCodeToString(event.eventCode) + "]");
 
@@ -103,11 +95,12 @@ public class WorkerService extends Service {
 					case Event.EVENT_SCENE_ACTIVATED:
 						// 处理Scene激活事件
 						SceneManager.getInstance()
-								.handleSceneActivated(WorkerService.this, ((SceneActivatedEvent) event).scene);
+							.handleSceneActivated(WorkerService.this, ((SceneActivatedEvent) event).scene);
 						return;
 					case Event.EVENT_SCENE_DEACTIVATED:
 						// 处理Scene非激活事件
-						SceneManager.getInstance().handleSceneDeactivated(((SceneDeactivatedEvent) event).scene);
+						SceneManager.getInstance()
+							.handleSceneDeactivated(((SceneDeactivatedEvent) event).scene);
 						return;
 					default:
 						break;

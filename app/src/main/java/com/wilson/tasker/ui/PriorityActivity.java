@@ -7,20 +7,20 @@ import com.wilson.tasker.R;
 
 public class PriorityActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_content);
 
-	    if (savedInstanceState == null) {
-		    getSupportFragmentManager()
-				    .beginTransaction()
-				    .replace(R.id.content, PriorityFragment.newInstance())
-				    .commit();
-	    }
+		if (savedInstanceState == null) {
+			getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.content, PriorityFragment.newInstance())
+				.commit();
+		}
 
-	    setupActionBar();
-    }
+		setupActionBar();
+	}
 
 	@Override
 	protected void setupActionBar() {

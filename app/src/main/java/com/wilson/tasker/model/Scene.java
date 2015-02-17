@@ -1,13 +1,10 @@
 package com.wilson.tasker.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.wilson.tasker.events.RunSceneEvent;
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
-import com.wilson.tasker.service.WorkerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +44,10 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	}
 
 	// Exposed for testing
-	public void performSceneIfNecessary() {
+	public void scheduleToRunScene() {
 		boolean readyToRunScene = checkIfReadyToRunScene();
 		if (readyToRunScene) {
-			Log.d("Tasker", "Scene [" + name  + "] activated");
+			Log.d("Tasker", "Scene [" + name + "] activated");
 			state = STATE_ACTIVATED;
 			notifySceneActivated();
 		}
@@ -85,9 +82,9 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	@Override
 	public void onConditionStateChanged(Condition condition, boolean satisfied) {
 		if (satisfied) {
-			performSceneIfNecessary();
+			scheduleToRunScene();
 		} else if (state == STATE_ACTIVATED) {
-			Log.d("Tasker", "Scene [" + name  + "] deactivated");
+			Log.d("Tasker", "Scene [" + name + "] deactivated");
 			state = STATE_ENABLED;
 			notifySceneDeactivated();
 		}

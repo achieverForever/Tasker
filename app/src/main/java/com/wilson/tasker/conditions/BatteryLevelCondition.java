@@ -5,7 +5,7 @@ import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
 public class BatteryLevelCondition extends Condition {
-	public enum BatteryLevelType { ABOVE, BELOW }
+	public enum BatteryLevelType {ABOVE, BELOW}
 
 	public BatteryLevelType type;
 	public float targetValue;

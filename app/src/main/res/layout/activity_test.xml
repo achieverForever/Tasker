@@ -41,26 +41,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="set screen off timeout" />
-    <Switch 
-        android:id="@+id/track_top_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="track top app" />
+
     <Button
         android:id="@+id/battery_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="get current battery level"/>
-    <Switch
-        android:id="@+id/schedule_one_shot_job"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="schedule one-shot job"/>
-    <Switch
-        android:id="@+id/schedule_fixed_rate_job"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="schedule fixed rate job"/>
+
     <Switch
         android:id="@+id/orientation"
         android:layout_width="wrap_content"

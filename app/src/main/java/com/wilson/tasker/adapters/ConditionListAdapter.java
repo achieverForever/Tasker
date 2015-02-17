@@ -35,6 +35,7 @@ public class ConditionListAdapter extends BaseAdapter {
 	}
 
 	private static List<ConditionItem> items;
+
 	static {
 		items = Collections.emptyList();
 	}

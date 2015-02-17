@@ -17,7 +17,7 @@ import de.greenrobot.event.EventBus;
 
 public class ApplicationManager {
 	private static final String TAG = "Tasker";
-	
+
 	private static ApplicationManager sInstance;
 	private ActivityManager am;
 	private PackageManager pm;
@@ -28,14 +28,14 @@ public class ApplicationManager {
 		this.pm = context.getPackageManager();
 		this.lastPkgName = "";
 	}
-	
+
 	public static synchronized ApplicationManager getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new ApplicationManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}
-	
+
 	public void getCurrTopApp() {
 		String pkgName = am.getRunningTasks(1).get(0).topActivity.getPackageName();
 		if (!lastPkgName.equals(pkgName)) {
@@ -46,11 +46,11 @@ public class ApplicationManager {
 		}
 		Log.d(TAG, "package name: " + pkgName);
 	}
-	
+
 	private void notifyTopAppChanged(String pkgName, Intent launchIntent) {
 		EventBus.getDefault().post(new TopAppChangedEvent(pkgName, launchIntent));
 	}
-	
+
 	public List<ApplicationInfo> getAllAppsInfo() {
 		return pm.getInstalledApplications(0);
 	}

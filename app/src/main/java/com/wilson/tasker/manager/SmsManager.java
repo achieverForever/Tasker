@@ -49,12 +49,12 @@ public class SmsManager {
 			Bundle bundle = intent.getExtras();
 			SmsMessage[] msgs = null;
 			String msgFrom = "";
-			if (bundle != null){
+			if (bundle != null) {
 				Object[] pdus = (Object[]) bundle.get("pdus");
 				if (pdus != null) {
 					msgs = new SmsMessage[pdus.length];
 					StringBuilder sb = new StringBuilder();
-					for(int i = 0; i < msgs.length; i++){
+					for (int i = 0; i < msgs.length; i++) {
 						msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
 						msgFrom = msgs[i].getOriginatingAddress();
 						String msgBody = msgs[i].getMessageBody();

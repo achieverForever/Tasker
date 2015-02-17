@@ -16,15 +16,15 @@ public class AddTaskDialogFragment extends DialogFragment {
 
 	private TemplateListAdapter adapter;
 
-    public AddTaskDialogFragment() {
-    }
+	public AddTaskDialogFragment() {
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		adapter = new TemplateListAdapter(getActivity());
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-				.setTitle("Select a template")
-				.setAdapter(adapter, listener);
+			.setTitle("Select a template")
+			.setAdapter(adapter, listener);
 		return builder.create();
 	}
 

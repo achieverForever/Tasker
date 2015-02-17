@@ -61,7 +61,7 @@ public class BatteryConditionFragment extends BaseFragment {
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 				if (b) {
 					((BatteryLevelCondition) condition).targetValue
-							= (float) i / (float) sbBatteryLevel.getMax();
+						= (float) i / (float) sbBatteryLevel.getMax();
 				}
 			}
 
@@ -79,13 +79,13 @@ public class BatteryConditionFragment extends BaseFragment {
 	protected Condition onPreSaveCondition() {
 		BatteryLevelCondition c = (BatteryLevelCondition) condition;
 		String aboveOrBelow = c.type == BatteryLevelCondition.BatteryLevelType.ABOVE ?
-				"Above" : "Below";
+			"Above" : "Below";
 		return c;
 	}
 
 	private SpinnerAdapter adapter = new SpinnerAdapter() {
-		private String[] text = new String[] {
-				"Above", "Below"
+		private String[] text = new String[]{
+			"Above", "Below"
 		};
 
 		@Override

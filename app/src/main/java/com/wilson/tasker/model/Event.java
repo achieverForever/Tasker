@@ -2,9 +2,9 @@ package com.wilson.tasker.model;
 
 public abstract class Event {
 	public static final int EVENT_UNKNOWN = -1;
-	public static final int EVENT_RUN_SCENE = 64;
-	public static final int EVENT_SCENE_ACTIVATED = 127;
-	public static final int EVENT_SCENE_DEACTIVATED = 128;
+	public static final int EVENT_RUN_SCENE = 128;
+	public static final int EVENT_SCENE_ACTIVATED = 129;
+	public static final int EVENT_SCENE_DEACTIVATED = 130;
 	public static final int EVENT_BATTERY_LEVEL = 1;
 	public static final int EVENT_CALLER = 2;
 	public static final int EVENT_CHARGER = 3;
@@ -22,8 +22,6 @@ public abstract class Event {
 
 	public static String eventCodeToString(int eventCode) {
 		switch (eventCode) {
-			case 0:
-				return "EVENT_SCENE_DEACTIVATED";
 			case 1:
 				return "EVENT_BATTERY_LEVEL";
 			case 2:
@@ -40,8 +38,12 @@ public abstract class Event {
 				return "EVENT_SMS";
 			case 8:
 				return "EVENT_TOP_APP_CHANGED";
-			case 64:
+			case 128:
 				return "EVENT_RUN_SCENE";
+			case 129:
+				return "EVENT_SCENE_ACTIVATED";
+			case 130:
+				return "EVENT_SCENE_DEACTIVATED";
 			default:
 				return "EVENT_UNKNOWN";
 		}

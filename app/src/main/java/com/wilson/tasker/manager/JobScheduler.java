@@ -17,12 +17,12 @@ public class JobScheduler {
 	private static final JobScheduler sInstance = new JobScheduler();
 	private final ScheduledExecutorService pool;
 	private final Map<Runnable, ScheduledFuture<?>> actionsMap;
-	
+
 	private JobScheduler() {
 		pool = Executors.newScheduledThreadPool(2);
 		actionsMap = new HashMap<Runnable, ScheduledFuture<?>>(4);
 	}
-	
+
 	public static JobScheduler getInstance() {
 		return sInstance;
 	}
@@ -40,7 +40,7 @@ public class JobScheduler {
 	public ScheduledFuture<?> scheduleAtFixRate(Runnable action, long period, TimeUnit timeUnit) {
 		ScheduledFuture<?> sf = null;
 		try {
-			 sf = pool.scheduleAtFixedRate(action, 0, period, timeUnit);
+			sf = pool.scheduleAtFixedRate(action, 0, period, timeUnit);
 		} catch (RejectedExecutionException ex) {
 			Log.e(TAG, "Failed to schedule job [Rejected]" + ex.getMessage());
 		}

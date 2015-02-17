@@ -41,9 +41,9 @@ public class SceneManager {
 	public boolean handleSceneActivated(Context context, Scene scene) {
 		boolean success = scene.runScene(context);
 		if (success) {
-			Log.d(TAG, "runScene " + scene.toString() + " succeeded.");
+			Log.d(TAG, "runScene [" + scene.toString() + "] succeeded.");
 		} else {
-			Log.d(TAG, "runScene " + scene.toString() + " failed.");
+			Log.d(TAG, "runScene [" + scene.toString() + "] failed.");
 		}
 		return success;
 	}
@@ -102,42 +102,43 @@ public class SceneManager {
 	}
 
 	private void unregisterManager(Context context, List<Condition> conditions) {
-		for (Condition c : conditions) {
-			switch (c.eventCode) {
-				case Event.EVENT_BATTERY_LEVEL:
-					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
-						BatteryLevelMonitor.getInstance(context).unregister();
-					}
-					break;
-				case Event.EVENT_CALLER:
-					if (PhoneCallManager.getsInstance(context).isRegistered()) {
-						PhoneCallManager.getsInstance(context).unregister();
-					}
-					break;
-				case Event.EVENT_CHARGER:
-					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
-						BatteryLevelMonitor.getInstance(context).unregister();
-					}
-					break;
-				case Event.EVENT_LOCATION:
-					// TODO - implement me
-					break;
-				case Event.EVENT_ORIENTATION:
-					if (OrientationManager.getsInstance(context).isRegistered()) {
-						OrientationManager.getsInstance(context).unregister();
-					}
-					break;
-				case Event.EVENT_TIME:
-					break;
-				case Event.EVENT_SMS:
-					if (SmsManager.getsInstance(context).isRegistered()) {
-						SmsManager.getsInstance(context).unregister();
-					}
-					break;
-				case Event.EVENT_TOP_APP_CHANGED:
-					break;
-			}
-		}
+		// TODO - 通过引用计数控制反注册
+//		for (Condition c : conditions) {
+//			switch (c.eventCode) {
+//				case Event.EVENT_BATTERY_LEVEL:
+//					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
+//						BatteryLevelMonitor.getInstance(context).unregister();
+//					}
+//					break;
+//				case Event.EVENT_CALLER:
+//					if (PhoneCallManager.getsInstance(context).isRegistered()) {
+//						PhoneCallManager.getsInstance(context).unregister();
+//					}
+//					break;
+//				case Event.EVENT_CHARGER:
+//					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
+//						BatteryLevelMonitor.getInstance(context).unregister();
+//					}
+//					break;
+//				case Event.EVENT_LOCATION:
+//					// TODO - implement me
+//					break;
+//				case Event.EVENT_ORIENTATION:
+//					if (OrientationManager.getsInstance(context).isRegistered()) {
+//						OrientationManager.getsInstance(context).unregister();
+//					}
+//					break;
+//				case Event.EVENT_TIME:
+//					break;
+//				case Event.EVENT_SMS:
+//					if (SmsManager.getsInstance(context).isRegistered()) {
+//						SmsManager.getsInstance(context).unregister();
+//					}
+//					break;
+//				case Event.EVENT_TOP_APP_CHANGED:
+//					break;
+//			}
+//		}
 	}
 
 	public ArrayList<Scene> getScenes() {

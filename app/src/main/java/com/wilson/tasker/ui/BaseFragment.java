@@ -48,6 +48,7 @@ public class BaseFragment extends Fragment {
 
 	public interface OnConditionSaveListener {
 		public void onSaveCondition(Condition condition);
+
 		public void onDontSaveCondition(Condition condition);
 	}
 

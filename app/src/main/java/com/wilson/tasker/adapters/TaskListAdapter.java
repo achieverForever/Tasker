@@ -17,6 +17,7 @@ public class TaskListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 
 	private static ArrayList<String> tasks;
+
 	static {
 		tasks = new ArrayList<String>();
 		tasks.add("Default");

@@ -24,10 +24,10 @@ public class RingtoneManager {
 		}
 		return sInstance;
 	}
-	
+
 	/**
 	 * 设置响铃模式
-	 * 
+	 *
 	 * @param ringerMode 响铃模式，取值为RINGER_MODE_NORMAL, RINGER_MODE_SILENT或者RINGER_MODE_VIBRATE.
 	 */
 	public void setRingerMode(int ringerMode) {

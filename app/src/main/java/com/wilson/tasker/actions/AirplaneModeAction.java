@@ -6,7 +6,6 @@ import com.wilson.tasker.manager.AirplaneModeEnabler;
 import com.wilson.tasker.model.Action;
 
 public class AirplaneModeAction extends Action {
-
 	public boolean on;
 
 	public AirplaneModeAction(boolean on) {

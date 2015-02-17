@@ -34,7 +34,7 @@ public class BatteryLevelMonitor {
 		Intent intent = context.registerReceiver(null, intentFilter);
 		int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 		int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-		float batteryPct = level / (float)scale;
+		float batteryPct = level / (float) scale;
 		return batteryPct;
 	}
 
@@ -54,7 +54,7 @@ public class BatteryLevelMonitor {
 		public void onReceive(Context context, Intent intent) {
 			int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 			boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-					status == BatteryManager.BATTERY_STATUS_FULL;
+				status == BatteryManager.BATTERY_STATUS_FULL;
 			Log.d("Tasker", "isCharing=" + isCharging);
 			EventBus.getDefault().post(new ChargerEvent(isCharging));
 		}

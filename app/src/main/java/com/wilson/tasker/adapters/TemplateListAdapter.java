@@ -30,6 +30,7 @@ public class TemplateListAdapter extends BaseAdapter {
 	}
 
 	private static ArrayList<Template> templates;
+
 	static {
 		templates = new ArrayList<Template>();
 		templates.add(new Template("Start from scratch", ""));

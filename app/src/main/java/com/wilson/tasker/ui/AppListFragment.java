@@ -27,8 +27,8 @@ import java.util.List;
  * 显示当前安装的所有App列表
  */
 public class AppListFragment extends Fragment
-		implements LoaderManager.LoaderCallbacks<List<AppListFragment.AppEntry>>,
-		AdapterView.OnItemClickListener {
+	implements LoaderManager.LoaderCallbacks<List<AppListFragment.AppEntry>>,
+	AdapterView.OnItemClickListener {
 
 	private static final int LOADER_APP_LIST = 100;
 

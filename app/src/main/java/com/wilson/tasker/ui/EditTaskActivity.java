@@ -9,20 +9,20 @@ import com.wilson.tasker.R;
 
 public class EditTaskActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_content);
 
-	    if (savedInstanceState == null) {
-		    getSupportFragmentManager()
-				    .beginTransaction()
-				    .replace(R.id.content, EditTaskFragment.newInstance())
-				    .commit();
-	    }
+		if (savedInstanceState == null) {
+			getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.content, EditTaskFragment.newInstance())
+				.commit();
+		}
 
-	    setupActionBar();
-    }
+		setupActionBar();
+	}
 
 	@Override
 	protected void setupActionBar() {

@@ -20,8 +20,8 @@ public class AddConditionDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-				.setTitle("Select a condition")
-				.setAdapter(adapter, listener);
+			.setTitle("Select a condition")
+			.setAdapter(adapter, listener);
 		return builder.create();
 	}
 

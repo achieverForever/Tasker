@@ -26,12 +26,12 @@ public class TaskerApplication extends Application {
 	private void initDefaultScenes() {
 		// TODO - 默认的几个Scene
 		Scene batteryScene = new Scene("battery",
-				Arrays.asList(new Condition[] {
-						new TopAppCondition("com.android.chrome"),
-				}),
-				Arrays.asList(new Action[] {
-						new BluetoothAction(true),
-				})
+			Arrays.asList(new Condition[]{
+				new TopAppCondition("com.android.chrome"),
+			}),
+			Arrays.asList(new Action[]{
+				new BluetoothAction(true),
+			})
 		);
 		SceneManager.getInstance().addScene(batteryScene, this);
 	}
