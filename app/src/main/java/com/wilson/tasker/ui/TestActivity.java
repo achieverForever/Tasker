@@ -1,19 +1,17 @@
 package com.wilson.tasker.ui;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import com.wilson.tasker.R;
 import com.wilson.tasker.manager.AirplaneModeEnabler;
 import com.wilson.tasker.manager.BatteryLevelMonitor;
 import com.wilson.tasker.manager.BluetoothEnabler;
 import com.wilson.tasker.manager.DisplayManager;
-import com.wilson.tasker.manager.JobScheduler;
 import com.wilson.tasker.manager.OrientationManager;
 import com.wilson.tasker.manager.PhoneCallManager;
 import com.wilson.tasker.manager.RingtoneManager;
 import com.wilson.tasker.manager.SmsManager;
-import com.wilson.tasker.manager.WifiEnabler;
+import com.wilson.tasker.manager.WifiManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -66,7 +64,7 @@ public class TestActivity extends Activity {
 		sms = (Switch) findViewById(R.id.sms);
 		ringtone = (Button) findViewById(R.id.ringtone);
 
-		final WifiEnabler wifiEnabler = WifiEnabler.getsInstance(this);
+		final WifiManager wifiManager = WifiManager.getsInstance(this);
 		final BluetoothEnabler bluetoothEnabler = BluetoothEnabler.getsInstance();
 		final AirplaneModeEnabler airplaneModeEnabler = AirplaneModeEnabler.getInstance(this);
 		final DisplayManager displayManager = DisplayManager.getsInstance(this);
@@ -79,7 +77,7 @@ public class TestActivity extends Activity {
 		wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				wifiEnabler.setWifiEnabled(b);
+				wifiManager.setWifiEnabled(b);
 			}
 		});
 
