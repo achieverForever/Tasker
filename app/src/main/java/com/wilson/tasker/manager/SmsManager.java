@@ -43,6 +43,11 @@ public class SmsManager {
 		return registered;
 	}
 
+	public void sendSms(String number, String content) {
+		android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+		smsManager.sendTextMessage(number, null, content, null, null);
+	}
+
 	public BroadcastReceiver smsReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {

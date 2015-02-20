@@ -1,7 +1,6 @@
 package com.wilson.tasker.conditions;
 
 import com.wilson.tasker.events.TimeEvent;
-import com.wilson.tasker.manager.JobScheduler;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Scene;
@@ -21,20 +20,6 @@ public class TimeCondition extends Condition {
 		if (start < now || end < start) {
 			throw new IllegalArgumentException("Invalid value of TimeCondition");
 		}
-
-		JobScheduler.getInstance().schedule(new Runnable() {
-			@Override
-			public void run() {
-				EventBus.getDefault().post(new TimeEvent());
-			}
-		}, start - now, TimeUnit.MILLISECONDS);
-
-		JobScheduler.getInstance().schedule(new Runnable() {
-			@Override
-			public void run() {
-				EventBus.getDefault().post(new TimeEvent());
-			}
-		}, end - now, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
