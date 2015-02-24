@@ -16,7 +16,7 @@ import com.wilson.tasker.events.TopAppChangedEvent;
 import de.greenrobot.event.EventBus;
 
 public class ApplicationManager {
-	private static final String TAG = "Tasker";
+	private static final String TAG = "DEBUG";
 
 	private static ApplicationManager sInstance;
 	private ActivityManager am;

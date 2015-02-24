@@ -1,14 +1,13 @@
 package com.wilson.tasker.conditions;
 
-import com.wilson.tasker.events.TimeEvent;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Scene;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
-
-import de.greenrobot.event.EventBus;
 
 public class TimeCondition extends Condition {
 	public long start;
@@ -30,4 +29,8 @@ public class TimeCondition extends Condition {
 		return currTime >= start && currTime <= end;
 	}
 
+	@Override
+	public View getView(Context context, ViewGroup parent) {
+		return null;
+	}
 }

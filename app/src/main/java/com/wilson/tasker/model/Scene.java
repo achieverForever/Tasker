@@ -25,8 +25,9 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	public List<Condition> conditions = new ArrayList<>();
 	public List<Action> actions = new ArrayList<>();
 
-	public Scene(String name, List<Condition> conditions, List<Action> actions) {
+	public Scene(String name, String desc, List<Condition> conditions, List<Action> actions) {
 		this.name = name;
+		this.desc = desc;
 		this.state = STATE_ENABLED;
 		this.conditions = conditions;
 		this.actions = actions;

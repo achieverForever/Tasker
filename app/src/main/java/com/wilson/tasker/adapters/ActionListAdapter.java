@@ -5,28 +5,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.wilson.tasker.model.Condition;
+import com.wilson.tasker.model.Action;
 
 import java.util.List;
 
-public class ConditionListAdapter extends BaseAdapter {
+public class ActionListAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<Condition> conditions;
+	private List<Action> actions;
 
-	public ConditionListAdapter(Context context, List<Condition> conditions) {
+	public ActionListAdapter(Context context, List<Action> actions) {
 		this.context = context;
-		this.conditions = conditions;
+		this.actions = actions;
 	}
 
 	@Override
 	public int getCount() {
-		return conditions.size();
+		return actions.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return conditions.get(position);
+		return actions.get(position);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ConditionListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Condition condition = (Condition) getItem(position);
-		return condition.getView(context, parent);
+		Action action = (Action) getItem(position);
+		return action.getView(context, parent);
 	}
 }

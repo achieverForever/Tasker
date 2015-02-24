@@ -1,6 +1,10 @@
 package com.wilson.tasker.model;
 
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 public abstract class Condition {
 	public static final int STATE_UNSATISFIED = 0;
 	public static final int STATE_SATISFIED = 1;
@@ -48,6 +52,13 @@ public abstract class Condition {
 		called = true;
 		return false;
 	}
+
+	/**
+	 * 返回Condition的View表示
+	 * @param context
+	 * @param parent
+	 */
+	public abstract View getView(Context context, ViewGroup parent);
 
 	private void validateEvent(Event event) {
 		if (event.eventCode != this.eventCode) {

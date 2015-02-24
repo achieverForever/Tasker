@@ -28,7 +28,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 
 public class TestActivity extends Activity {
-	private static final String TAG = "Tasker";
+	private static final String TAG = "DEBUG";
 
 	private Switch wifi;
 	private Switch bluetooth;
@@ -136,7 +136,7 @@ public class TestActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				float percentage = batteryLevelMonitor.getCurrentBatteryLevel();
-				Log.d("DEBUG", "current battery level=" + percentage);
+				Log.d(TAG, "current battery level=" + percentage);
 			}
 		});
 

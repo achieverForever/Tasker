@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  * 开启/关闭飞行模式
  */
 public class AirplaneModeEnabler {
-	private static final String TAG = "AirplaneModeEnabler";
+	private static final String TAG = "DEBUG";
 
 	private Context context;
 	private static AirplaneModeEnabler sInstance;

@@ -5,6 +5,7 @@ public abstract class Event {
 	public static final int EVENT_RUN_SCENE = 128;
 	public static final int EVENT_SCENE_ACTIVATED = 129;
 	public static final int EVENT_SCENE_DEACTIVATED = 130;
+	public static final int EVENT_SCENE_DETAIL = 131;
 	public static final int EVENT_BATTERY_LEVEL = 1;
 	public static final int EVENT_CALLER = 2;
 	public static final int EVENT_CHARGER = 3;
@@ -44,6 +45,8 @@ public abstract class Event {
 				return "EVENT_SCENE_ACTIVATED";
 			case 130:
 				return "EVENT_SCENE_DEACTIVATED";
+			case 131:
+				return "EVENT_SCENE_DETAIL";
 			default:
 				return "EVENT_UNKNOWN";
 		}

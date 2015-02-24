@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wilson.tasker.R;
-import com.wilson.tasker.ui.AppListFragment;
+import com.wilson.tasker.ui.dialogs.AppListDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AppListAdapter extends ArrayAdapter<AppListFragment.AppEntry> {
+public class AppListAdapter extends ArrayAdapter<AppListDialog.AppEntry> {
 
 	private LayoutInflater inflater;
 
@@ -23,7 +22,7 @@ public class AppListAdapter extends ArrayAdapter<AppListFragment.AppEntry> {
 		inflater = LayoutInflater.from(context);
 	}
 
-	public void setData(List<AppListFragment.AppEntry> data) {
+	public void setData(List<AppListDialog.AppEntry> data) {
 		clear();
 		if (data != null) {
 			addAll(data);
@@ -35,11 +34,9 @@ public class AppListAdapter extends ArrayAdapter<AppListFragment.AppEntry> {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.list_item_app, parent, false);
 		}
-
-		AppListFragment.AppEntry app = getItem(position);
+		AppListDialog.AppEntry app = getItem(position);
 		((TextView) convertView.findViewById(R.id.tv_label)).setText(app.label);
 		((ImageView) convertView.findViewById(R.id.iv_icon)).setImageDrawable(app.icon);
-
 		return convertView;
 	}
 }

@@ -2,9 +2,12 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffffff</color>
-    <color name="light_blue">#ff007cb0</color>
-    <color name="accent_primary">#ff6545a0</color>
-    <color name="accent_primary_light">#bb7555B0</color>
+    <color name="light_blue">#3794ea</color>
+    <color name="dark_blue">#0066cc</color>
+    <color name="light_green">#5cb85c</color>
+    <color name="dark_green">#36AC3C</color>
+    <color name="accent_primary">#ff4285F4</color>
+    <color name="accent_primary_light">#bb4DA9FB</color>
     <color name="accent_primary_26">#426545a0</color>
     <color name="accent_primary_dark">#ff523991</color>
 </resources>

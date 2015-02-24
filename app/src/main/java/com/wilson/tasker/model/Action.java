@@ -1,6 +1,8 @@
 package com.wilson.tasker.model;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.wilson.tasker.manager.AirplaneModeEnabler;
 
@@ -20,5 +22,20 @@ public abstract class Action {
 		this.state = STATE_IDLE;
 	}
 
+	/**
+	 * 执行Action
+	 *
+	 * @param context
+	 * @return 成功返回true，否则为false
+	 */
 	public abstract boolean performAction(Context context);
+
+	/**
+	 * 返回Action的View表示
+	 *
+	 * @param context
+	 * @param parent
+	 */
+	public abstract View getView(Context context, ViewGroup parent);
+
 }

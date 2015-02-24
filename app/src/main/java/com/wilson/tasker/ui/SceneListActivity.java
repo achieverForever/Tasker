@@ -1,17 +1,15 @@
 package com.wilson.tasker.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.wilson.tasker.R;
-import com.wilson.tasker.ui.dialogs.AddTaskDialogFragment;
 
 
-public class MainActivity extends BaseActivity {
-	private static final String TAG = "MainActivity";
+public class SceneListActivity extends BaseActivity {
+	private static final String TAG = "DEBUG";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +21,7 @@ public class MainActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.content, MainFragment.newInstance())
+				.replace(R.id.content, SceneListFragment.newInstance())
 				.commit();
 		}
 	}
@@ -38,10 +36,8 @@ public class MainActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_add_task:
-				new AddTaskDialogFragment().show(getFragmentManager(), "NewTaskDialogFragment");
 				return true;
 			case R.id.action_priority:
-				startActivity(new Intent(MainActivity.this, PriorityActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

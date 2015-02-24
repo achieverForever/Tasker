@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 
 public class DisplayManager {
-	private static final String TAG = "DisplayManager";
+	private static final String TAG = "DEBUG";
 
 	private Context context;
 	private static DisplayManager sInstance;

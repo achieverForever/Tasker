@@ -1,5 +1,9 @@
 package com.wilson.tasker.conditions;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -25,5 +29,10 @@ public class BatteryLevelCondition extends Condition {
 		} else {
 			return ev.batteryLevel < targetValue;
 		}
+	}
+
+	@Override
+	public View getView(Context context, ViewGroup parent) {
+		return null;
 	}
 }

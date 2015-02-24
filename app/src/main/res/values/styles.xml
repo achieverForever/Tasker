@@ -5,4 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ColorfulButtonBlue" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/colorful_btn_selector_blue</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
+    <style name="ColorfulButtonGreen" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/colorful_btn_selector_green</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
 </resources>

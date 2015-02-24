@@ -1,9 +1,12 @@
 package com.wilson.tasker.conditions;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.wilson.tasker.events.OrientationEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Scene;
 
 public class OrientationCondition extends Condition {
 	private int targetOrientation;
@@ -18,5 +21,10 @@ public class OrientationCondition extends Condition {
 		super.performCheckEvent(event);
 		OrientationEvent ev = (OrientationEvent) event;
 		return ev.orientation == targetOrientation;
+	}
+
+	@Override
+	public View getView(Context context, ViewGroup parent) {
+		return null;
 	}
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SceneManager {
-	private static final String TAG = "SceneManager";
+	private static final String TAG = "DEBUG";
 
 	private static SceneManager sInstance = new SceneManager();
 

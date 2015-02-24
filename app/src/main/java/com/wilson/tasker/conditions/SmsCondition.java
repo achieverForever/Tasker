@@ -1,9 +1,12 @@
 package com.wilson.tasker.conditions;
 
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.model.Scene;
 
 public class SmsCondition extends Condition {
 	public String msgFrom;
@@ -24,5 +27,10 @@ public class SmsCondition extends Condition {
 		} else {
 			return msgFrom.equals(ev.msgFrom.trim()) && msgBody.equals(ev.msgBody.trim());
 		}
+	}
+
+	@Override
+	public View getView(Context context, ViewGroup parent) {
+		return null;
 	}
 }
