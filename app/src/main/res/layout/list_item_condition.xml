@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:paddingLeft="20dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:padding="@dimen/list_item_padding">
 
     <ImageView
         android:id="@+id/iv_condition_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_charger"/>
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_action_filter"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/tv_condition_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:text="Condition Name"/>
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/iv_condition_icon"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="Condition Name" />
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_contextmenu"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

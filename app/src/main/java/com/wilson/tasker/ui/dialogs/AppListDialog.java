@@ -1,7 +1,6 @@
 package com.wilson.tasker.ui.dialogs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.AppListAdapter;
+import com.wilson.tasker.conditions.TopAppCondition;
+import com.wilson.tasker.listeners.OnConditionChangedListener;
 import com.wilson.tasker.loaders.AppListLoader;
 
 import java.util.List;
@@ -28,6 +28,8 @@ public class AppListDialog extends DialogFragment
 
 		private AppListAdapter adapter;
 		private GridView appList;
+		private TopAppCondition condition;
+		private OnConditionChangedListener listener;
 
 		public static class AppEntry {
 			public ApplicationInfo info;
@@ -67,6 +69,7 @@ public class AppListDialog extends DialogFragment
 
 	private void setupViews(View rootView) {
 		getDialog().setTitle("Select a Trigger App");
+		setCancelable(false);
 		appList = (GridView) rootView.findViewById(R.id.gv_app_list);
 		appList.setOnItemClickListener(this);
 	}
@@ -87,6 +90,12 @@ public class AppListDialog extends DialogFragment
 	@Override
 	public void onLoadFinished(Loader<List<AppEntry>> loader, List<AppEntry> data) {
 		adapter.setData(data);
+		if (condition != null) {
+			int pos = findSelection(condition.targetPkgName, data);
+			if (pos != -1) {
+				appList.setSelection(pos);
+			}
+		}
 	}
 
 	@Override
@@ -96,12 +105,27 @@ public class AppListDialog extends DialogFragment
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		AppEntry app = adapter.getItem(position);
-		Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(app.info.packageName);
-		Toast.makeText(getActivity(), position + " selected", Toast.LENGTH_SHORT).show();
+		AppEntry entry = adapter.getItem(position);
+		getDialog().dismiss();
+		if (listener != null) {
+			listener.onConditionChanged(condition, new TopAppCondition(entry.info.packageName));
+		}
 	}
 
+	private int findSelection(String pkgName, List<AppEntry> appEntries) {
+		for (int i = 0; i < appEntries.size(); i++) {
+			if (appEntries.get(i).info.packageName.equals(pkgName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
+	public void setCondition(TopAppCondition condition) {
+		this.condition = condition;
+	}
 
-
+	public void setOnConditionChangedListener(OnConditionChangedListener listener) {
+		this.listener = listener;
+	}
 }

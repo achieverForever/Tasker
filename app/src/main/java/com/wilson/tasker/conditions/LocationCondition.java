@@ -10,7 +10,7 @@ import com.wilson.tasker.model.Event;
 //TODO - implement me
 public class LocationCondition extends Condition {
 	public LocationCondition() {
-		super(Event.EVENT_LOCATION);
+		super(Event.EVENT_LOCATION, "Location");
 	}
 
 	@Override

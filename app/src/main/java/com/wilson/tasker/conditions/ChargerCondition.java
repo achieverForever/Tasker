@@ -12,7 +12,7 @@ public class ChargerCondition extends Condition {
 	public boolean charging;
 
 	public ChargerCondition(boolean charging) {
-		super(Event.EVENT_CHARGER);
+		super(Event.EVENT_CHARGER, "Charger");
 		this.charging = charging;
 	}
 

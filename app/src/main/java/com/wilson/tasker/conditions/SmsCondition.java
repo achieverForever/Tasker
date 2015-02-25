@@ -13,7 +13,7 @@ public class SmsCondition extends Condition {
 	public String msgBody;
 
 	public SmsCondition(String msgFrom, String msgBody) {
-		super(Event.EVENT_SMS);
+		super(Event.EVENT_SMS, "SMS");
 		this.msgFrom = msgFrom.trim();
 		this.msgBody = msgBody.trim();
 	}

@@ -39,4 +39,16 @@ public class ConditionListAdapter extends BaseAdapter {
 		Condition condition = (Condition) getItem(position);
 		return condition.getView(context, parent);
 	}
+
+	public void updateCondition(Condition previous, Condition current) {
+		if (previous == null) {
+			conditions.add(current);
+		} else {
+			int pos = conditions.indexOf(previous);
+			if (pos != -1) {
+				conditions.set(pos, current);
+			}
+		}
+		notifyDataSetChanged();
+	}
 }

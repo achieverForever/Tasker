@@ -12,7 +12,7 @@ public class OrientationCondition extends Condition {
 	private int targetOrientation;
 
 	public OrientationCondition(int targetOrientation) {
-		super(Event.EVENT_ORIENTATION);
+		super(Event.EVENT_ORIENTATION, "Orientation");
 		this.targetOrientation = targetOrientation;
 	}
 

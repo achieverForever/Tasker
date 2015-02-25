@@ -13,7 +13,7 @@ public class CallerCondition extends Condition {
 	public String callerNumber;
 
 	public CallerCondition(String callerNumber) {
-		super(Event.EVENT_CALLER);
+		super(Event.EVENT_CALLER, "Caller");
 		this.callerNumber = callerNumber;
 	}
 

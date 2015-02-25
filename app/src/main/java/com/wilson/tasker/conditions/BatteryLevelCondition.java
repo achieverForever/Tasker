@@ -15,7 +15,7 @@ public class BatteryLevelCondition extends Condition {
 	public float targetValue;
 
 	public BatteryLevelCondition(BatteryLevelType type, float targetValue) {
-		super(Event.EVENT_BATTERY_LEVEL);
+		super(Event.EVENT_BATTERY_LEVEL, "Battery Level");
 		this.type = type;
 		this.targetValue = targetValue;
 	}
