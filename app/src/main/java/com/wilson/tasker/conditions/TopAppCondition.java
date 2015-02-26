@@ -23,7 +23,7 @@ public class TopAppCondition extends Condition {
 	public String targetPkgName;
 
 	public TopAppCondition(String targetPkgName) {
-		super(Event.EVENT_TOP_APP_CHANGED, "Current APP");
+		super(Event.EVENT_TOP_APP_CHANGED, "Current APP", R.drawable.ic_app);
 		this.targetPkgName = targetPkgName;
 	}
 

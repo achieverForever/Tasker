@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wilson.tasker.R;
 import com.wilson.tasker.events.ChargerEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -12,7 +13,7 @@ public class ChargerCondition extends Condition {
 	public boolean charging;
 
 	public ChargerCondition(boolean charging) {
-		super(Event.EVENT_CHARGER, "Charger");
+		super(Event.EVENT_CHARGER, "Charger", R.drawable.ic_charger);
 		this.charging = charging;
 	}
 

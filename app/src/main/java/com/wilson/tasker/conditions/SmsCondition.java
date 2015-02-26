@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wilson.tasker.R;
 import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -13,7 +14,7 @@ public class SmsCondition extends Condition {
 	public String msgBody;
 
 	public SmsCondition(String msgFrom, String msgBody) {
-		super(Event.EVENT_SMS, "SMS");
+		super(Event.EVENT_SMS, "SMS", R.drawable.ic_sms);
 		this.msgFrom = msgFrom.trim();
 		this.msgBody = msgBody.trim();
 	}

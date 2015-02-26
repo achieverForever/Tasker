@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wilson.tasker.R;
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -15,7 +16,7 @@ public class BatteryLevelCondition extends Condition {
 	public float targetValue;
 
 	public BatteryLevelCondition(BatteryLevelType type, float targetValue) {
-		super(Event.EVENT_BATTERY_LEVEL, "Battery Level");
+		super(Event.EVENT_BATTERY_LEVEL, "Battery Level", R.drawable.ic_battery_high);
 		this.type = type;
 		this.targetValue = targetValue;
 	}

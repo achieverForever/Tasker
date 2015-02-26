@@ -29,11 +29,11 @@ public abstract class Condition {
 
 	private boolean called = false;
 
-	protected Condition(int eventCode, String name) {
+	protected Condition(int eventCode, String name, int iconRes) {
 		this.eventCode = eventCode;
 		this.name = name;
 		this.state = STATE_UNSATISFIED;
-		this.iconRes = 0;
+		this.iconRes = iconRes;
 	}
 
 	@Override

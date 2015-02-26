@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/list_item_padding"
-    android:paddingRight="@dimen/list_item_padding">
+    android:padding="@dimen/list_item_padding">
 
     <ImageView
         android:id="@+id/iv_action_icon"
