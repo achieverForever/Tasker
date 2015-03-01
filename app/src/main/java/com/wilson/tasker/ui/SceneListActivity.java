@@ -21,7 +21,7 @@ public class SceneListActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.content, SceneListFragment.newInstance())
+				.add(R.id.content, SceneListFragment.newInstance())
 				.commit();
 		}
 	}

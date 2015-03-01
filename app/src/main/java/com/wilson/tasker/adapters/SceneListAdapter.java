@@ -51,7 +51,7 @@ public class SceneListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_item_scene, parent, false);
 		}
 		Scene scene = (Scene) getItem(position);
-		FillableCircleView label = (FillableCircleView) convertView.findViewById(R.id.tv_label);
+		FillableCircleView label = (FillableCircleView) convertView.findViewById(R.id.tv_title);
 		TextView sceneName = (TextView) convertView.findViewById(R.id.tv_scene_name);
 		sceneName.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		label.setText(String.valueOf(position + 1));

@@ -27,14 +27,11 @@ public class TaskerApplication extends Application {
 		// TODO - 默认的几个Scene
 		List<Condition> emptyConditions = new ArrayList<>();
 		List<Action> emptyActions = new ArrayList<>();
-		Scene batteryScene = new Scene("battery", "Battery",
-			Arrays.asList(new Condition[]{
-				new TopAppCondition("com.android.chrome"),
-			}),
-			Arrays.asList(new Action[]{
-				new BluetoothAction(true),
-			})
-		);
+		List<Condition> batteryConditions = new ArrayList<>();
+		List<Action> batteryActions = new ArrayList<>();
+		batteryConditions.add(new TopAppCondition("com.android.chrome"));
+		batteryActions.add(new BluetoothAction(true));
+		Scene batteryScene = new Scene("battery", "Battery", batteryConditions, batteryActions);
 		Scene homeScene = new Scene("home", "Home", emptyConditions, emptyActions);
 		Scene sleepScene = new Scene("sleep", "Sleep", emptyConditions, emptyActions);
 		SceneManager.getInstance().addScene(batteryScene, this);

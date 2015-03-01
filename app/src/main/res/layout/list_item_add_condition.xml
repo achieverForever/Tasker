@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:padding="@dimen/list_item_padding">
 
     <ImageView
-        android:id="@+id/iv_icon"
+        android:id="@+id/iv_condition_icon"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_centerHorizontal="true"
@@ -14,14 +15,14 @@
         android:contentDescription="@null" />
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_condition_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/iv_icon"
+        android:layout_below="@+id/iv_condition_icon"
         android:layout_centerHorizontal="true"
         android:singleLine="true"
         android:ellipsize="end"
-        android:text="App Label" />
+        android:text="Condition Name" />
 
 </RelativeLayout>

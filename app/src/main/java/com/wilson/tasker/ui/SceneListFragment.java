@@ -51,10 +51,11 @@ public class SceneListFragment extends Fragment {
 		sceneList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				FillableCircleView label = (FillableCircleView) view.findViewById(R.id.tv_label);
+				FillableCircleView label = (FillableCircleView) view.findViewById(R.id.tv_title);
 				label.toggle();
 				EventBus.getDefault().postSticky(new SceneDetailEvent((Scene) adapter.getItem(position)));
 				startActivity(new Intent(getActivity(), SceneDetailActivity.class));
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 		btnNewScene.setOnClickListener(new View.OnClickListener() {

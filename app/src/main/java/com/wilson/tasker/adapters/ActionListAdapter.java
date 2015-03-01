@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.wilson.tasker.model.Action;
+import com.wilson.tasker.model.Scene;
 
 import java.util.List;
 
@@ -13,10 +14,12 @@ public class ActionListAdapter extends BaseAdapter {
 
 	private Context context;
 	private List<Action> actions;
+	private Scene scene;
 
-	public ActionListAdapter(Context context, List<Action> actions) {
+	public ActionListAdapter(Context context, List<Action> actions, Scene scene) {
 		this.context = context;
 		this.actions = actions;
+		this.scene = scene;
 	}
 
 	@Override

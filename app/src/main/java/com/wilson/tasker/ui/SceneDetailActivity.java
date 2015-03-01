@@ -14,7 +14,7 @@ public class SceneDetailActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.content, SceneDetailFragment.newInstance())
+				.add(R.id.content, SceneDetailFragment.newInstance())
 				.commit();
 		}
 		setupActionBar();
@@ -25,5 +25,11 @@ public class SceneDetailActivity extends BaseActivity {
 		super.setupActionBar();
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 	}
 }

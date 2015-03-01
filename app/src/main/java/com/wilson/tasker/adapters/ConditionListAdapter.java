@@ -6,17 +6,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.wilson.tasker.model.Condition;
+import com.wilson.tasker.model.Scene;
 
 import java.util.List;
 
 public class ConditionListAdapter extends BaseAdapter {
 
 	private Context context;
+	private Scene scene;
 	private List<Condition> conditions;
 
-	public ConditionListAdapter(Context context, List<Condition> conditions) {
+	public ConditionListAdapter(Context context, List<Condition> conditions, Scene scene) {
 		this.context = context;
 		this.conditions = conditions;
+		this.scene = scene;
 	}
 
 	@Override
@@ -40,9 +43,17 @@ public class ConditionListAdapter extends BaseAdapter {
 		return condition.getView(context, parent);
 	}
 
-	public void updateCondition(Condition previous, Condition current) {
-		if (previous == null) {
+	public void handleConditionChanged(Condition previous, Condition current) {
+		if (current != null && current.listener == null) {
+			current.listener = scene;
+		} else if (previous != null && current == null) {
+			previous.listener = null;
+		}
+
+		if (previous == null && current != null) {
 			conditions.add(current);
+		} else if (previous != null && current == null) {
+			conditions.remove(previous);
 		} else {
 			int pos = conditions.indexOf(previous);
 			if (pos != -1) {

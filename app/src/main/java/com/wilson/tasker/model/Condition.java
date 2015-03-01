@@ -41,7 +41,7 @@ public abstract class Condition {
 		if (!(o instanceof Condition)) {
 			return false;
 		}
-		return ((Condition) o).eventCode == this.eventCode;
+		return ((Condition) o) == this;
 	}
 
 	public void doCheckEvent(Event event) {
@@ -98,4 +98,6 @@ public abstract class Condition {
 		conditions.add(new TopAppCondition("com.android.anything"));
 		return conditions;
 	}
+
+
 }
