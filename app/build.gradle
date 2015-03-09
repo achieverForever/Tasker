@@ -2,9 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('C:/Users/asus/.android/debug.keystore')
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "20.0.0"
-
     defaultConfig {
         applicationId "com.wilson.tasker"
         minSdkVersion 14
@@ -15,6 +19,9 @@ android {
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     lintOptions {
