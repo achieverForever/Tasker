@@ -9,5 +9,6 @@
     <string name="title_activity_scene_detail">Scene Detail</string>
     <string name="title_activity_edit_condition">EditConditionActivity</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_baidu_map">BaiduMapActivity</string>
 
 </resources>
