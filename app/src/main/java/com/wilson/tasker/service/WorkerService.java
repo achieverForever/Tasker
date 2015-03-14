@@ -3,6 +3,7 @@ package com.wilson.tasker.service;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.*;
 import android.os.Process;
@@ -10,13 +11,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wilson.tasker.events.BatteryLevelEvent;
-import com.wilson.tasker.events.RunSceneEvent;
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
 import com.wilson.tasker.manager.ApplicationManager;
 import com.wilson.tasker.manager.BatteryLevelMonitor;
 import com.wilson.tasker.manager.SceneManager;
-import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Scene;
@@ -30,6 +29,9 @@ import de.greenrobot.event.EventBus;
 
 public class WorkerService extends Service {
 	private static final String TAG = "WorkerService";
+	private static final int SECOND = 1000;
+	private static final int SCHEDULE_INTERVAL = 10 * SECOND;
+	private static final int REQUEST_LOCATION_INTERVAL = 60 * SECOND;
 
 	// 需要定时轮询的条件
 	private static final Set<Integer> PASSIVE_POLLING_CONDITIONS
@@ -65,6 +67,7 @@ public class WorkerService extends Service {
 		thread.start();
 		handler = new ServiceHandler(thread.getLooper());
 		EventBus.getDefault().register(this);
+		scheduleAlarms();
 	}
 
 	@Override
@@ -73,8 +76,9 @@ public class WorkerService extends Service {
 		if (intent == null) {
 			Log.d(TAG, "service recreated.");
 		}
-		handler.removeMessages(1);
-		handler.sendEmptyMessageDelayed(1, 10000);
+//		handler.removeMessages(1);
+//		handler.sendEmptyMessageDelayed(1, 10000);
+		runScheduledJobs();
 		return START_STICKY;
 	}
 
@@ -119,10 +123,13 @@ public class WorkerService extends Service {
 		});
 	}
 
+	/**
+	 * 调度执行Jobs
+	 */
 	private void runScheduledJobs() {
 		Log.d(TAG, "runScheduledJobs()");
 		Toast.makeText(WorkerService.this, "runScheduledJobs()", Toast.LENGTH_SHORT).show();
-		checkPassiveConditions();
+//		checkPassiveConditions();
 	}
 
 	/**
@@ -143,5 +150,15 @@ public class WorkerService extends Service {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 利用AlarmManager调度执行
+	 */
+	private void scheduleAlarms() {
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(this, WorkerService.class);
+		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, SCHEDULE_INTERVAL, pi);
 	}
 }

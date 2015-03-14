@@ -1,6 +1,7 @@
 package com.wilson.tasker.app;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 import com.baidu.location.BDLocation;
@@ -15,6 +16,7 @@ import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
+import com.wilson.tasker.service.WorkerService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,12 +32,12 @@ public class TaskerApplication extends Application {
 		Log.d("TaskerApplication", "onCreate()");
 		super.onCreate();
 
+		// 初始化百度地图SDK
 		SDKInitializer.initialize(this);
 		locationClient = new LocationClient(this);
 		geofenceClient = new GeofenceClient(this);
-		setUpLocationClient();
 
-//		startService(new Intent(this, WorkerService.class));
+		startService(new Intent(this, WorkerService.class));
 		initDefaultScenes();
 	}
 
@@ -55,14 +57,6 @@ public class TaskerApplication extends Application {
 		SceneManager.getInstance().addScene(sleepScene, this);
 	}
 
-	private void setUpLocationClient() {
-		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy); //设置定位模式
-		option.setCoorType("bd09ll"); //返回的定位结果是百度经纬度
-		option.setScanSpan(5000); //设置发起定位请求的间隔时间为5000ms
-		option.setIsNeedAddress(true); //返回的定位结果包含地址信息
-		option.setNeedDeviceDirect(false); //返回的定位结果包含手机机头的方向
-		locationClient.setLocOption(option);
-	}
+
 
 }

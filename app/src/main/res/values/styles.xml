@@ -14,4 +14,9 @@
         <item name="android:background">@drawable/colorful_btn_selector_green</item>
         <item name="android:layout_margin">6dp</item>
     </style>
+
+    <style name="ColorfulButtonRed" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/colorful_btn_selector_red</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
 </resources>
