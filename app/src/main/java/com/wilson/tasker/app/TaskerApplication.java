@@ -24,8 +24,6 @@ import java.util.List;
 
 public class TaskerApplication extends Application {
 
-	public LocationClient locationClient;
-	public GeofenceClient geofenceClient;
 
 	@Override
 	public void onCreate() {
@@ -34,9 +32,6 @@ public class TaskerApplication extends Application {
 
 		// 初始化百度地图SDK
 		SDKInitializer.initialize(this);
-		locationClient = new LocationClient(this);
-		geofenceClient = new GeofenceClient(this);
-
 		startService(new Intent(this, WorkerService.class));
 		initDefaultScenes();
 	}

@@ -38,10 +38,15 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.wilson.tasker.R;
 import com.wilson.tasker.app.TaskerApplication;
+import com.wilson.tasker.events.AddGeofenceEvent;
+import com.wilson.tasker.service.WorkerService;
 import com.wilson.tasker.ui.dialogs.EditMarkerNameDialog;
 
+import de.greenrobot.event.EventBus;
+
 public class BaiduMapActivity extends ActionBarActivity
-	implements EditMarkerNameDialog.OnMarkerNameEnteredListener {
+		implements EditMarkerNameDialog.OnMarkerNameEnteredListener {
+
 	public static final String TAG = "Location";
 	public static final int HOUR = 60 * 60 * 1000;
 	public static final String KEY_LATITUDE = "latitude";
@@ -53,7 +58,6 @@ public class BaiduMapActivity extends ActionBarActivity
 	private Button confirmBtn;
 
 	private LocationClient locationClient;
-	private GeofenceClient geofenceClient;
 	private BaiduMap baiduMap;
 	private BitmapDescriptor markerIcon;
 	private GeoCoder geoCoder;
@@ -72,8 +76,7 @@ public class BaiduMapActivity extends ActionBarActivity
 		confirmBtn = (Button) findViewById(R.id.confirm);
 
 		baiduMap = mapView.getMap();
-		locationClient = ((TaskerApplication) getApplication()).locationClient;
-		geofenceClient = ((TaskerApplication) getApplication()).geofenceClient;
+		locationClient = WorkerService.getLocationClient(getApplicationContext());
 		geoCoder = GeoCoder.newInstance();
 
 		hideZoomControls();
@@ -100,8 +103,6 @@ public class BaiduMapActivity extends ActionBarActivity
 		mapView.onDestroy();
 		// 回收Bitmap资源
 		markerIcon.recycle();
-		// 关闭定位
-		locationClient.stop();
 		// 销毁地理编码器
 		geoCoder.destroy();
 
@@ -209,6 +210,7 @@ public class BaiduMapActivity extends ActionBarActivity
 		if (!locationClient.isStarted()) {
 			locationClient.start();
 		}
+		locationClient.requestLocation();
 	}
 
 	private void clearOverlay() {
@@ -293,24 +295,6 @@ public class BaiduMapActivity extends ActionBarActivity
 	}
 
 	private void addGeofence(double longitude, double latitude, String geofenceId) {
-		BDGeofence geoFence = new BDGeofence.Builder()
-			.setGeofenceId(geofenceId)
-			.setCoordType(BDGeofence.COORD_TYPE_BD09LL)
-			.setCircularRegion(longitude, latitude, BDGeofence.RADIUS_TYPE_SMALL)
-			.setExpirationDruation(12 * HOUR)
-			.build();
-
-		GeofenceClient.OnAddBDGeofencesResultListener listener = new GeofenceClient.OnAddBDGeofencesResultListener() {
-			@Override
-			public void onAddBDGeofencesResult(int statusCode, String geofenceId) {
-				if (statusCode == BDLocationStatusCodes.SUCCESS) {
-					Log.d(TAG, String.format("add geofence[id=%s] success", geofenceId));
-				} else {
-					Log.e(TAG, String.format("add geofence[id=%s] fail, statusCode=%d", geofenceId, statusCode));
-				}
-			}
-		};
-
-		geofenceClient.addBDGeofence(geoFence, listener);
+		EventBus.getDefault().post(new AddGeofenceEvent(longitude, latitude, geofenceId));
 	}
 }

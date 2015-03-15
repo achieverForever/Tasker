@@ -57,6 +57,7 @@ public class EditMarkerNameDialog extends DialogFragment {
 			.inflate(R.layout.dialog_marker_name, null, false);
 		final EditText markerName = (EditText) view.findViewById(R.id.marker_name);
 		markerName.setText(defaultAddr);
+		markerName.setSelection(defaultAddr.length());
 
 		return new AlertDialog.Builder(getActivity())
 			.setTitle("请输入地标名称")

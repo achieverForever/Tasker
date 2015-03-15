@@ -8,20 +8,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wilson.tasker.R;
+import com.wilson.tasker.events.LocationEvent;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
 //TODO - implement me
 public class LocationCondition extends Condition {
-	public LocationCondition() {
+	public String geofencId;
+
+	public LocationCondition(String geofencId) {
 		super(Event.EVENT_LOCATION, "Location", R.drawable.icon_location);
+		this.geofencId = geofencId;
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
-		return false;
+		LocationEvent ev = (LocationEvent) event;
+		return ev.geofencId == geofencId && ev.state == LocationEvent.GEOFENCE_ENTER;
 	}
 
 	@Override
@@ -37,7 +42,7 @@ public class LocationCondition extends Condition {
 		}
 		title.setText("Location");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		desc.setText("Trigger When You're near the Target Location");
+		desc.setText("Trigger When You're near " + geofencId);
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;
 	}

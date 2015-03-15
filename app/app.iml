@@ -90,6 +90,7 @@
     <orderEntry type="library" exported="" name="baidumapapi_v3_3_0" level="project" />
     <orderEntry type="library" exported="" name="locSDK_5.0" level="project" />
     <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-1.7.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robotium-solo-5.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />
   </component>

@@ -25,7 +25,7 @@ public abstract class Condition {
 	public int state;
 	public String name;
 	public int iconRes;
-	public ConditionStateChangedListener listener;
+	public transient ConditionStateChangedListener listener;
 
 	private boolean called = false;
 
@@ -92,7 +92,7 @@ public abstract class Condition {
 		conditions.add(new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.BELOW, 0.3f));
 		conditions.add(new CallerCondition("10086"));
 		conditions.add(new ChargerCondition(true));
-		conditions.add(new LocationCondition());
+		conditions.add(new LocationCondition("Home"));
 		conditions.add(new OrientationCondition(OrientationManager.ORIENTATION_FACE_DOWN));
 		conditions.add(new SmsCondition("10086", "hi"));
 		conditions.add(new TopAppCondition("com.android.anything"));
