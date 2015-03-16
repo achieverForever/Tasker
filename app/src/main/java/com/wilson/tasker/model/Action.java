@@ -17,6 +17,10 @@ public abstract class Action {
 	public String type;
 	public int state;
 
+	protected Action() {
+		// Required empty constructor for serialize/deserialize
+	}
+
 	public Action(String type) {
 		this.type = type;
 		this.state = STATE_IDLE;

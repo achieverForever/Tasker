@@ -25,6 +25,10 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	public List<Condition> conditions = new ArrayList<>();
 	public List<Action> actions = new ArrayList<>();
 
+	protected Scene() {
+		// Required empty constructor for serialize/deserialize
+	}
+
 	public Scene(String name, String desc, List<Condition> conditions, List<Action> actions) {
 		this.name = name;
 		this.desc = desc;

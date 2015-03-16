@@ -29,6 +29,10 @@ public abstract class Condition {
 
 	private boolean called = false;
 
+	protected Condition() {
+		// Required empty constructor for serialize/deserialize
+	}
+
 	protected Condition(int eventCode, String name, int iconRes) {
 		this.eventCode = eventCode;
 		this.name = name;
