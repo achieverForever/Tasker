@@ -9,6 +9,7 @@ import com.wilson.tasker.model.Scene;
 public class Utils {
 
 	public static final Gson GSON;
+
 	static {
 		GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls();
 		gsonBuilder.registerTypeAdapter(Condition.class, new ConditionTypeAdapter());

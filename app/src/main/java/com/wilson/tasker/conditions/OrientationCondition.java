@@ -43,7 +43,7 @@ public class OrientationCondition extends Condition {
 		title.setText("Orientation");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		String orientationStr = targetOrientation == OrientationManager.ORIENTATION_FACE_DOWN ?
-			"down" : "up";
+				"down" : "up";
 		desc.setText("Trigger When Your Phone is facing " + orientationStr);
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;

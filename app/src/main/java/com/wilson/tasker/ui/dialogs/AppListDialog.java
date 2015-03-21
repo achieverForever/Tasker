@@ -23,32 +23,32 @@ import com.wilson.tasker.loaders.AppListLoader;
 import java.util.List;
 
 public class AppListDialog extends DialogFragment
-	implements LoaderManager.LoaderCallbacks<List<AppListDialog.AppEntry>>, AdapterView.OnItemClickListener {
-		private static final int LOADER_APP_LIST = 100;
+		implements LoaderManager.LoaderCallbacks<List<AppListDialog.AppEntry>>, AdapterView.OnItemClickListener {
+	private static final int LOADER_APP_LIST = 100;
 
-		private AppListAdapter adapter;
-		private GridView appList;
-		private TopAppCondition condition;
-		private OnConditionChangedListener listener;
+	private AppListAdapter adapter;
+	private GridView appList;
+	private TopAppCondition condition;
+	private OnConditionChangedListener listener;
 
-		public static class AppEntry {
-			public ApplicationInfo info;
-			public Drawable icon;
-			public String label;
+	public static class AppEntry {
+		public ApplicationInfo info;
+		public Drawable icon;
+		public String label;
 
-			public AppEntry(ApplicationInfo info) {
-				this.info = info;
-			}
-
-			public void loadLabel(Context context) {
-				CharSequence label = info.loadLabel(context.getPackageManager()).toString();
-				this.label = label == null ? info.packageName : label.toString();
-			}
-
-			public void loadIcon(Context context) {
-				this.icon = info.loadIcon(context.getPackageManager());
-			}
+		public AppEntry(ApplicationInfo info) {
+			this.info = info;
 		}
+
+		public void loadLabel(Context context) {
+			CharSequence label = info.loadLabel(context.getPackageManager()).toString();
+			this.label = label == null ? info.packageName : label.toString();
+		}
+
+		public void loadIcon(Context context) {
+			this.icon = info.loadIcon(context.getPackageManager());
+		}
+	}
 
 	public static AppListDialog newInstance() {
 		AppListDialog fragment = new AppListDialog();

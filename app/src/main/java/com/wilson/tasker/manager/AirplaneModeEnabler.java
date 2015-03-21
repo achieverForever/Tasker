@@ -32,14 +32,14 @@ public class AirplaneModeEnabler {
 	@SuppressWarnings("deprecation")
 	public boolean isAirplaneModeOn() {
 		return Settings.System.getInt(context.getContentResolver(),
-			Settings.System.AIRPLANE_MODE_ON, 0) != 0;
+				Settings.System.AIRPLANE_MODE_ON, 0) != 0;
 	}
 
 	@SuppressWarnings("deprecation")
 	public void setAirplaneModeOn(boolean enable) {
 		// TODO - 以下方法在Android 4.2+行不通
 		Settings.System.putInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON,
-			enable ? 1 : 0);
+				enable ? 1 : 0);
 		Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
 		intent.putExtra("state", enable);
 		context.sendBroadcast(intent);
@@ -68,7 +68,7 @@ public class AirplaneModeEnabler {
 		StringBuilder log = new StringBuilder();
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		try {
-			while ((line = bufferedReader.readLine()) != null){
+			while ((line = bufferedReader.readLine()) != null) {
 				log.append(line + "\n");
 			}
 		} catch (IOException e) {

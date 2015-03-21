@@ -13,8 +13,7 @@
         android:id="@+id/sp_below_or_above"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:spinnerMode="dialog">
-    </Spinner>
+        android:spinnerMode="dialog"></Spinner>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,19 +26,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="16sp"
-            android:text="7%"/>
+            android:text="7%" />
 
         <SeekBar
             android:id="@+id/sb_battery_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp" />
 
     </LinearLayout>
 
-    <include layout="@layout/common_confirm_bar"
+    <include
+        layout="@layout/common_confirm_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom" />
 
 </LinearLayout>

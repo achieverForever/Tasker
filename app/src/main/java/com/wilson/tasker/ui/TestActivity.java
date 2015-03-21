@@ -191,7 +191,7 @@ public class TestActivity extends Activity {
 			if (uri != null) {
 				String ringTonePath = uri.toString();
 				android.media.RingtoneManager.setActualDefaultRingtoneUri(this,
-					android.media.RingtoneManager.TYPE_RINGTONE, uri);
+						android.media.RingtoneManager.TYPE_RINGTONE, uri);
 				Log.d(TAG, "ringtone Uri=" + ringTonePath);
 			} else {
 				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, null);
@@ -203,7 +203,7 @@ public class TestActivity extends Activity {
 			if (uri != null) {
 				String notiPath = uri.toString();
 				android.media.RingtoneManager.setActualDefaultRingtoneUri(this,
-					android.media.RingtoneManager.TYPE_NOTIFICATION, uri);
+						android.media.RingtoneManager.TYPE_NOTIFICATION, uri);
 				Log.d(TAG, "ringtone Uri=" + notiPath);
 			} else {
 				Settings.System.putString(this.getContentResolver(), Settings.System.NOTIFICATION_SOUND, null);

@@ -23,7 +23,7 @@ public class ActionTypeAdapter implements JsonSerializer<Action>, JsonDeserializ
 
 	@Override
 	public Action deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-		throws JsonParseException {
+			throws JsonParseException {
 		JsonObject jsonObject = json.getAsJsonObject();
 		String type = jsonObject.get("type").getAsString();
 		JsonElement element = jsonObject.get("properties");

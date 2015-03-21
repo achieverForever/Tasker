@@ -13,9 +13,9 @@ public class SceneDetailActivity extends BaseActivity {
 		setContentView(R.layout.activity_content);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
-				.beginTransaction()
-				.add(R.id.content, SceneDetailFragment.newInstance())
-				.commit();
+					.beginTransaction()
+					.add(R.id.content, SceneDetailFragment.newInstance())
+					.commit();
 		}
 		setupActionBar();
 	}

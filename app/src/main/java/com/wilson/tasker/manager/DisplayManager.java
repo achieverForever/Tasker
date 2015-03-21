@@ -39,7 +39,7 @@ public class DisplayManager {
 		setBrightnessMode(android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
 
 		android.provider.Settings.System.putInt(context.getContentResolver(),
-			android.provider.Settings.System.SCREEN_BRIGHTNESS, value);
+				android.provider.Settings.System.SCREEN_BRIGHTNESS, value);
 
 		WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
 		float brightness = value / 255f;
@@ -51,7 +51,7 @@ public class DisplayManager {
 	public void getBrightness() {
 		try {
 			int b = android.provider.Settings.System.getInt(context.getContentResolver(),
-				android.provider.Settings.System.SCREEN_BRIGHTNESS);
+					android.provider.Settings.System.SCREEN_BRIGHTNESS);
 			Log.d(TAG, "brightness=" + b);
 		} catch (Settings.SettingNotFoundException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class DisplayManager {
 	 */
 	public void setBrightnessMode(int mode) {
 		android.provider.Settings.System.putInt(context.getContentResolver(),
-			android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE, mode);
+				android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE, mode);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class DisplayManager {
 	 */
 	public void setScreenOffTimeout(int time) {
 		android.provider.Settings.System.putInt(context.getContentResolver(),
-			android.provider.Settings.System.SCREEN_OFF_TIMEOUT, time);
+				android.provider.Settings.System.SCREEN_OFF_TIMEOUT, time);
 	}
 
 }

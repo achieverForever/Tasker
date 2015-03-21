@@ -134,21 +134,21 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 				final Condition condition = (Condition) conditionListAdapter.getItem(position);
 				// TODO - 弹出确认删除对话框
 				new AlertDialog.Builder(getActivity())
-					.setMessage("Are you sure you want to delete this item?")
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							conditionListAdapter.handleConditionChanged(condition, null);
-							setListViewHeightBasedOnChildren(conditionList);
-						}
-					})
-					.setNegativeButton("No", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					})
-					.show();
+						.setMessage("Are you sure you want to delete this item?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								conditionListAdapter.handleConditionChanged(condition, null);
+								setListViewHeightBasedOnChildren(conditionList);
+							}
+						})
+						.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						})
+						.show();
 				return true;
 			}
 		});

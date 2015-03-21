@@ -54,29 +54,29 @@ public class EditMarkerNameDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		defaultAddr = getArguments().getString(KEY_ADDRESS);
 		final View view = LayoutInflater.from(getActivity())
-			.inflate(R.layout.dialog_marker_name, null, false);
+				.inflate(R.layout.dialog_marker_name, null, false);
 		final EditText markerName = (EditText) view.findViewById(R.id.marker_name);
 		markerName.setText(defaultAddr);
 		markerName.setSelection(defaultAddr.length());
 
 		return new AlertDialog.Builder(getActivity())
-			.setTitle("请输入地标名称")
-			.setView(view)
-			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (listener != null) {
-						listener.onMarkerNameEntered(defaultAddr);
+				.setTitle("请输入地标名称")
+				.setView(view)
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (listener != null) {
+							listener.onMarkerNameEntered(defaultAddr);
+						}
 					}
-				}
-			})
-			.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					EditText markerName = (EditText) view.findViewById(R.id.marker_name);
-					listener.onMarkerNameEntered(markerName.getText().toString());
-				}
-			}).create();
+				})
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						EditText markerName = (EditText) view.findViewById(R.id.marker_name);
+						listener.onMarkerNameEntered(markerName.getText().toString());
+					}
+				}).create();
 	}
 
 	public void registerOnMarkerNameEnteredListener(OnMarkerNameEnteredListener listener) {

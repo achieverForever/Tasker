@@ -10,12 +10,12 @@
         android:layout_centerVertical="true"
         android:textSize="15sp"
         android:text="Tasker"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <Switch
         android:id="@+id/sw_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

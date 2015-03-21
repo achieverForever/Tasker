@@ -71,7 +71,7 @@ public class WifiFragment extends Fragment {
 	public void initView(View root) {
 		networkList = (ListView) root.findViewById(R.id.lv_network_list);
 		networkList.setAdapter(new ArrayAdapter<NetworkItem>(getActivity(),
-			android.R.layout.simple_list_item_1, networks));
+				android.R.layout.simple_list_item_1, networks));
 		networkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

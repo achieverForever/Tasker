@@ -35,9 +35,9 @@ public class FillableCircleView extends TextView {
 
 	private void init(Context context) {
 		fillTransition = (TransitionDrawable) context.getResources()
-			.getDrawable(R.drawable.circle_fill_transition);
+				.getDrawable(R.drawable.circle_fill_transition);
 		unfillDrawable = context.getResources()
-			.getDrawable(R.drawable.colored_circle_icon_unfilled);
+				.getDrawable(R.drawable.colored_circle_icon_unfilled);
 		unfill();
 	}
 

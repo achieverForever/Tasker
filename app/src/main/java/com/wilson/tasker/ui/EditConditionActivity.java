@@ -8,7 +8,7 @@ import com.wilson.tasker.R;
 import com.wilson.tasker.model.Condition;
 
 public class EditConditionActivity extends BaseActivity
-	implements BaseFragment.OnConditionSaveListener {
+		implements BaseFragment.OnConditionSaveListener {
 
 	public static final String EXTRA_EVENT_CODE = "com.wilson.tasker.ui.EVENT_CODE";
 
@@ -31,9 +31,9 @@ public class EditConditionActivity extends BaseActivity
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
-				.beginTransaction()
-				.add(R.id.content, fragment)
-				.commit();
+					.beginTransaction()
+					.add(R.id.content, fragment)
+					.commit();
 		}
 
 		setupActionBar();

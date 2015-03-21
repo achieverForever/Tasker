@@ -48,7 +48,7 @@ public class SmsCondition extends Condition {
 		title.setText("SMS");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		desc.setText("Trigger When You Receive a SMS from Specified Contact and/or " +
-			"Contains Specified Content");
+				"Contains Specified Content");
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;
 	}

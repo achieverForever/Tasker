@@ -12,6 +12,6 @@
         android:background="@drawable/abc_popup_background_mtrl_mult"
         android:gravity="center"
         android:textColor="@color/dark_gray"
-        tools:text="地标名称"/>
+        tools:text="地标名称" />
 
 </LinearLayout>

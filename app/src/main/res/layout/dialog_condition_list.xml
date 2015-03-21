@@ -12,6 +12,6 @@
         android:layout_height="400dp"
         android:layout_marginBottom="10dp"
         android:numColumns="3"
-        android:stretchMode="columnWidth"/>
+        android:stretchMode="columnWidth" />
 
 </LinearLayout>

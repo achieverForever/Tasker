@@ -75,6 +75,7 @@ public abstract class Condition {
 
 	/**
 	 * 返回Condition的View表示
+	 *
 	 * @param context
 	 * @param parent
 	 */

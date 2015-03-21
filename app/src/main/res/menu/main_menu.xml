@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_add_task"
         android:icon="@drawable/ic_action_new_show"
         app:showAsAction="always"
-        android:title="Add Task"/>
+        android:title="Add Task" />
     <item
         android:id="@+id/action_priority"
         android:icon="@drawable/ic_action_filter"
         app:showAsAction="always"
-        android:title="Priority"/>
+        android:title="Priority" />
 
 </menu>

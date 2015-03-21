@@ -14,9 +14,9 @@ public class PriorityActivity extends BaseActivity {
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.content, PriorityFragment.newInstance())
-				.commit();
+					.beginTransaction()
+					.replace(R.id.content, PriorityFragment.newInstance())
+					.commit();
 		}
 
 		setupActionBar();

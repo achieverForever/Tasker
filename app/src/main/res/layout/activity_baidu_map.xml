@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wilson.tasker.ui.BaiduMapActivity">
 
@@ -15,20 +16,22 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="取消"
-            style="@style/ColorfulButtonRed"/>
+            style="@style/ColorfulButtonRed" />
+
         <Button
             android:id="@+id/confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="完成"
-            style="@style/ColorfulButtonBlue"/>
+            style="@style/ColorfulButtonBlue" />
     </LinearLayout>
 
 </RelativeLayout>
