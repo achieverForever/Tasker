@@ -14,6 +14,7 @@ import com.wilson.tasker.manager.OrientationManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+//CHECK
 public class OrientationCondition extends Condition {
 	private int targetOrientation;
 

@@ -13,19 +13,20 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+//CHECK
 public class ChargerCondition extends Condition {
-	public boolean charging;
+	public boolean isCharging;
 
-	public ChargerCondition(boolean charging) {
+	public ChargerCondition(boolean isCharging) {
 		super(Event.EVENT_CHARGER, "Charger", R.drawable.ic_charger);
-		this.charging = charging;
+		this.isCharging = isCharging;
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		ChargerEvent ev = (ChargerEvent) event;
-		return ev.isCharging == charging;
+		return ev.isCharging == isCharging;
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class ChargerCondition extends Condition {
 		}
 		title.setText("Charging");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		String typeStr = charging ? "" : "not ";
+		String typeStr = isCharging ? "" : "not ";
 		desc.setText("Trigger When Your Phone is " + typeStr + "Charging");
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;

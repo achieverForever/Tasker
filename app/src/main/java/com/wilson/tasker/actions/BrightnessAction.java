@@ -18,7 +18,7 @@ public class BrightnessAction extends Action {
 	@Override
 	public boolean performAction(Context context) {
 		// TODO - 接口不一致~
-//		DisplayManager.getsInstance(context).setBrightness();
+//		DisplayManager.getInstance(context).setBrightness();
 		return false;
 	}
 

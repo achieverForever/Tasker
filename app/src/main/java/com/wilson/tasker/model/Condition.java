@@ -21,10 +21,19 @@ public abstract class Condition {
 	public static final int STATE_UNSATISFIED = 0;
 	public static final int STATE_SATISFIED = 1;
 
+	/** 事件类型 */
 	public int eventCode;
+
+	/** Condition的当前状态 */
 	public int state;
+
+	/** Condition名称 */
 	public String name;
+
+	/** Condition的显示Icon */
 	public int iconRes;
+
+	/** Condition状态变化监听者 */
 	public transient ConditionStateChangedListener listener;
 
 	private boolean called = false;
@@ -53,13 +62,12 @@ public abstract class Condition {
 		if (!called) {
 			throw new IllegalStateException("Derived class must call through super.performCheckEvent().");
 		}
+		boolean changed = (satisfied && state == STATE_UNSATISFIED)
+				|| (!satisfied && state == STATE_SATISFIED);
+
 		// 更新条件的状态
-		if ((satisfied && state == STATE_UNSATISFIED) || (!satisfied && state == STATE_SATISFIED)) {
-			if (satisfied) {
-				state = STATE_SATISFIED;
-			} else {
-				state = STATE_UNSATISFIED;
-			}
+		if (changed) {
+			state = satisfied ? STATE_SATISFIED : STATE_UNSATISFIED;
 			listener.onConditionStateChanged(this, satisfied);
 		}
 	}
@@ -81,6 +89,11 @@ public abstract class Condition {
 	 */
 	public abstract View getView(Context context, ViewGroup parent);
 
+	/**
+	 * 确保进行满足性检验的是相同类型的Events
+	 *
+	 * @param event
+	 */
 	private void validateEvent(Event event) {
 		if (event.eventCode != this.eventCode) {
 			throw new IllegalStateException("Event type not match");

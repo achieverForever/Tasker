@@ -6,11 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.events.OrientationEvent;
 
 import de.greenrobot.event.EventBus;
 
+//CHECK
 public class OrientationManager implements SensorEventListener {
 
 	public static final int ORIENTATION_UNKNOWN = -1;
@@ -24,7 +24,7 @@ public class OrientationManager implements SensorEventListener {
 	private float[] orientationVector = new float[3];
 
 	private SensorManager sensorManager;
-	private boolean registered;
+	private boolean isRegistered;
 
 	private static OrientationManager sInstance;
 
@@ -40,19 +40,23 @@ public class OrientationManager implements SensorEventListener {
 	}
 
 	public void register() {
-		sensorManager.registerListener(this,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		registered = true;
+		if (!isRegistered) {
+			sensorManager.registerListener(this,
+					sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
+					SensorManager.SENSOR_DELAY_NORMAL);
+			isRegistered = true;
+		}
 	}
 
 	public void unregister() {
-		sensorManager.unregisterListener(this);
-		registered = false;
+		if (isRegistered) {
+			sensorManager.unregisterListener(this);
+			isRegistered = false;
+		}
 	}
 
 	public boolean isRegistered() {
-		return registered;
+		return isRegistered;
 	}
 
 	@Override

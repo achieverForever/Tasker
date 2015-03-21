@@ -142,7 +142,7 @@ public class BaiduMapActivity extends ActionBarActivity
 			public void onMapLongClick(LatLng latLng) {
 				clearOverlay();
 				OverlayOptions options = new MarkerOptions().position(latLng)
-					.icon(markerIcon).zIndex(9).draggable(true);
+						.icon(markerIcon).zIndex(9).draggable(true);
 				marker = (Marker) (baiduMap.addOverlay(options));
 				confirmBtn.setEnabled(true);
 
@@ -165,9 +165,11 @@ public class BaiduMapActivity extends ActionBarActivity
 			@Override
 			public void onMarkerDragStart(Marker marker) {
 			}
+
 			@Override
 			public void onMarkerDrag(Marker marker) {
 			}
+
 			@Override
 			public void onMarkerDragEnd(Marker marker) {
 				handleLocationSelected(marker.getPosition());
@@ -192,11 +194,11 @@ public class BaiduMapActivity extends ActionBarActivity
 					return;
 				}
 				MyLocationData locData = new MyLocationData.Builder()
-					.accuracy(location.getRadius())
-					.direction(100) // 此处设置开发者获取到的方向信息，顺时针0-360
-					.latitude(location.getLatitude())
-					.longitude(location.getLongitude())
-					.build();
+						.accuracy(location.getRadius())
+						.direction(100) // 此处设置开发者获取到的方向信息，顺时针0-360
+						.latitude(location.getLatitude())
+						.longitude(location.getLongitude())
+						.build();
 				baiduMap.setMyLocationData(locData);
 				if (isFirstLoc) {
 					isFirstLoc = false;
@@ -239,6 +241,7 @@ public class BaiduMapActivity extends ActionBarActivity
 				@Override
 				public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
 				}
+
 				@Override
 				public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
 					if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
@@ -268,18 +271,18 @@ public class BaiduMapActivity extends ActionBarActivity
 		markerNameView.setText(markerName);
 
 		InfoWindow.OnInfoWindowClickListener listener =
-			new InfoWindow.OnInfoWindowClickListener() {
-				@Override
-				public void onInfoWindowClick() {
-					EditMarkerNameDialog dialog = new EditMarkerNameDialog().newInstance(markerName);
-					dialog.registerOnMarkerNameEnteredListener(BaiduMapActivity.this);
-					dialog.show(getSupportFragmentManager(), "dialog");
-				}
-			};
+				new InfoWindow.OnInfoWindowClickListener() {
+					@Override
+					public void onInfoWindowClick() {
+						EditMarkerNameDialog dialog = new EditMarkerNameDialog().newInstance(markerName);
+						dialog.registerOnMarkerNameEnteredListener(BaiduMapActivity.this);
+						dialog.show(getSupportFragmentManager(), "dialog");
+					}
+				};
 
 		InfoWindow infoWindow =
-			new InfoWindow(BitmapDescriptorFactory.fromView(markerInfoView),
-				marker.getPosition(), -120, listener);
+				new InfoWindow(BitmapDescriptorFactory.fromView(markerInfoView),
+						marker.getPosition(), -120, listener);
 		baiduMap.showInfoWindow(infoWindow);
 	}
 

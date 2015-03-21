@@ -17,6 +17,7 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+//CHECK
 public class TopAppCondition extends Condition {
 	public String targetPkgName;
 

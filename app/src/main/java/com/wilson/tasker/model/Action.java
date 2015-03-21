@@ -29,10 +29,20 @@ public abstract class Action {
 	/**
 	 * 执行Action
 	 *
-	 * @param context
+	 * @param context Context对象
 	 * @return 成功返回true，否则为false
 	 */
 	public abstract boolean performAction(Context context);
+
+	/**
+	 * 回滚Action对系统的修改
+	 *
+	 * @param context Context对象
+	 * @return 成功返回true，否则返回false
+	 */
+	public boolean rollback(Context context) {
+		return true;
+	}
 
 	/**
 	 * 返回Action的View表示
@@ -41,5 +51,4 @@ public abstract class Action {
 	 * @param parent
 	 */
 	public abstract View getView(Context context, ViewGroup parent);
-
 }

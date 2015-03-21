@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SceneManager {
-	private static final String TAG = "DEBUG";
+	private static final String TAG = "SceneManager";
 
+	/** 单例 */
 	private static SceneManager sInstance = new SceneManager();
 
+	/** 所有Scene的列表，访问锁保护 */
 	private ArrayList<Scene> scenes;
 
 	public static SceneManager getInstance() {
@@ -25,7 +27,7 @@ public class SceneManager {
 		scenes = new ArrayList<>(5);
 	}
 
-	public List<Scene> findScenesByEvent(int eventCode) {
+	public synchronized List<Scene> findScenesByEvent(int eventCode) {
 		List<Scene> result = new ArrayList<>();
 		for (Scene s : scenes) {
 			final List<Condition> conditions = s.conditions;
@@ -48,20 +50,26 @@ public class SceneManager {
 		return success;
 	}
 
-	public void handleSceneDeactivated(Scene scene) {
+	public void handleSceneDeactivated(Context context, Scene scene) {
 		// TODO - implements me
 	}
 
-	public void addScene(Scene scene, Context context) {
+	public synchronized void addScene(Context context, Scene scene) {
 		scenes.add(scene);
 		registerManager(context, scene.conditions);
 	}
 
-	public void removeScene(Scene scene, Context context) {
+	public synchronized void removeScene(Context context, Scene scene) {
 		scenes.remove(scene);
 		unregisterManager(context, scene.conditions);
 	}
 
+	/**
+	 * 动态的按需启动各种系统设置的Manager，以减少资源占用
+	 *
+	 * @param context Context对象
+	 * @param conditions 新增加的Conditions
+	 */
 	private void registerManager(Context context, List<Condition> conditions) {
 		for (Condition c : conditions) {
 			switch (c.eventCode) {
@@ -91,8 +99,8 @@ public class SceneManager {
 				case Event.EVENT_TIME:
 					break;
 				case Event.EVENT_SMS:
-					if (!SmsManager.getsInstance(context).isRegistered()) {
-						SmsManager.getsInstance(context).register();
+					if (!SmsManager.getInstance(context).isRegistered()) {
+						SmsManager.getInstance(context).register();
 					}
 					break;
 				case Event.EVENT_TOP_APP_CHANGED:
@@ -111,8 +119,8 @@ public class SceneManager {
 //					}
 //					break;
 //				case Event.EVENT_CALLER:
-//					if (PhoneCallManager.getsInstance(context).isRegistered()) {
-//						PhoneCallManager.getsInstance(context).unregister();
+//					if (PhoneCallManager.getInstance(context).isRegistered()) {
+//						PhoneCallManager.getInstance(context).unregister();
 //					}
 //					break;
 //				case Event.EVENT_CHARGER:
@@ -124,15 +132,15 @@ public class SceneManager {
 //					// TODO - implement me
 //					break;
 //				case Event.EVENT_ORIENTATION:
-//					if (OrientationManager.getsInstance(context).isRegistered()) {
-//						OrientationManager.getsInstance(context).unregister();
+//					if (OrientationManager.getInstance(context).isRegistered()) {
+//						OrientationManager.getInstance(context).unregister();
 //					}
 //					break;
 //				case Event.EVENT_TIME:
 //					break;
 //				case Event.EVENT_SMS:
-//					if (SmsManager.getsInstance(context).isRegistered()) {
-//						SmsManager.getsInstance(context).unregister();
+//					if (SmsManager.getInstance(context).isRegistered()) {
+//						SmsManager.getInstance(context).unregister();
 //					}
 //					break;
 //				case Event.EVENT_TOP_APP_CHANGED:

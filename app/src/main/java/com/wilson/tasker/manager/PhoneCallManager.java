@@ -13,7 +13,7 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	private Context context;
 	private TelephonyManager telephonyManager;
-	private boolean registered;
+	private boolean isRegistered;
 	private static PhoneCallManager sInstance;
 
 	private PhoneCallManager(Context context) {
@@ -29,17 +29,21 @@ public class PhoneCallManager extends PhoneStateListener {
 	}
 
 	public void register() {
-		telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
-		registered = true;
+		if (!isRegistered) {
+			telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
+			isRegistered = true;
+		}
 	}
 
 	public void unregister() {
-		telephonyManager.listen(this, 0);
-		registered = false;
+		if (isRegistered) {
+			telephonyManager.listen(this, 0);
+			isRegistered = false;
+		}
 	}
 
 	public boolean isRegistered() {
-		return registered;
+		return isRegistered;
 	}
 
 	@Override
@@ -47,6 +51,7 @@ public class PhoneCallManager extends PhoneStateListener {
 		super.onCallStateChanged(state, incomingNumber);
 		if (state == TelephonyManager.CALL_STATE_RINGING) {
 			Log.d("Tasker", "state=" + state + "  incoming number=" + incomingNumber);
+
 			EventBus.getDefault().post(new CallerEvent(incomingNumber));
 		}
 	}

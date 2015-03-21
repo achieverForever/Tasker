@@ -13,10 +13,14 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+//CHECK
 public class BatteryLevelCondition extends Condition {
 	public enum BatteryLevelType {ABOVE, BELOW}
 
+	/** 电量类型 */
 	public BatteryLevelType type;
+
+	/** 电量值 0.0~1.0之间 */
 	public float targetValue;
 
 	public BatteryLevelCondition(BatteryLevelType type, float targetValue) {

@@ -71,7 +71,7 @@ public class TestActivity extends Activity {
 		final BatteryLevelMonitor batteryLevelMonitor = BatteryLevelMonitor.getInstance(this);
 		final OrientationManager orientationManager = OrientationManager.getsInstance(this);
 		final PhoneCallManager phoneCallManager = PhoneCallManager.getsInstance(this);
-		final SmsManager smsManager = SmsManager.getsInstance(this);
+		final SmsManager smsManager = SmsManager.getInstance(this);
 		final RingtoneManager ringtoneManager = RingtoneManager.getsInstance(this);
 
 		wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

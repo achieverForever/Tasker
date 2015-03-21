@@ -13,7 +13,7 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
-//TODO - implement me
+//TODO - 在围栏内部维持Scene的激活状态，离开围栏后恢复
 public class LocationCondition extends Condition {
 	public String geofencId;
 

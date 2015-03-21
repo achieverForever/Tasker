@@ -8,6 +8,7 @@ import com.wilson.tasker.events.SceneDeactivatedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.greenrobot.event.EventBus;
 
@@ -19,11 +20,23 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	public static final int STATE_DISABLED = 2;
 	public static final int STATE_ACTIVATED = 4;
 
+	/** Scene的名称 */
 	public String name;
+
+	/** Scene的简短文字描述 */
 	public String desc;
+
+	/** Scene的当前状态 */
 	public int state;
-	public List<Condition> conditions = new ArrayList<>();
-	public List<Action> actions = new ArrayList<>();
+
+	/** 如果为true，当Scene的条件不再满足时，自动回滚所有Actions */
+	public boolean isRollbackNeeded;
+
+	/** 线程安全的Scene的条件列表 */
+	public List<Condition> conditions = new CopyOnWriteArrayList<>();
+
+	/** 线程安全的Scene的动作列表 */
+	public List<Action> actions = new CopyOnWriteArrayList<>();
 
 	protected Scene() {
 		// Required empty constructor for serialize/deserialize
@@ -40,7 +53,7 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		}
 	}
 
-	public void dispatchEvent(Event event) {
+	public synchronized void dispatchEvent(Event event) {
 		for (Condition c : conditions) {
 			if (c.eventCode == event.eventCode) {
 				c.doCheckEvent(event);
@@ -59,7 +72,7 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	}
 
 	// Exposed for testing
-	public boolean checkIfReadyToRunScene() {
+	public synchronized boolean checkIfReadyToRunScene() {
 		for (Condition c : conditions) {
 			if (c.state == Condition.STATE_UNSATISFIED) {
 				return false;
@@ -68,10 +81,30 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		return true;
 	}
 
-	public boolean runScene(Context context) {
+	/**
+	 * 执行Scene的所有Actions
+	 *
+	 * @param context Context对象
+	 * @return 成功返回true，否则为false
+	 */
+	public synchronized boolean runScene(Context context) {
 		boolean success = true;
 		for (Action action : actions) {
 			success &= action.performAction(context);
+		}
+		return success;
+	}
+
+	/**
+	 * 当Scene的条件不再满足时，回滚该Scene的系统设置修改
+	 *
+	 * @param context Context对象
+	 * @return 成功返回true，否则为false
+	 */
+	public synchronized boolean rollback(Context context) {
+		boolean success = true;
+		for (Action action : actions) {
+			success &= action.rollback(context);
 		}
 		return success;
 	}

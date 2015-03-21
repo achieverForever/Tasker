@@ -14,33 +14,37 @@ import de.greenrobot.event.EventBus;
 
 public class SmsManager {
 	private Context context;
-	private boolean registered;
+	private boolean isRegistered;
 	private static SmsManager sInstance;
 
 	private SmsManager(Context context) {
 		this.context = context;
 	}
 
-	public static synchronized SmsManager getsInstance(Context context) {
+	public static synchronized SmsManager getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new SmsManager(context.getApplicationContext());
 		}
 		return sInstance;
 	}
 
-	public void register() {
-		IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-		context.registerReceiver(smsReceiver, intentFilter);
-		registered = true;
+	public synchronized void register() {
+		if (!isRegistered) {
+			IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+			context.registerReceiver(smsReceiver, intentFilter);
+			isRegistered = true;
+		}
 	}
 
-	public void unregister() {
-		context.unregisterReceiver(smsReceiver);
-		registered = false;
+	public synchronized void unregister() {
+		if (isRegistered) {
+			context.unregisterReceiver(smsReceiver);
+			isRegistered = false;
+		}
 	}
 
 	public boolean isRegistered() {
-		return registered;
+		return isRegistered;
 	}
 
 	public void sendSms(String number, String content) {
@@ -48,7 +52,7 @@ public class SmsManager {
 		smsManager.sendTextMessage(number, null, content, null, null);
 	}
 
-	public BroadcastReceiver smsReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver smsReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Bundle bundle = intent.getExtras();
@@ -66,6 +70,7 @@ public class SmsManager {
 						sb.append(msgBody);
 					}
 					Log.d("Tasker", "msg_from=" + msgFrom + ", msg_body=" + sb.toString());
+
 					EventBus.getDefault().post(new SmsEvent(msgFrom, sb.toString()));
 				}
 			}
