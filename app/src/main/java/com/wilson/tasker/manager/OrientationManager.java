@@ -32,7 +32,7 @@ public class OrientationManager implements SensorEventListener {
 		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
 
-	public static synchronized OrientationManager getsInstance(Context context) {
+	public static synchronized OrientationManager getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new OrientationManager(context.getApplicationContext());
 		}
@@ -95,7 +95,7 @@ public class OrientationManager implements SensorEventListener {
 			lastOrientation = ORIENTATION_FACE_UP;
 			lastReportOrientation = ORIENTATION_FACE_UP;
 			EventBus.getDefault().post(new OrientationEvent(ORIENTATION_FACE_UP));
-//			Log.d("Tasker", "face up");
+//			Log.d(Utils.LOG_TAG, "face up");
 		}
 	}
 
@@ -104,7 +104,7 @@ public class OrientationManager implements SensorEventListener {
 			lastOrientation = ORIENTATION_FACE_DOWN;
 			lastReportOrientation = ORIENTATION_FACE_DOWN;
 			EventBus.getDefault().post(new OrientationEvent(ORIENTATION_FACE_DOWN));
-//			Log.d("Tasker", "face down");
+//			Log.d(Utils.LOG_TAG, "face down");
 		}
 	}
 }

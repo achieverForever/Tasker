@@ -6,6 +6,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.wilson.tasker.events.CallerEvent;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
@@ -21,7 +22,7 @@ public class PhoneCallManager extends PhoneStateListener {
 		this.telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 	}
 
-	public static synchronized PhoneCallManager getsInstance(Context context) {
+	public static synchronized PhoneCallManager getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new PhoneCallManager(context.getApplicationContext());
 		}
@@ -50,7 +51,7 @@ public class PhoneCallManager extends PhoneStateListener {
 	public void onCallStateChanged(int state, String incomingNumber) {
 		super.onCallStateChanged(state, incomingNumber);
 		if (state == TelephonyManager.CALL_STATE_RINGING) {
-			Log.d("Tasker", "state=" + state + "  incoming number=" + incomingNumber);
+			Log.d(Utils.LOG_TAG, "call state=" + state + "  incoming number=" + incomingNumber);
 
 			EventBus.getDefault().post(new CallerEvent(incomingNumber));
 		}

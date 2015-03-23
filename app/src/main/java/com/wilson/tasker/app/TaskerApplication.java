@@ -12,16 +12,27 @@ import com.baidu.location.GeofenceClient;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wilson.tasker.actions.BluetoothAction;
+import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.WifiAction;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
-import com.wilson.tasker.conditions.ChargerCondition;
+import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
+import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.service.WorkerService;
+import com.wilson.tasker.utils.ActionTypeAdapter;
+import com.wilson.tasker.utils.ConditionTypeAdapter;
+import com.wilson.tasker.utils.SceneTypeAdapter;
+import com.wilson.tasker.utils.Utils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,36 +43,50 @@ public class TaskerApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d("TaskerApplication", String.format("onCreate: myPid=%d, myTid=%d, myUid=%d",
-				android.os.Process.myPid(), Process.myTid(), Process.myUid()));
 
 		// 初始化百度地图SDK
-		SDKInitializer.initialize(this);
+//		SDKInitializer.initialize(this);
 		startService(new Intent(this, WorkerService.class));
 		initDefaultScenes();
+
+		test();
 	}
 
 	private void initDefaultScenes() {
 		// TODO - 默认的几个Scene
-		List<Condition> emptyConditions = new ArrayList<>();
-		List<Action> emptyActions = new ArrayList<>();
-
-		List<Condition> batteryConditions = new ArrayList<>();
-		List<Action> batteryActions = new ArrayList<>();
 //		batteryConditions.add(new TopAppCondition("com.android.chrome"));
 //		batteryConditions.add(new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 0.8f));
-//		batteryConditions.add(new ChargerCondition(true));
-		batteryConditions.add(new SmsCondition("111", "hello"));
-		batteryActions.add(new BluetoothAction(true));
+//		batteryConditions.add(new TopAppCondition("com.android.chrome"));
+//		batteryConditions.add(new CallerCondition("123"));
 
-		Scene batteryScene = new Scene("battery", "Battery", batteryConditions, batteryActions);
-		Scene homeScene = new Scene("home", "Home", emptyConditions, emptyActions);
-		Scene sleepScene = new Scene("sleep", "Sleep", emptyConditions, emptyActions);
+		Scene batteryScene = new Scene("battery", "Battery", false);
+//		batteryScene.addCondition(new SmsCondition("123456", "hello"));
+		batteryScene.addCondition(new CallerCondition("26123"));
+//		batteryScene.addAction(new BluetoothAction(true));
+		batteryScene.addAction(new WifiAction(true));
+
+		Scene homeScene = new Scene("home", "Home", false);
+		Scene sleepScene = new Scene("sleep", "Sleep", false);
 
 		SceneManager.getInstance().addScene(this, batteryScene);
-		SceneManager.getInstance().addScene(this, homeScene);
-		SceneManager.getInstance().addScene(this, sleepScene);
 	}
 
+	private void test() {
+
+		BatteryLevelCondition condition = new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 100);
+		String streamCondition = Utils.GSON.toJson(condition, Condition.class);
+		BatteryLevelCondition condition2 = (BatteryLevelCondition) Utils.GSON.fromJson(streamCondition, Condition.class);
+
+		BrightnessAction action = new BrightnessAction(100);
+		String streamAction = Utils.GSON.toJson(action, Action.class);
+		BrightnessAction action2 = (BrightnessAction) Utils.GSON.fromJson(streamAction, Action.class);
+
+		Scene batteryScene = new Scene("battery", "Battery", false);
+		batteryScene.addCondition(new TopAppCondition("com.android.chrome"));
+		batteryScene.addAction(new BluetoothAction(true));
+		String streamScene = Utils.GSON.toJson(batteryScene, Scene.class);
+		Scene scene2 = Utils.GSON.fromJson(streamScene, Scene.class);
+
+	}
 
 }

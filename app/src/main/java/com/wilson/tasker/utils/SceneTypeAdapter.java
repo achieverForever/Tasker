@@ -42,9 +42,9 @@ public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 			actions.add(Utils.GSON.fromJson(jsonArray2.get(j), Action.class));
 		}
 
-		Scene scene = new Scene(name, desc, conditions, actions);
-		scene.state = state;
-		for (Condition c : scene.conditions) {
+		Scene scene = new Scene(name, desc, false);
+		scene.setState(state);
+		for (Condition c : scene.getConditions()) {
 			c.listener = scene;
 		}
 

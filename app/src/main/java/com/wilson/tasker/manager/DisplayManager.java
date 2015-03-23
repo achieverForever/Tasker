@@ -9,12 +9,13 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.wilson.tasker.utils.Utils;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 
 public class DisplayManager {
-	private static final String TAG = "DEBUG";
 
 	private Context context;
 	private static DisplayManager sInstance;
@@ -52,10 +53,10 @@ public class DisplayManager {
 		try {
 			int b = android.provider.Settings.System.getInt(context.getContentResolver(),
 					android.provider.Settings.System.SCREEN_BRIGHTNESS);
-			Log.d(TAG, "brightness=" + b);
+			Log.d(Utils.LOG_TAG, "brightness=" + b);
 		} catch (Settings.SettingNotFoundException e) {
 			e.printStackTrace();
-			Log.d(TAG, "brightness=" + -1);
+			Log.d(Utils.LOG_TAG, "brightness=" + -1);
 		}
 	}
 
@@ -92,7 +93,7 @@ public class DisplayManager {
 			try {
 				wm.setBitmap(bitmap);
 			} catch (IOException e) {
-				Log.e(TAG, "Error on decoding bitmap");
+				Log.e(Utils.LOG_TAG, "Error on decoding bitmap");
 			}
 		}
 	}

@@ -30,11 +30,11 @@ import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.ui.dialogs.AddConditionDialog;
 import com.wilson.tasker.ui.dialogs.AppListDialog;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
 public class SceneDetailFragment extends Fragment implements OnConditionChangedListener {
-	private static final String TAG = "DEBUG";
 
 	private EditText edtSceneName;
 	private Button btnSave;
@@ -80,10 +80,10 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 		actionList = (ListView) root.findViewById(R.id.lv_actions);
 		btnSave = (Button) root.findViewById(R.id.btn_save);
 
-		edtSceneName.setText(scene.desc);
+		edtSceneName.setText(scene.getDesc());
 		edtSceneName.setTypeface(FontManager.getsInstance().loadFont(getActivity(), "fonts/Roboto-Thin.ttf"));
-		conditionListAdapter = new ConditionListAdapter(getActivity(), scene.conditions, scene);
-		actionListAdapter = new ActionListAdapter(getActivity(), scene.actions, scene);
+		conditionListAdapter = new ConditionListAdapter(getActivity(), scene.getConditions(), scene);
+		actionListAdapter = new ActionListAdapter(getActivity(), scene.getActions(), scene);
 
 		setUpConditionList(inflater);
 		setUpActionList(inflater);
@@ -123,7 +123,7 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 						Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
 						startActivity(intent);
 					default:
-						Log.d(TAG, "hi");
+						Log.d(Utils.LOG_TAG, "hi");
 						break;
 				}
 			}
@@ -185,7 +185,7 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 	}
 
 	public void onEvent(SceneDetailEvent event) {
-		Log.d(TAG, "onEvent [" + Event.eventCodeToString(event.eventCode) + "]");
+		Log.d(Utils.LOG_TAG, "onEvent [" + Event.eventCodeToString(event.eventCode) + "]");
 		scene = event.scene;
 	}
 

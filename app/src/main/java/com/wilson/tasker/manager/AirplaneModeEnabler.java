@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
  * 开启/关闭飞行模式
  */
 public class AirplaneModeEnabler {
-	private static final String TAG = "DEBUG";
 
 	private Context context;
 	private static AirplaneModeEnabler sInstance;
@@ -49,14 +48,14 @@ public class AirplaneModeEnabler {
 //			StringBuilder log = new StringBuilder();
 //			if (enable) {
 //				Process process = Runtime.getRuntime().exec("settings put global airplane_mode_on 1".split(" "));
-//				Log.d(TAG, "exec output: " + getProcessOutput(process));
+//				Log.d(Utils.LOG_TAG, "exec output: " + getProcessOutput(process));
 //				Process process2 = Runtime.getRuntime().exec("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true".split(" "));
-//				Log.d(TAG, "exec output: " + getProcessOutput(process2));
+//				Log.d(Utils.LOG_TAG, "exec output: " + getProcessOutput(process2));
 //			} else {
 //				Process process = Runtime.getRuntime().exec("settings put global airplane_mode_on 0".split(" "));
-//				Log.d(TAG, "exec output: " + getProcessOutput(process));
+//				Log.d(Utils.LOG_TAG, "exec output: " + getProcessOutput(process));
 //				Process process2 = Runtime.getRuntime().exec("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false".split(" "));
-//				Log.d(TAG, "exec output: " + getProcessOutput(process2));
+//				Log.d(Utils.LOG_TAG, "exec output: " + getProcessOutput(process2));
 //			}
 //		} catch (IOException e) {
 //			e.printStackTrace();

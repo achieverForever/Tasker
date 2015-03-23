@@ -1,6 +1,7 @@
 package com.wilson.tasker.conditions;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,29 @@ import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
+import com.wilson.tasker.utils.Utils;
+
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class SmsCondition extends Condition {
-	public String msgFrom;
-	public String msgBody;
+	public static final String DOT_ALL = ".*";
 
-	public SmsCondition(String msgFrom, String msgBody) {
+	public String msgFromPtn;
+	public String msgBodyPtn;
+
+	public SmsCondition(String msgFromPtn, String msgBody) {
 		super(Event.EVENT_SMS, "SMS", R.drawable.ic_sms);
-		this.msgFrom = msgFrom.trim();
-		this.msgBody = msgBody.trim();
+		this.msgFromPtn = DOT_ALL + msgFromPtn.trim() + DOT_ALL;
+		this.msgBodyPtn = DOT_ALL + msgBody.trim() + DOT_ALL;
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		SmsEvent ev = (SmsEvent) event;
-		if (msgFrom.equals("*")) {
-			return msgBody.equals(ev.msgBody.trim());
-		} else {
-			return msgFrom.equals(ev.msgFrom.trim()) && msgBody.equals(ev.msgBody.trim());
-		}
+		return Pattern.matches(msgFromPtn, ev.msgFrom)
+			&& Pattern.matches(msgBodyPtn, ev.msgBody);
 	}
 
 	@Override

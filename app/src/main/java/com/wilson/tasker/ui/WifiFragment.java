@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wilson.tasker.R;
+import com.wilson.tasker.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class WifiFragment extends Fragment {
 				NetworkItem selected = networks.get(position);
 				wifiManager.disconnect();
 				boolean ret = wifiManager.enableNetwork(selected.networkId, true);
-				Log.d("WifiFragment", "enable network " + selected.ssid + " returned " + ret);
+				Log.d(Utils.LOG_TAG, "enable network " + selected.ssid + " returned " + ret);
 			}
 		});
 	}

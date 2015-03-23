@@ -7,12 +7,12 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.wilson.tasker.events.TopAppChangedEvent;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
 //CHECK
 public class ApplicationManager {
-	private static final String TAG = "ApplicationManager";
 
 	private static ApplicationManager sInstance;
 	private ActivityManager am;
@@ -34,12 +34,12 @@ public class ApplicationManager {
 
 	public boolean checkTopApp() {
 		String pkgName = am.getRunningTasks(1).get(0).topActivity.getPackageName();
-		Log.d(TAG, "package name: " + pkgName);
+		Log.d(Utils.LOG_TAG, "package name: " + pkgName);
 		if (!lastPkgName.equals(pkgName)) {
 			lastPkgName = pkgName;
 			Intent launchIntent = pm.getLaunchIntentForPackage(pkgName);
 			notifyTopAppChanged(pkgName, launchIntent);
-			Log.d(TAG, "Top app changed: pkgName=" + pkgName + ", intent=" + launchIntent.toString());
+			Log.d(Utils.LOG_TAG, "Top app changed: pkgName=" + pkgName + ", intent=" + launchIntent.toString());
 			return true;
 		} else {
 			return false;

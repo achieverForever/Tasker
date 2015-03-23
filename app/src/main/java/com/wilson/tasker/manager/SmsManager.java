@@ -9,6 +9,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.wilson.tasker.events.SmsEvent;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
@@ -69,7 +70,7 @@ public class SmsManager {
 						String msgBody = msgs[i].getMessageBody();
 						sb.append(msgBody);
 					}
-					Log.d("Tasker", "msg_from=" + msgFrom + ", msg_body=" + sb.toString());
+					Log.d(Utils.LOG_TAG, "msg_from=" + msgFrom + ", msg_body=" + sb.toString());
 
 					EventBus.getDefault().post(new SmsEvent(msgFrom, sb.toString()));
 				}

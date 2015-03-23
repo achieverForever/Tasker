@@ -9,7 +9,6 @@ import com.wilson.tasker.R;
 
 
 public class SceneListActivity extends BaseActivity {
-	private static final String TAG = "DEBUG";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

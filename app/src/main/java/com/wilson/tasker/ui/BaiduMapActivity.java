@@ -41,13 +41,13 @@ import com.wilson.tasker.app.TaskerApplication;
 import com.wilson.tasker.events.AddGeofenceEvent;
 import com.wilson.tasker.service.WorkerService;
 import com.wilson.tasker.ui.dialogs.EditMarkerNameDialog;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
 public class BaiduMapActivity extends ActionBarActivity
 		implements EditMarkerNameDialog.OnMarkerNameEnteredListener {
 
-	public static final String TAG = "Location";
 	public static final int HOUR = 60 * 60 * 1000;
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
@@ -153,7 +153,7 @@ public class BaiduMapActivity extends ActionBarActivity
 		baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
 			@Override
 			public boolean onMarkerClick(final Marker marker) {
-				Log.d(TAG, "marker click");
+				Log.d(Utils.LOG_TAG, "marker click");
 				EditMarkerNameDialog dialog = new EditMarkerNameDialog().newInstance(markerName);
 				dialog.registerOnMarkerNameEnteredListener(BaiduMapActivity.this);
 				dialog.show(getSupportFragmentManager(), "dialog");
@@ -251,7 +251,7 @@ public class BaiduMapActivity extends ActionBarActivity
 						// 获取反地理编码结果
 						markerName = result.getAddress();
 					}
-					Log.d(TAG, "reverse geocode result: " + result.getAddress());
+					Log.d(Utils.LOG_TAG, "reverse geocode result: " + result.getAddress());
 					showInfoWindow();
 				}
 			};

@@ -13,11 +13,11 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.ui.wiget.FillableCircleView;
+import com.wilson.tasker.utils.Utils;
 
 import java.util.List;
 
 public class SceneListAdapter extends BaseAdapter {
-	private static final String TAG = "DEBUG";
 
 	private LayoutInflater inflater;
 	private List<Scene> scenes;
@@ -27,7 +27,6 @@ public class SceneListAdapter extends BaseAdapter {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 		this.scenes = SceneManager.getInstance().getScenes();
-		Log.d(TAG, "# scenes=" + scenes.size());
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public class SceneListAdapter extends BaseAdapter {
 		TextView sceneName = (TextView) convertView.findViewById(R.id.tv_scene_name);
 		sceneName.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		label.setText(String.valueOf(position + 1));
-		sceneName.setText(scene.desc);
+		sceneName.setText(scene.getDesc());
 		return convertView;
 	}
 }

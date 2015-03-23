@@ -9,12 +9,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.wilson.tasker.events.ChargerEvent;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
 //CHECK
 public class BatteryLevelMonitor {
-	public static final String TAG = "BatteryLevelMonitor";
 
 	/** Context对象 */
 	private Context context;
@@ -76,7 +76,7 @@ public class BatteryLevelMonitor {
 					status == BatteryManager.BATTERY_STATUS_FULL);
 			if (isChargingNow != isCharging) {
 				isCharging = isChargingNow;
-				Log.d("BatteryLevelMonitor", "isCharing=" + isCharging);
+				Log.d(Utils.LOG_TAG, "isCharing=" + isCharging);
 				EventBus.getDefault().post(new ChargerEvent(isCharging));
 			}
 		}

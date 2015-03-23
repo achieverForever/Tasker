@@ -12,6 +12,7 @@ import com.wilson.tasker.manager.PhoneCallManager;
 import com.wilson.tasker.manager.RingtoneManager;
 import com.wilson.tasker.manager.SmsManager;
 import com.wilson.tasker.manager.WifiManager;
+import com.wilson.tasker.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +29,6 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 
 public class TestActivity extends Activity {
-	private static final String TAG = "DEBUG";
 
 	private Switch wifi;
 	private Switch bluetooth;
@@ -69,8 +69,8 @@ public class TestActivity extends Activity {
 		final AirplaneModeEnabler airplaneModeEnabler = AirplaneModeEnabler.getInstance(this);
 		final DisplayManager displayManager = DisplayManager.getsInstance(this);
 		final BatteryLevelMonitor batteryLevelMonitor = BatteryLevelMonitor.getInstance(this);
-		final OrientationManager orientationManager = OrientationManager.getsInstance(this);
-		final PhoneCallManager phoneCallManager = PhoneCallManager.getsInstance(this);
+		final OrientationManager orientationManager = OrientationManager.getInstance(this);
+		final PhoneCallManager phoneCallManager = PhoneCallManager.getInstance(this);
 		final SmsManager smsManager = SmsManager.getInstance(this);
 		final RingtoneManager ringtoneManager = RingtoneManager.getsInstance(this);
 
@@ -99,7 +99,7 @@ public class TestActivity extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 				int newBrightness = (int) (20 + (255 - 20) * i * 0.01f);
-				Log.d(TAG, "value=" + i + ", newBrightness=" + newBrightness);
+				Log.d(Utils.LOG_TAG, "value=" + i + ", newBrightness=" + newBrightness);
 				displayManager.setBrightness(TestActivity.this, newBrightness);
 			}
 
@@ -127,7 +127,7 @@ public class TestActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				int time = Integer.parseInt(timeOut.getText().toString());
-				Log.d(TAG, "timeout=" + time);
+				Log.d(Utils.LOG_TAG, "timeout=" + time);
 				displayManager.setScreenOffTimeout(time);
 			}
 		});
@@ -136,7 +136,7 @@ public class TestActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				float percentage = batteryLevelMonitor.getCurrentBatteryLevel();
-				Log.d(TAG, "current battery level=" + percentage);
+				Log.d(Utils.LOG_TAG, "current battery level=" + percentage);
 			}
 		});
 
@@ -192,10 +192,10 @@ public class TestActivity extends Activity {
 				String ringTonePath = uri.toString();
 				android.media.RingtoneManager.setActualDefaultRingtoneUri(this,
 						android.media.RingtoneManager.TYPE_RINGTONE, uri);
-				Log.d(TAG, "ringtone Uri=" + ringTonePath);
+				Log.d(Utils.LOG_TAG, "ringtone Uri=" + ringTonePath);
 			} else {
 				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, null);
-				Log.d(TAG, "silence selected");
+				Log.d(Utils.LOG_TAG, "silence selected");
 			}
 		} else if (requestCode == RingtoneManager.REQUEST_CODE_SET_NOTIFICATION && resultCode == RESULT_OK) {
 			// Set notification to the returned Uri
@@ -204,10 +204,10 @@ public class TestActivity extends Activity {
 				String notiPath = uri.toString();
 				android.media.RingtoneManager.setActualDefaultRingtoneUri(this,
 						android.media.RingtoneManager.TYPE_NOTIFICATION, uri);
-				Log.d(TAG, "ringtone Uri=" + notiPath);
+				Log.d(Utils.LOG_TAG, "ringtone Uri=" + notiPath);
 			} else {
 				Settings.System.putString(this.getContentResolver(), Settings.System.NOTIFICATION_SOUND, null);
-				Log.d(TAG, "silence selected");
+				Log.d(Utils.LOG_TAG, "silence selected");
 			}
 		}
 	}

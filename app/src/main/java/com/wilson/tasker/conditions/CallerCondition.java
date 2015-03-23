@@ -13,20 +13,25 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 
 public class CallerCondition extends Condition {
-	public String callerNumber;
+	public static final String DOT_ALL = ".*";
 
-	public CallerCondition(String callerNumber) {
+	public String callerNumberPtn;
+
+	public CallerCondition(String callerNumberPtn) {
 		super(Event.EVENT_CALLER, "Caller", R.drawable.ic_caller);
-		this.callerNumber = callerNumber;
+		this.callerNumberPtn = DOT_ALL + callerNumberPtn.trim() + DOT_ALL;
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		CallerEvent ev = (CallerEvent) event;
-		return ev.incomingNumber.equals(callerNumber);
+		return Pattern.matches(callerNumberPtn, ev.incomingNumber);
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class CallerCondition extends Condition {
 		}
 		title.setText("Phone Call");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		desc.setText("Trigger When Caller's Number contains " + callerNumber);
+		desc.setText("Trigger When Caller's Number contains " + callerNumberPtn);
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;
 	}

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
+import com.wilson.tasker.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,36 +22,34 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	public static final int STATE_ACTIVATED = 4;
 
 	/** Scene的名称 */
-	public String name;
+	private String name;
 
 	/** Scene的简短文字描述 */
-	public String desc;
+	private String desc;
 
 	/** Scene的当前状态 */
-	public int state;
+	private int state;
 
 	/** 如果为true，当Scene的条件不再满足时，自动回滚所有Actions */
-	public boolean isRollbackNeeded;
+	private boolean isRollbackNeeded;
 
 	/** 线程安全的Scene的条件列表 */
-	public List<Condition> conditions = new CopyOnWriteArrayList<>();
+	private List<Condition> conditions;
 
 	/** 线程安全的Scene的动作列表 */
-	public List<Action> actions = new CopyOnWriteArrayList<>();
+	private List<Action> actions;
 
 	protected Scene() {
 		// Required empty constructor for serialize/deserialize
 	}
 
-	public Scene(String name, String desc, List<Condition> conditions, List<Action> actions) {
+	public Scene(String name, String desc, boolean isRollbackNeeded) {
 		this.name = name;
 		this.desc = desc;
+		this.isRollbackNeeded = isRollbackNeeded;
 		this.state = STATE_ENABLED;
-		this.conditions = conditions;
-		this.actions = actions;
-		for (Condition c : this.conditions) {
-			c.listener = this;
-		}
+		conditions = new CopyOnWriteArrayList<>();
+		actions = new CopyOnWriteArrayList<>();
 	}
 
 	public synchronized void dispatchEvent(Event event) {
@@ -65,7 +64,7 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	public void scheduleToRunScene() {
 		boolean readyToRunScene = checkIfReadyToRunScene();
 		if (readyToRunScene) {
-			Log.d("Tasker", "Scene [" + name + "] activated");
+			Log.d(Utils.LOG_TAG, "Scene [" + name + "] activated");
 			state = STATE_ACTIVATED;
 			notifySceneActivated();
 		}
@@ -122,7 +121,7 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		if (satisfied) {
 			scheduleToRunScene();
 		} else if (state == STATE_ACTIVATED) {
-			Log.d("Tasker", "Scene [" + name + "] deactivated");
+			Log.d(Utils.LOG_TAG, "Scene [" + name + "] deactivated");
 			state = STATE_ENABLED;
 			notifySceneDeactivated();
 		}
@@ -130,6 +129,24 @@ public class Scene implements Condition.ConditionStateChangedListener {
 
 	public void setEnabled(boolean enabled) {
 		state = enabled ? STATE_ENABLED : STATE_DISABLED;
+	}
+
+	public void addCondition(Condition condition) {
+		conditions.add(condition);
+		condition.listener = this;
+	}
+
+	public void removeCondition(Condition condition) {
+		conditions.remove(condition);
+		condition.listener = null;
+	}
+
+	public void addAction(Action action) {
+		actions.add(action);
+	}
+
+	public void removeAction(Action action) {
+		actions.remove(action);
 	}
 
 	@Override
@@ -144,5 +161,47 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		}
 		Scene other = (Scene) o;
 		return this.name.equals(other.name);
+	}
+
+
+	/* --------------------- Getters and Setters --------------------------- */
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public boolean isRollbackNeeded() {
+		return isRollbackNeeded;
+	}
+
+	public void setIsRollbackNeeded(boolean isRollbackNeeded) {
+		this.isRollbackNeeded = isRollbackNeeded;
+	}
+
+	public List<Condition> getConditions() {
+		return conditions;
+	}
+
+	public List<Action> getActions() {
+		return actions;
 	}
 }

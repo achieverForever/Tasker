@@ -30,11 +30,7 @@ public class TopAppCondition extends Condition {
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		TopAppChangedEvent ev = (TopAppChangedEvent) event;
-		if (targetPkgName.equals(ev.pkgName)) {
-			return true;
-		} else {
-			return false;
-		}
+		return targetPkgName.equals(ev.pkgName);
 	}
 
 	@Override

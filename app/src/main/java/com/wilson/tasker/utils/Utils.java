@@ -8,6 +8,8 @@ import com.wilson.tasker.model.Scene;
 
 public class Utils {
 
+	public static final String LOG_TAG = "Tasker";
+
 	public static final Gson GSON;
 
 	static {

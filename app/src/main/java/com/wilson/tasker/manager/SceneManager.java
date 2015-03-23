@@ -6,12 +6,15 @@ import android.util.Log;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
+import com.wilson.tasker.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SceneManager {
-	private static final String TAG = "SceneManager";
+	public static final String KEY_SCENES = "scenes";
 
 	/** 单例 */
 	private static SceneManager sInstance = new SceneManager();
@@ -30,7 +33,7 @@ public class SceneManager {
 	public synchronized List<Scene> findScenesByEvent(int eventCode) {
 		List<Scene> result = new ArrayList<>();
 		for (Scene s : scenes) {
-			final List<Condition> conditions = s.conditions;
+			final List<Condition> conditions = s.getConditions();
 			for (Condition c : conditions) {
 				if (c.eventCode == eventCode && result.indexOf(s) == -1) {
 					result.add(s);
@@ -43,9 +46,9 @@ public class SceneManager {
 	public boolean handleSceneActivated(Context context, Scene scene) {
 		boolean success = scene.runScene(context);
 		if (success) {
-			Log.d(TAG, "runScene [" + scene.toString() + "] succeeded.");
+			Log.d(Utils.LOG_TAG, "runScene [" + scene.toString() + "] succeeded.");
 		} else {
-			Log.d(TAG, "runScene [" + scene.toString() + "] failed.");
+			Log.d(Utils.LOG_TAG, "runScene [" + scene.toString() + "] failed.");
 		}
 		return success;
 	}
@@ -56,12 +59,17 @@ public class SceneManager {
 
 	public synchronized void addScene(Context context, Scene scene) {
 		scenes.add(scene);
-		registerManager(context, scene.conditions);
+		registerManager(context, scene.getConditions());
 	}
 
 	public synchronized void removeScene(Context context, Scene scene) {
 		scenes.remove(scene);
-		unregisterManager(context, scene.conditions);
+		unregisterManager(context, scene.getConditions());
+	}
+
+	public synchronized void changeScene(Context context, Scene oldScene, Scene newScene) {
+		removeScene(context, oldScene);
+		addScene(context, newScene);
 	}
 
 	/**
@@ -79,8 +87,8 @@ public class SceneManager {
 					}
 					break;
 				case Event.EVENT_CALLER:
-					if (!PhoneCallManager.getsInstance(context).isRegistered()) {
-						PhoneCallManager.getsInstance(context).register();
+					if (!PhoneCallManager.getInstance(context).isRegistered()) {
+						PhoneCallManager.getInstance(context).register();
 					}
 					break;
 				case Event.EVENT_CHARGER:
@@ -92,8 +100,8 @@ public class SceneManager {
 					// TODO - implement me
 					break;
 				case Event.EVENT_ORIENTATION:
-					if (!OrientationManager.getsInstance(context).isRegistered()) {
-						OrientationManager.getsInstance(context).register();
+					if (!OrientationManager.getInstance(context).isRegistered()) {
+						OrientationManager.getInstance(context).register();
 					}
 					break;
 				case Event.EVENT_TIME:
@@ -110,43 +118,69 @@ public class SceneManager {
 	}
 
 	private void unregisterManager(Context context, List<Condition> conditions) {
-		// TODO - 通过引用计数控制反注册
-//		for (Condition c : conditions) {
-//			switch (c.eventCode) {
-//				case Event.EVENT_BATTERY_LEVEL:
-//					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
-//						BatteryLevelMonitor.getInstance(context).unregister();
-//					}
-//					break;
-//				case Event.EVENT_CALLER:
-//					if (PhoneCallManager.getInstance(context).isRegistered()) {
-//						PhoneCallManager.getInstance(context).unregister();
-//					}
-//					break;
-//				case Event.EVENT_CHARGER:
-//					if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
-//						BatteryLevelMonitor.getInstance(context).unregister();
-//					}
-//					break;
-//				case Event.EVENT_LOCATION:
-//					// TODO - implement me
-//					break;
-//				case Event.EVENT_ORIENTATION:
-//					if (OrientationManager.getInstance(context).isRegistered()) {
-//						OrientationManager.getInstance(context).unregister();
-//					}
-//					break;
-//				case Event.EVENT_TIME:
-//					break;
-//				case Event.EVENT_SMS:
-//					if (SmsManager.getInstance(context).isRegistered()) {
-//						SmsManager.getInstance(context).unregister();
-//					}
-//					break;
-//				case Event.EVENT_TOP_APP_CHANGED:
-//					break;
-//			}
-//		}
+		// 找出不再被引用的Manager
+		Map<Integer, Boolean> registrationMap = new HashMap<>();
+		for (Condition condition : Condition.asList()) {
+			registrationMap.put(condition.eventCode, false);
+		}
+
+		for (Scene scene : SceneManager.getInstance().getScenes()) {
+			if (scene.getState() == Scene.STATE_ENABLED) {
+				for (Condition condition : scene.getConditions()) {
+					if (!registrationMap.get(condition.eventCode)) {
+						registrationMap.put(condition.eventCode, true);
+					}
+				}
+			}
+		}
+
+		for (Map.Entry<Integer, Boolean> entry : registrationMap.entrySet()) {
+			if (!entry.getValue()) {
+				final int eventCode = entry.getKey();
+				doUnregisterManager(context, eventCode);
+			}
+		}
+	}
+
+	private void doUnregisterManager(Context context, int eventCode) {
+		switch (eventCode) {
+			case Event.EVENT_CALLER:
+				if (PhoneCallManager.getInstance(context).isRegistered()) {
+					PhoneCallManager.getInstance(context).unregister();
+					Log.d(Utils.LOG_TAG, "unregister PhoneCallManager");
+				}
+				break;
+			case Event.EVENT_CHARGER:
+				if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
+					BatteryLevelMonitor.getInstance(context).unregister();
+					Log.d(Utils.LOG_TAG, "unregister BatteryLevelMonitor");
+				}
+				break;
+			case Event.EVENT_LOCATION:
+				// TODO - implement me
+				break;
+			case Event.EVENT_ORIENTATION:
+				if (OrientationManager.getInstance(context).isRegistered()) {
+					OrientationManager.getInstance(context).unregister();
+					Log.d(Utils.LOG_TAG, "unregister OrientationManager");
+				}
+				break;
+			case Event.EVENT_SMS:
+				if (SmsManager.getInstance(context).isRegistered()) {
+					SmsManager.getInstance(context).unregister();
+					Log.d(Utils.LOG_TAG, "unregister SmsManager");
+				}
+				break;
+
+			// 以下事件无需反注册
+			case Event.EVENT_TOP_APP_CHANGED:
+			case Event.EVENT_TIME:
+			case Event.EVENT_BATTERY_LEVEL:
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	public ArrayList<Scene> getScenes() {

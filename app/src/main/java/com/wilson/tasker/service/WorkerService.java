@@ -5,10 +5,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.*;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.IBinder;
 import android.os.Process;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.baidu.location.BDGeofence;
 import com.baidu.location.BDLocationStatusCodes;
@@ -36,8 +37,9 @@ import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 
+//TODO - 将定位相关代码从Service中剥离
 public class WorkerService extends Service {
-	private static final String TAG = "WorkerService";
+	public static final String TAG = "WorkerService";
 
 	public static final int SECOND = 1000;
 	public static final int MINUTE = 60 * SECOND;
@@ -93,6 +95,8 @@ public class WorkerService extends Service {
 		thread.start();
 		handler = new Handler(thread.getLooper());
 
+		scheduleSelf();
+
 		EventBus.getDefault().register(this);
 	}
 
@@ -111,7 +115,6 @@ public class WorkerService extends Service {
 			}
 		});
 
-		scheduleSelf();
 		return START_STICKY;
 	}
 
@@ -163,7 +166,7 @@ public class WorkerService extends Service {
 					return;
 				}
 				for (Scene s : interestedScenes) {
-					if (s.state == Scene.STATE_DISABLED) {
+					if (s.getState() == Scene.STATE_DISABLED) {
 						continue;
 					}
 					// 将事件分发到对应的Scene进行处理
@@ -179,8 +182,8 @@ public class WorkerService extends Service {
 	private void checkConditions() {
 		Map<Integer, List<Scene>> scenesByEventType = new HashMap<>();
 		for (Scene scene : SceneManager.getInstance().getScenes()) {
-			if (scene.state != Scene.STATE_DISABLED) {
-				for (Condition condition : scene.conditions) {
+			if (scene.getState() != Scene.STATE_DISABLED) {
+				for (Condition condition : scene.getConditions()) {
 					if (PASSIVE_POLLING_CONDITIONS.contains(condition.eventCode)) {
 						if (scenesByEventType.get(condition.eventCode) == null) {
 							scenesByEventType.put(condition.eventCode, new ArrayList<Scene>());
@@ -233,7 +236,8 @@ public class WorkerService extends Service {
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(this, WorkerService.class);
 		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, pi);
+//		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, pi);
+		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, SCHEDULE_INTERVAL, pi);
 	}
 
 	private void handleAddGeofenceEvent(AddGeofenceEvent event) {
