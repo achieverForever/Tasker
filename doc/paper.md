@@ -15,11 +15,15 @@
 
 ### 摘要
 
-这里写摘要。。。
-项目背景，研究现状，项目特点，应用价值，主要技术点bla，bla，bla
-关键词：条件触发，自动任务，LBS，Android
-貌似还要英文版的Abstract
-
+在移动互联网的时代，android平台早已经普及开来。人类正在前所未有的享受着科技所带来的前所未有的便利。而随着各种移动设备以及物联网的普及，人类可以让软件实现更加智能的管理各种设备。比如在晚上休息时不想被人打扰，可以自动的屏蔽手机上Email、短信、电话的接受，而等到明天早上才自动提醒用户；又比如当你打开Instagram分享照片时，你可能想把所分享的照片同时上传到你的Dropbox同步盘上。
+本文就基于条件触发的Android自动化任务执行App进行设计和研究。本文首先介绍分析了当前基于情景等条件触发的app研究现状。然后介绍可以触发任务的情景，例如获取到用户的位置就应该调用相关的位置服务（LBS），设计好相关的情景是这个系统成功的关键。然后在介绍运用的Android开发技术，
+论文给出了Android应用Tasker的实例。该实例实现了几种常用的自动化情景，以及提供接口给用户自定义情景任务。
+**关键词**：*Android* *条件触发*，*自动任务*，*LBS*，
+###Abstract
+In the mobile Internet era, android platform already gaining in popularity. Mankind is enjoying unprecedented technology brought unprecedented convenience. With a variety of mobile devices and the popularity of things that humans can make software more intelligent management of various devices. For example, do not want to be disturbed during the night to rest, the phone can automatically shield Email, SMS, telephone acceptance, and wait until tomorrow morning to automatically alert users; another example, when you open Instagram to share photos, you might want to have shared uploading photos to your Dropbox sync disk.
+In this paper, based on the conditions to trigger automated tasks Android App for the design and execution of research. This paper describes the current study analyzes the status quo scenario-based app trigger conditions. Then introduce scenarios can trigger tasks, such as access to the user's location should call the relevant location-based services (LBS), good design is the key to this scenario related to the system's success. Then introduce the use of Android development technology,
+Paper gives an example of Tasker's Android application. This example implements several common automation scenarios, as well as providing an interface to a user-defined profile task.
+**Key Words:** *Android app*, *automated tasks*, *LBS*
 
 ### 目录
 
