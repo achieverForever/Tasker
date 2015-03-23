@@ -25,6 +25,7 @@ In this paper, based on the conditions to trigger automated tasks Android App fo
 Paper gives an example of Tasker's Android application. This example implements several common automation scenarios, as well as providing an interface to a user-defined profile task.
 **Key Words:** *Android app*, *automated tasks*, *LBS*
 
+
 ### 目录
 
 **摘要**
@@ -84,4 +85,30 @@ Paper gives an example of Tasker's Android application. This example implements 
 ### 第二章  基本模型与原理
 经过分析，我们建立了以下几个Model表示App的数据结构，分别是Condition，Action，Scene和Event。其中Event用于在EventBus中传递消息，携带了事件类型及其参数。Condition是对一个条件的抽象，包含条件的状态，参数等信息。Action是各种操作的抽象表示，泛指一个可以执行的操作，例如修改系统某项设置，发短信，播放音乐等等。Scene表示情景，一个情景是由若干个Condition和若干个Action组成的。当且仅当所有Condition都满足的时候，该情景的Action才会执行。下面详细讨论每个Model的定义：
  
+### Event
 所有事件都继承自Event，这使得可以在一个中心化的位置统一处理所有事件，并能根据需求实现事件的分发逻辑。针对不同类型的事件，我们将eventCode这个字段作为事件类型的标识。由于涉及到事件类型的转换，所以在进行事件的比较和转换前，我们加上了对这个字段的校验，只有eventCode相同才能通过校验，否则会抛异常。
+本App引用了第三方库EventBus作为消息分发机制，下面简要介绍一下EventBus的功能和架构。
+
+### EventBus
+EventBus 是一个 Android 事件发布/订阅框架，通过解耦发布者和订阅者简化 Android 事件传递，这里的事件可以理解为消息，本文中统一称为事件。事件传递既可用于 Android 四大组件间通讯，也可以用户异步线程和主线程间通讯等等。
+传统的事件传递方式包括：Handler、BroadCastReceiver、Interface 回调，相比之下 EventBus 的优点是代码简洁，使用简单，并将事件发布和订阅充分解耦。
+
+事件(Event)：又可称为消息，本文中统一用事件表示。其实就是一个对象，可以是网络请求返回的字符串，也可以是某个开关状态等等。事件类型(EventType)指事件所属的 Class。
+事件分为一般事件和 Sticky 事件，相对于一般事件，Sticky 事件不同之处在于，当事件发布后，再有订阅者开始订阅该类型事件，依然能收到该类型事件最近一个 Sticky 事件。
+
+订阅者(Subscriber)：订阅某种事件类型的对象。当有发布者发布这类事件后，EventBus 会执行订阅者的 onEvent 函数，这个函数叫事件响应函数。订阅者通过 register 接口订阅某个事件类型，unregister 接口退订。订阅者存在优先级，优先级高的订阅者可以取消事件继续向优先级低的订阅者分发，默认所有订阅者优先级都为 0。
+
+发布者(Publisher)：发布某事件的对象，通过 post 接口发布事件。
+![](https://dn-raysnote.qbox.me/p%2Fnotes%2F03cd0cd5028fbf8 "EventBus和发布者、订阅者的关系")
+EventBus 负责存储订阅者、事件相关信息，订阅者和发布者都只和 EventBus 关联。
+
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2Fad0eceee5e15d1d "事件响应流程")
+订阅者首先调用 EventBus 的 register 接口订阅某种类型的事件，当发布者通过 post 接口发布该类型的事件时，EventBus 执行调用者的事件响应函数。
+
+EventBus还提供了对多线程的支持，事件分发可以与事件投递线程不一样。例如，Android对UI相关代码的修改都必须在MainThread中进行，而网络、数据库等其他耗时的操作则不能再MainThread中执行。EventBus提供了三种不同的ThreadMode，可选择调用onEvent()方法的执行线程。
+- PostThread 订阅者的onEvent()方法与事件发布线程一致；
+- BackgroundThread 如果事件发布线程不是MainThread，则直接在事件发布线程执行；否则，使用唯一的后台线程执行onEvent()方法。
+- Async 事件处理方法将会在单独的线程中执行，而且不会影响事件发布线程和MainThread。EventBus使用线程池来有效的管理线程的复用。
+
+
+
