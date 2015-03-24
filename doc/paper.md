@@ -119,3 +119,5 @@ Action是一个可执行的操作的抽象表示，例如开启Wi-Fi，修改铃
 ### Scene
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F57ef2ba96f23e3b "图片标题")
 Scene包含了一个Condition List和一个Action List，类型都为CopyOnWriteArrayList。由于涉及到多线程的并发访问，所以对Condition List和Action List的访问都要放到synchronized同步块中，并且使用线程安全的容器。
+
+Gson是Google公司发布的一个开放源代码的Java库，主要用途为序列化Java对象为JSON字符串，或反序列化JSON字符串成Java对象。Gson提供了toJson()和fromJson()方便的接口用于在Java对象和JSON字符串之间互转，并实现了对所有Java基本数据类型的自动序列化/反序列化，同时还支持用户自定义的序列化器/反序列化器。对于我们的App，我们需求是实现Condition、Action和Scene对象的序列化/反序列化，由于涉及到继承关系，所以需要提供自定义的序列化器/反序列化器。其具体实现是在序列化的时候，往待返回的JSONObject中增加"type"和"properties"两个key，其中"type"保存了派生类的ClassName，"properties"保存了派生类的包括基类在内的所有成员；而在反序列化时，从"type"中获取派生类的ClassName，并提供给JsonDeserializationContext.deserialize()作为参数，让Gson的ClassLoader能知道派生类的路径，确保能加载到正确的派生类。
