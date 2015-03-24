@@ -79,14 +79,12 @@ Paper gives an example of Tasker's Android application. This example implements 
 从以上几个需求看来，App应该具备修改系统的各项设置的能力，并且能定时的检测系统的状态，能在后台常驻系统。
 
 
-
-
-
 ### 第二章  基本模型与原理
 经过分析，我们建立了以下几个Model表示App的数据结构，分别是Condition，Action，Scene和Event。其中Event用于在EventBus中传递消息，携带了事件类型及其参数。Condition是对一个条件的抽象，包含条件的状态，参数等信息。Action是各种操作的抽象表示，泛指一个可以执行的操作，例如修改系统某项设置，发短信，播放音乐等等。Scene表示情景，一个情景是由若干个Condition和若干个Action组成的。当且仅当所有Condition都满足的时候，该情景的Action才会执行。下面详细讨论每个Model的定义：
  
 ### Event
 所有事件都继承自Event，这使得可以在一个中心化的位置统一处理所有事件，并能根据需求实现事件的分发逻辑。针对不同类型的事件，我们将eventCode这个字段作为事件类型的标识。由于涉及到事件类型的转换，所以在进行事件的比较和转换前，我们加上了对这个字段的校验，只有eventCode相同才能通过校验，否则会抛异常。
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2Fc91aceb5d4c0c8f "图片标题")
 本App引用了第三方库EventBus作为消息分发机制，下面简要介绍一下EventBus的功能和架构。
 
 ### EventBus
@@ -110,5 +108,14 @@ EventBus还提供了对多线程的支持，事件分发可以与事件投递线
 - BackgroundThread 如果事件发布线程不是MainThread，则直接在事件发布线程执行；否则，使用唯一的后台线程执行onEvent()方法。
 - Async 事件处理方法将会在单独的线程中执行，而且不会影响事件发布线程和MainThread。EventBus使用线程池来有效的管理线程的复用。
 
+### Condition
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F97c77d63b94dbf0 "图片标题")
+Condition表示一个Scene的前置条件，只有所有的前置条件都满足的情况下，这个Scene才会被执行。Condition和Event都带有一个eventType字段，基本上Event和Condition是一对一的关系。所有的条件都继承自Condition，派生类需要重写`performCheckEvent()`和`getView()`两个方法。派生类在`performCheckEvent()`实现条件是否满足的判断逻辑，在`getView()`中创建UI布局，返回的View将会作为一个Item在Condition的列表中显示。派生类在重写`performCheckEvent()`时，还必须先调用父类的实现，否则会抛出`IllegalStateException`。通过这种异常机制的约束，能确保Event和其派生类间能正确的转型。另外，Condition还定义了`ConditionStateChangedListener`接口，用于通告监听者Condition的状态发生了变更，这个监听者是由Scene来实现的。Scene在Condition的状态发生了变更的时候，可以判断是否需要执行或回滚Action，并变更自己的状态。
 
+### Action
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2Fbe178f2ef0947b4 "图片标题")
+Action是一个可执行的操作的抽象表示，例如开启Wi-Fi，修改铃声，发送短信等。Action的关键方法是`performAction()`和`rollback()`。`performAction()`提供了Context对象作为入参，派生类在这实现Action的执行逻辑。`rollback()`提供了一个Action的回滚，能让一个Scene在由STATE_ACTIVATED变为STATE_DEACTIVATED的时候还原对系统的修改。
 
+### Scene
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F57ef2ba96f23e3b "图片标题")
+Scene包含了一个Condition List和一个Action List，类型都为CopyOnWriteArrayList。由于涉及到多线程的并发访问，所以对Condition List和Action List的访问都要放到synchronized同步块中，并且使用线程安全的容器。
