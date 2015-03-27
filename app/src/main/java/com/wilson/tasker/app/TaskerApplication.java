@@ -45,7 +45,7 @@ public class TaskerApplication extends Application {
 		super.onCreate();
 
 		// 初始化百度地图SDK
-//		SDKInitializer.initialize(this);
+		SDKInitializer.initialize(this);
 		startService(new Intent(this, WorkerService.class));
 		initDefaultScenes();
 

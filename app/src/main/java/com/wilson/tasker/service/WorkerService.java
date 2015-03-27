@@ -22,6 +22,7 @@ import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
 import com.wilson.tasker.manager.ApplicationManager;
 import com.wilson.tasker.manager.BatteryLevelMonitor;
+import com.wilson.tasker.manager.LocationManager;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -56,16 +57,6 @@ public class WorkerService extends Service {
 	private static final int REQUEST_LOCATION_INTERVAL = 60 * SECOND;
 
 	/**
-	 * 百度定位SDK接口
-	 */
-	private static LocationClient locationClient;
-
-	/**
-	 * 百度地理围栏服务接口
-	 */
-	private static GeofenceClient geofenceClient;
-
-	/**
 	 * 用于串行化执行任务的Handler
 	 */
 	private Handler handler;
@@ -96,7 +87,6 @@ public class WorkerService extends Service {
 		handler = new Handler(thread.getLooper());
 
 		scheduleSelf();
-
 		EventBus.getDefault().register(this);
 	}
 
@@ -121,11 +111,6 @@ public class WorkerService extends Service {
 	@Override
 	public void onDestroy() {
 		Log.d(TAG, "onDestroy");
-
-		// 关闭定位
-		stopLocationClient();
-		// 关闭地理围栏服务
-		stopGeofenceClient();
 
 		EventBus.getDefault().unregister(this);
 	}
@@ -154,7 +139,8 @@ public class WorkerService extends Service {
 					}
 					case Event.EVENT_ADD_GEOFENCE: {
 						// 处理新增地理围栏事件
-						handleAddGeofenceEvent((AddGeofenceEvent) event);
+						LocationManager.getInstance(WorkerService.this)
+							.handleAddGeofenceEvent((AddGeofenceEvent) event);
 						return;
 					}
 					default:
@@ -209,20 +195,17 @@ public class WorkerService extends Service {
 				float currBatteryLevel
 						= BatteryLevelMonitor.getInstance(this).getCurrentBatteryLevel();
 				EventBus.getDefault().post(new BatteryLevelEvent(currBatteryLevel));
-			}
-			break;
+			} break;
 
 			case Event.EVENT_TOP_APP_CHANGED: {
 				// 检测Top App
 				ApplicationManager.getInstance(this).checkTopApp();
-			}
-			break;
+			} break;
 
 			case Event.EVENT_LOCATION: {
 				// 获取地理位置更新
-				getLocationClient(this).requestLocation();
-			}
-			break;
+				LocationManager.getInstance(this).requestLocation();
+			} break;
 
 			default:
 				break;
@@ -238,67 +221,5 @@ public class WorkerService extends Service {
 		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
 //		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, pi);
 		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, SCHEDULE_INTERVAL, pi);
-	}
-
-	private void handleAddGeofenceEvent(AddGeofenceEvent event) {
-		BDGeofence geoFence = new BDGeofence.Builder()
-				.setGeofenceId(event.geofenceId)
-				.setCoordType(BDGeofence.COORD_TYPE_BD09LL)
-				.setCircularRegion(event.longitude, event.latitude, BDGeofence.RADIUS_TYPE_SMALL)
-				.setExpirationDruation(12 * HOUR)
-				.build();
-
-		GeofenceClient.OnAddBDGeofencesResultListener addGeofenceResultListener = new GeofenceClient.OnAddBDGeofencesResultListener() {
-			@Override
-			public void onAddBDGeofencesResult(int statusCode, String geofenceId) {
-				if (statusCode == BDLocationStatusCodes.SUCCESS) {
-					Log.d(TAG, String.format("add geofence[id=%s] success", geofenceId));
-				} else {
-					Log.e(TAG, String.format("add geofence[id=%s] fail, statusCode=%d", geofenceId, statusCode));
-				}
-			}
-		};
-
-		GeofenceClient.OnGeofenceTriggerListener geofenceTriggerListener
-				= new GeofenceClient.OnGeofenceTriggerListener() {
-			@Override
-			public void onGeofenceExit(String geofenceId) {
-				EventBus.getDefault().post(new LocationEvent(geofenceId, LocationEvent.GEOFENCE_EXIT));
-			}
-
-			@Override
-			public void onGeofenceTrigger(String geofenceId) {
-				EventBus.getDefault().post(new LocationEvent(geofenceId, LocationEvent.GEOFENCE_ENTER));
-			}
-		};
-
-		getGeofenceClient(this).addBDGeofence(geoFence, addGeofenceResultListener);
-		getGeofenceClient(this).registerGeofenceTriggerListener(geofenceTriggerListener);
-	}
-
-	public static synchronized LocationClient getLocationClient(Context context) {
-		if (locationClient == null) {
-			locationClient = new LocationClient(context.getApplicationContext());
-		}
-		return locationClient;
-	}
-
-	public static synchronized GeofenceClient getGeofenceClient(Context context) {
-		if (geofenceClient == null) {
-			geofenceClient = new GeofenceClient(context.getApplicationContext());
-		}
-		return geofenceClient;
-	}
-
-	private void stopLocationClient() {
-		if (getLocationClient(this).isStarted()) {
-			getLocationClient(this).stop();
-		}
-	}
-
-	private void stopGeofenceClient() {
-		if (getGeofenceClient(this).isStarted()) {
-			getGeofenceClient(this).stop();
-		}
 	}
 }

@@ -76,7 +76,7 @@ public class BaiduMapActivity extends ActionBarActivity
 		confirmBtn = (Button) findViewById(R.id.confirm);
 
 		baiduMap = mapView.getMap();
-		locationClient = WorkerService.getLocationClient(getApplicationContext());
+		locationClient = new LocationClient(getApplicationContext());
 		geoCoder = GeoCoder.newInstance();
 
 		hideZoomControls();
@@ -105,6 +105,8 @@ public class BaiduMapActivity extends ActionBarActivity
 		markerIcon.recycle();
 		// 销毁地理编码器
 		geoCoder.destroy();
+		// 关闭定位服务
+		locationClient.stop();
 
 	}
 

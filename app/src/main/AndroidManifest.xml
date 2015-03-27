@@ -42,7 +42,7 @@
         <!-- 百度定位SDK meta data -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KS6URSfpoudh4A57XrHHU4Ub" />
+            android:value="TbHbPmLm8GWW6RwxRr0vR8bb" />
 
         <service
             android:name="com.baidu.location.f"
