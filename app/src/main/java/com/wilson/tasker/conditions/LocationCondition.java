@@ -18,7 +18,7 @@ public class LocationCondition extends Condition {
 	public String geofencId;
 
 	public LocationCondition(String geofencId) {
-		super(Event.EVENT_LOCATION, "Location", R.drawable.icon_location);
+		super(Event.EVENT_LOCATION, "Location", R.drawable.icon_location, true);
 		this.geofencId = geofencId;
 	}
 

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wilson.tasker.actions.BluetoothAction;
 import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.TestAction;
 import com.wilson.tasker.actions.WifiAction;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.CallerCondition;
@@ -61,9 +62,10 @@ public class TaskerApplication extends Application {
 
 		Scene batteryScene = new Scene("battery", "Battery", false);
 //		batteryScene.addCondition(new SmsCondition("123456", "hello"));
-		batteryScene.addCondition(new CallerCondition("26123"));
+		batteryScene.addCondition(new CallerCondition("26888"));
 //		batteryScene.addAction(new BluetoothAction(true));
-		batteryScene.addAction(new WifiAction(true));
+//		batteryScene.addAction(new WifiAction(true));
+		batteryScene.addAction(new TestAction());
 
 		Scene homeScene = new Scene("home", "Home", false);
 		Scene sleepScene = new Scene("sleep", "Sleep", false);

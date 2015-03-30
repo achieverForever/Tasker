@@ -13,6 +13,8 @@ import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 
+import java.util.TreeMap;
+
 //CHECK
 public class BatteryLevelCondition extends Condition {
 	public enum BatteryLevelType {ABOVE, BELOW}
@@ -24,7 +26,7 @@ public class BatteryLevelCondition extends Condition {
 	public float targetValue;
 
 	public BatteryLevelCondition(BatteryLevelType type, float targetValue) {
-		super(Event.EVENT_BATTERY_LEVEL, "Battery Level", R.drawable.ic_battery_high);
+		super(Event.EVENT_BATTERY_LEVEL, "Battery Level", R.drawable.ic_battery_high, true);
 		this.type = type;
 		this.targetValue = targetValue;
 	}

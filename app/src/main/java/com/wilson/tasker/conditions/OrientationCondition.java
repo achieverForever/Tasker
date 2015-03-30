@@ -19,7 +19,7 @@ public class OrientationCondition extends Condition {
 	private int targetOrientation;
 
 	public OrientationCondition(int targetOrientation) {
-		super(Event.EVENT_ORIENTATION, "Orientation", R.drawable.icon_orientation);
+		super(Event.EVENT_ORIENTATION, "Orientation", R.drawable.icon_orientation, false);
 		this.targetOrientation = targetOrientation;
 	}
 

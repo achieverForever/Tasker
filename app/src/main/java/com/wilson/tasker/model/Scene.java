@@ -61,16 +61,6 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	}
 
 	// Exposed for testing
-	public void scheduleToRunScene() {
-		boolean readyToRunScene = checkIfReadyToRunScene();
-		if (readyToRunScene) {
-			Log.d(Utils.LOG_TAG, "Scene [" + name + "] activated");
-			state = STATE_ACTIVATED;
-			notifySceneActivated();
-		}
-	}
-
-	// Exposed for testing
 	public synchronized boolean checkIfReadyToRunScene() {
 		for (Condition c : conditions) {
 			if (c.state == Condition.STATE_UNSATISFIED) {
@@ -118,9 +108,17 @@ public class Scene implements Condition.ConditionStateChangedListener {
 
 	@Override
 	public void onConditionStateChanged(Condition condition, boolean satisfied) {
-		if (satisfied) {
-			scheduleToRunScene();
-		} else if (state == STATE_ACTIVATED) {
+		Log.d(Utils.LOG_TAG, String.format(
+			"onConditionStateChanged: scene[%s], current state=%d", name, state));
+
+		if (satisfied && state == STATE_ENABLED) {
+			boolean readyToRunScene = checkIfReadyToRunScene();
+			if (readyToRunScene) {
+				Log.d(Utils.LOG_TAG, "Scene [" + name + "] activated");
+				state = STATE_ACTIVATED;
+				notifySceneActivated();
+			}
+		} else if (!satisfied && state == STATE_ACTIVATED) {
 			Log.d(Utils.LOG_TAG, "Scene [" + name + "] deactivated");
 			state = STATE_ENABLED;
 			notifySceneDeactivated();

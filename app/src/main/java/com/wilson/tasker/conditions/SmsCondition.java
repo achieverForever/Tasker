@@ -25,7 +25,7 @@ public class SmsCondition extends Condition {
 	public String msgBodyPtn;
 
 	public SmsCondition(String msgFromPtn, String msgBody) {
-		super(Event.EVENT_SMS, "SMS", R.drawable.ic_sms);
+		super(Event.EVENT_SMS, "SMS", R.drawable.ic_sms, false);
 		this.msgFromPtn = DOT_ALL + msgFromPtn.trim() + DOT_ALL;
 		this.msgBodyPtn = DOT_ALL + msgBody.trim() + DOT_ALL;
 	}

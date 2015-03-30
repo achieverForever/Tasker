@@ -23,15 +23,15 @@ public class CallerCondition extends Condition {
 	public String callerNumberPtn;
 
 	public CallerCondition(String callerNumberPtn) {
-		super(Event.EVENT_CALLER, "Caller", R.drawable.ic_caller);
-		this.callerNumberPtn = DOT_ALL + callerNumberPtn.trim() + DOT_ALL;
+		super(Event.EVENT_CALLER, "Caller", R.drawable.ic_caller, false);
+		this.callerNumberPtn = callerNumberPtn.trim();
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		CallerEvent ev = (CallerEvent) event;
-		return Pattern.matches(callerNumberPtn, ev.incomingNumber);
+		return Pattern.matches(DOT_ALL + callerNumberPtn + DOT_ALL, ev.incomingNumber);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class ChargerCondition extends Condition {
 	public boolean isCharging;
 
 	public ChargerCondition(boolean isCharging) {
-		super(Event.EVENT_CHARGER, "Charger", R.drawable.ic_charger);
+		super(Event.EVENT_CHARGER, "Charger", R.drawable.ic_charger, false);
 		this.isCharging = isCharging;
 	}
 

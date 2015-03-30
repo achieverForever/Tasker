@@ -33,6 +33,9 @@ public abstract class Condition {
 	/** Condition的显示Icon */
 	public int iconRes;
 
+	/** isSticky为true，表示是持续性的Condition，否则为瞬时性的Condition */
+	public boolean isSticky;
+
 	/** Condition状态变化监听者 */
 	public transient ConditionStateChangedListener listener;
 
@@ -42,11 +45,12 @@ public abstract class Condition {
 		// Required empty constructor for serialize/deserialize
 	}
 
-	protected Condition(int eventCode, String name, int iconRes) {
+	protected Condition(int eventCode, String name, int iconRes, boolean isSticky) {
 		this.eventCode = eventCode;
 		this.name = name;
 		this.state = STATE_UNSATISFIED;
 		this.iconRes = iconRes;
+		this.isSticky = isSticky;
 	}
 
 	@Override
@@ -62,14 +66,20 @@ public abstract class Condition {
 		if (!called) {
 			throw new IllegalStateException("Derived class must call through super.performCheckEvent().");
 		}
-		boolean changed = (satisfied && state == STATE_UNSATISFIED)
-				|| (!satisfied && state == STATE_SATISFIED);
 
-		// 更新条件的状态
-		if (changed) {
+		if (isSticky) {
+			// 持续性条件状态变化
+			if ((satisfied && state == STATE_UNSATISFIED)
+				|| (!satisfied && state == STATE_SATISFIED)) {
+				state = satisfied ? STATE_SATISFIED : STATE_UNSATISFIED;
+				listener.onConditionStateChanged(this, satisfied);
+			}
+		} else if (satisfied) {
+			// 瞬时性条件满足
 			state = satisfied ? STATE_SATISFIED : STATE_UNSATISFIED;
 			listener.onConditionStateChanged(this, satisfied);
 		}
+
 	}
 
 	/**
