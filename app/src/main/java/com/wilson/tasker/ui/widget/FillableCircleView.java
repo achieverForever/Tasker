@@ -1,4 +1,4 @@
-package com.wilson.tasker.ui.wiget;
+package com.wilson.tasker.ui.widget;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -16,7 +16,7 @@ import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.SceneListAdapter;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.model.Scene;
-import com.wilson.tasker.ui.wiget.FillableCircleView;
+import com.wilson.tasker.ui.widget.FillableCircleView;
 
 import de.greenrobot.event.EventBus;
 

@@ -1,7 +1,6 @@
 package com.wilson.tasker.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,7 @@ import com.wilson.tasker.R;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Scene;
-import com.wilson.tasker.ui.wiget.FillableCircleView;
-import com.wilson.tasker.utils.Utils;
+import com.wilson.tasker.ui.widget.FillableCircleView;
 
 import java.util.List;
 

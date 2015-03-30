@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:paddingBottom="16dp">
 
-    <com.wilson.tasker.ui.wiget.FillableCircleView
+    <com.wilson.tasker.ui.widget.FillableCircleView
         android:id="@+id/tv_title"
         android:layout_width="25dp"
         android:layout_height="25dp"

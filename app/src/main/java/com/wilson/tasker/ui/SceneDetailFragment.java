@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.ActionListAdapter;
 import com.wilson.tasker.adapters.ConditionListAdapter;
+import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
@@ -30,6 +31,7 @@ import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.ui.dialogs.AddConditionDialog;
 import com.wilson.tasker.ui.dialogs.AppListDialog;
+import com.wilson.tasker.ui.dialogs.EditBatteryLevelConditionDialog;
 import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
@@ -114,16 +116,23 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 				// TODO - 根据不同类型的Condition显示对应的UI
 				switch (condition.eventCode) {
 					case Event.EVENT_TOP_APP_CHANGED:
-						AppListDialog dialog = AppListDialog.newInstance();
-						dialog.setCondition((TopAppCondition) condition);
-						dialog.setOnConditionChangedListener(SceneDetailFragment.this);
-						dialog.show(getFragmentManager(), "app_list");
+						AppListDialog appListDialog = AppListDialog.newInstance();
+						appListDialog.setCondition((TopAppCondition) condition);
+						appListDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+						appListDialog.show(getFragmentManager(), "app_list");
 						break;
 					case Event.EVENT_LOCATION:
 						Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
 						startActivity(intent);
+					case Event.EVENT_BATTERY_LEVEL:
+						EditBatteryLevelConditionDialog batteryLevelDialog
+							= EditBatteryLevelConditionDialog.newInstance();
+						batteryLevelDialog.setCondition((BatteryLevelCondition) condition);
+						batteryLevelDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+						batteryLevelDialog.show(getFragmentManager(), "edit_battery_level_dialog");
+						break;
 					default:
-						Log.d(Utils.LOG_TAG, "hi");
+						Log.d(Utils.LOG_TAG, Event.eventCodeToString(condition.eventCode) + " condition click");
 						break;
 				}
 			}
@@ -132,7 +141,6 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				final Condition condition = (Condition) conditionListAdapter.getItem(position);
-				// TODO - 弹出确认删除对话框
 				new AlertDialog.Builder(getActivity())
 						.setMessage("Are you sure you want to delete this item?")
 						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

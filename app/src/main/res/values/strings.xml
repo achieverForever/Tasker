@@ -11,4 +11,22 @@
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_baidu_map">BaiduMapActivity</string>
 
+    <string-array name="battery_level_list">
+        <item>10%</item>
+        <item>20%</item>
+        <item>30%</item>
+        <item>40%</item>
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+    </string-array>
+
+    <string-array name="battery_level_type">
+        <item>Above</item>
+        <item>Below</item>
+    </string-array>
+
 </resources>
