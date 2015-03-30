@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 
+// CHECK
 public class CallerCondition extends Condition {
 	public static final String DOT_ALL = ".*";
 

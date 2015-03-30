@@ -18,6 +18,7 @@ import com.wilson.tasker.utils.Utils;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+// CHECK
 public class SmsCondition extends Condition {
 	public static final String DOT_ALL = ".*";
 
@@ -26,16 +27,16 @@ public class SmsCondition extends Condition {
 
 	public SmsCondition(String msgFromPtn, String msgBody) {
 		super(Event.EVENT_SMS, "SMS", R.drawable.ic_sms, false);
-		this.msgFromPtn = DOT_ALL + msgFromPtn.trim() + DOT_ALL;
-		this.msgBodyPtn = DOT_ALL + msgBody.trim() + DOT_ALL;
+		this.msgFromPtn = msgFromPtn.trim();
+		this.msgBodyPtn = msgBody.trim();
 	}
 
 	@Override
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		SmsEvent ev = (SmsEvent) event;
-		return Pattern.matches(msgFromPtn, ev.msgFrom)
-			&& Pattern.matches(msgBodyPtn, ev.msgBody);
+		return Pattern.matches(DOT_ALL + msgFromPtn + DOT_ALL, ev.msgFrom)
+			&& Pattern.matches(DOT_ALL + msgBodyPtn + DOT_ALL, ev.msgBody);
 	}
 
 	@Override
@@ -51,8 +52,9 @@ public class SmsCondition extends Condition {
 		}
 		title.setText("SMS");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		desc.setText("Trigger When You Receive a SMS from Specified Contact and/or " +
-				"Contains Specified Content");
+		desc.setText(String.format(
+				"Trigger When You Receive a SMS from \"%s\" and/or Contains \"%s\"",
+				msgFromPtn, msgBodyPtn));
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;
 	}
