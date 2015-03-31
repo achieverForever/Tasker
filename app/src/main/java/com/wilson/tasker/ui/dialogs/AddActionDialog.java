@@ -10,56 +10,56 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.wilson.tasker.R;
+import com.wilson.tasker.adapters.AddActionListAdapter;
 import com.wilson.tasker.adapters.AddConditionListAdapter;
-import com.wilson.tasker.listeners.OnConditionChangedListener;
-import com.wilson.tasker.model.Condition;
-import com.wilson.tasker.model.Event;
+import com.wilson.tasker.listeners.OnActionChangedListener;
+import com.wilson.tasker.model.Action;
 
-public class AddConditionDialog extends DialogFragment implements AdapterView.OnItemClickListener {
-	private AddConditionListAdapter adapter;
-	private GridView conditionList;
-	private OnConditionChangedListener listener;
+public class AddActionDialog extends DialogFragment implements AdapterView.OnItemClickListener {
+	private AddActionListAdapter adapter;
+	private GridView actionList;
+	private OnActionChangedListener listener;
 
-	public static AddConditionDialog newInstance() {
-		return new AddConditionDialog();
+	public static AddActionDialog newInstance() {
+		return new AddActionDialog();
 	}
 
-	public AddConditionDialog() {
+	public AddActionDialog() {
 		// Required empty constructor
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.dialog_condition_list, container, false);
+		View view = inflater.inflate(R.layout.dialog_action_list, container, false);
 		setupViews(view);
 		return view;
 	}
 
 	private void setupViews(View rootView) {
 		getDialog().setTitle("Select a Condition");
-		conditionList = (GridView) rootView.findViewById(R.id.gv_condition_list);
-		conditionList.setOnItemClickListener(this);
+		actionList = (GridView) rootView.findViewById(R.id.action_list);
+		actionList.setOnItemClickListener(this);
 	}
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		adapter = new AddConditionListAdapter(getActivity());
-		conditionList.setAdapter(adapter);
+		adapter = new AddActionListAdapter(getActivity());
+		actionList.setAdapter(adapter);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Condition condition = (Condition) adapter.getItem(position);
+		Action action = (Action) adapter.getItem(position);
 		getDialog().dismiss();
 		if (listener != null) {
-			// 新增Condition
-			listener.onConditionChanged(null, condition);
+			// 新增Action
+			listener.onActionChanged(null, action);
 		}
 	}
 
-	public void setOnConditionChangedListener(OnConditionChangedListener listener) {
+	public void setOnActionChangedListener(OnActionChangedListener listener) {
 		this.listener = listener;
 	}
 }

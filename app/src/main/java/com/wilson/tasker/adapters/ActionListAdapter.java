@@ -42,4 +42,19 @@ public class ActionListAdapter extends BaseAdapter {
 		Action action = (Action) getItem(position);
 		return action.getView(context, parent);
 	}
+
+	public void handleActionChanged(Action previous, Action current) {
+		if (previous == null && current != null) {
+			actions.add(current);
+		} else if (previous != null && current == null) {
+			actions.remove(previous);
+		} else {
+			int pos = actions.indexOf(previous);
+			if (pos != -1) {
+				actions.set(pos, current);
+			}
+		}
+		notifyDataSetChanged();
+
+	}
 }

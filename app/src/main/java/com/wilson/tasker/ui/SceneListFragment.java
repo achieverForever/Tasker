@@ -51,7 +51,7 @@ public class SceneListFragment extends Fragment {
 		sceneList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				FillableCircleView label = (FillableCircleView) view.findViewById(R.id.tv_title);
+				FillableCircleView label = (FillableCircleView) view.findViewById(R.id.name);
 				label.toggle();
 				EventBus.getDefault().postSticky(new SceneDetailEvent((Scene) adapter.getItem(position)));
 				startActivity(new Intent(getActivity(), SceneDetailActivity.class));

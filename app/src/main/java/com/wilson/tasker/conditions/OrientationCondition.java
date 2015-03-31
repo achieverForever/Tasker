@@ -34,9 +34,9 @@ public class OrientationCondition extends Condition {
 	public View getView(Context context, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View view = inflater.inflate(R.layout.list_item_condition, parent, false);
-		ImageView icon = (ImageView) view.findViewById(R.id.iv_icon);
-		TextView title = (TextView) view.findViewById(R.id.tv_title);
-		TextView desc = (TextView) view.findViewById(R.id.tv_desc);
+		ImageView icon = (ImageView) view.findViewById(R.id.icon);
+		TextView title = (TextView) view.findViewById(R.id.name);
+		TextView desc = (TextView) view.findViewById(R.id.desc);
 
 		if (iconRes != 0) {
 			icon.setImageResource(iconRes);

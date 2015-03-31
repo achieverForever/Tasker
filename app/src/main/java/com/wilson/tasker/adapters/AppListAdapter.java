@@ -35,8 +35,8 @@ public class AppListAdapter extends ArrayAdapter<AppListDialog.AppEntry> {
 			convertView = inflater.inflate(R.layout.list_item_app, parent, false);
 		}
 		AppListDialog.AppEntry app = getItem(position);
-		((TextView) convertView.findViewById(R.id.tv_title)).setText(app.label);
-		((ImageView) convertView.findViewById(R.id.iv_icon)).setImageDrawable(app.icon);
+		((TextView) convertView.findViewById(R.id.name)).setText(app.label);
+		((ImageView) convertView.findViewById(R.id.icon)).setImageDrawable(app.icon);
 		return convertView;
 	}
 }

@@ -1,44 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/list_item_padding">
 
     <ImageView
-        android:id="@+id/iv_action_icon"
+        android:id="@+id/icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/abc_ic_search_api_mtrl_alpha"
+        tools:src="@drawable/abc_ic_search_api_mtrl_alpha"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
 
     <TextView
-        android:id="@+id/tv_action_name"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_action_icon"
+        android:layout_toRightOf="@+id/icon"
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
-        android:text="Action Name" />
+        tools:text="Condition Title" />
 
     <TextView
-        android:id="@+id/tv_action_desc"
+        android:id="@+id/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_action_name"
-        android:layout_below="@id/tv_action_name"
-        android:layout_alignBottom="@id/iv_action_icon"
+        android:layout_alignLeft="@id/name"
+        android:layout_below="@id/name"
+        android:layout_alignBottom="@id/icon"
         android:gravity="center"
         android:textSize="10sp"
-        android:text="Action Description" />
-
-    <Switch
-        android:id="@+id/sw_enabled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Condition Description" />
 
 </RelativeLayout>

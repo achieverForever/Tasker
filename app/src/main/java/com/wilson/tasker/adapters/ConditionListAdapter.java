@@ -43,6 +43,12 @@ public class ConditionListAdapter extends BaseAdapter {
 		return condition.getView(context, parent);
 	}
 
+	/**
+	 * 处理Condition变化事件(新增、删除、参数变更)
+	 *
+	 * @param previous 之前的Condition对象，为null表示新增Condition
+	 * @param current 当前Condition对象，为null表示减少Condition
+	 */
 	public void handleConditionChanged(Condition previous, Condition current) {
 		if (current != null && current.listener == null) {
 			current.listener = scene;

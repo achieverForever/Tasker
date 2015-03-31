@@ -9,28 +9,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wilson.tasker.R;
-import com.wilson.tasker.model.Condition;
+import com.wilson.tasker.model.Action;
 
 import java.util.List;
 
-public class AddConditionListAdapter extends BaseAdapter {
+public class AddActionListAdapter extends BaseAdapter {
 
-	private List<Condition> conditions;
+	private List<Action> actions;
 	private LayoutInflater inflater;
 
-	public AddConditionListAdapter(Context context) {
+	public AddActionListAdapter(Context context) {
 		inflater = LayoutInflater.from(context);
-		conditions = Condition.asList();
+		actions = Action.asList();
 	}
 
 	@Override
 	public int getCount() {
-		return conditions.size();
+		return actions.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return conditions.get(position);
+		return actions.get(position);
 	}
 
 	@Override
@@ -41,14 +41,14 @@ public class AddConditionListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.list_item_add_condition, parent, false);
+			convertView = inflater.inflate(R.layout.list_item_add_action, parent, false);
 		}
-		Condition condition = (Condition) getItem(position);
+		Action action = (Action) getItem(position);
 		TextView name = (TextView) convertView.findViewById(R.id.name);
-		ImageView icon = (ImageView) convertView.findViewById(R.id.iv_condition_icon);
-		name.setText(condition.name);
-		if (condition.iconRes != 0) {
-			icon.setImageResource(condition.iconRes);
+		ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
+		name.setText(action.name);
+		if (action.iconRes != 0) {
+			icon.setImageResource(action.iconRes);
 		}
 		return convertView;
 	}

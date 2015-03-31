@@ -9,6 +9,11 @@ import android.widget.Toast;
 import com.wilson.tasker.model.Action;
 
 public class TestAction extends Action {
+
+	public TestAction() {
+		super(TYPE_TEST_ACTION, "Test Action", 0);
+	}
+
 	@Override
 	public boolean performAction(Context context) {
 		Toast.makeText(context, "Test action activated!", Toast.LENGTH_LONG).show();

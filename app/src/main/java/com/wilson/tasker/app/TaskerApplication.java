@@ -61,8 +61,8 @@ public class TaskerApplication extends Application {
 //		batteryConditions.add(new CallerCondition("123"));
 
 		Scene batteryScene = new Scene("battery", "Battery", false);
-//		batteryScene.addCondition(new SmsCondition("123456", "hello"));
-		batteryScene.addCondition(new CallerCondition("26888"));
+		batteryScene.addCondition(new SmsCondition("10657301", "hi"));
+//		batteryScene.addCondition(new CallerCondition("26888"));
 //		batteryScene.addAction(new BluetoothAction(true));
 //		batteryScene.addAction(new WifiAction(true));
 		batteryScene.addAction(new TestAction());
@@ -71,6 +71,8 @@ public class TaskerApplication extends Application {
 		Scene sleepScene = new Scene("sleep", "Sleep", false);
 
 		SceneManager.getInstance().addScene(this, batteryScene);
+		SceneManager.getInstance().addScene(this, homeScene);
+		SceneManager.getInstance().addScene(this, sleepScene);
 	}
 
 	private void test() {

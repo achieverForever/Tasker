@@ -1,7 +1,6 @@
 package com.wilson.tasker.conditions;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,8 @@ import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
-import com.wilson.tasker.utils.Utils;
 
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 // CHECK
 public class SmsCondition extends Condition {
@@ -43,9 +40,9 @@ public class SmsCondition extends Condition {
 	public View getView(Context context, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View view = inflater.inflate(R.layout.list_item_condition, parent, false);
-		ImageView icon = (ImageView) view.findViewById(R.id.iv_icon);
-		TextView title = (TextView) view.findViewById(R.id.tv_title);
-		TextView desc = (TextView) view.findViewById(R.id.tv_desc);
+		ImageView icon = (ImageView) view.findViewById(R.id.icon);
+		TextView title = (TextView) view.findViewById(R.id.name);
+		TextView desc = (TextView) view.findViewById(R.id.desc);
 
 		if (iconRes != 0) {
 			icon.setImageResource(iconRes);

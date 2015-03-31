@@ -24,11 +24,14 @@ import com.wilson.tasker.adapters.ConditionListAdapter;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.events.SceneDetailEvent;
+import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
 import com.wilson.tasker.manager.FontManager;
+import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Scene;
+import com.wilson.tasker.ui.dialogs.AddActionDialog;
 import com.wilson.tasker.ui.dialogs.AddConditionDialog;
 import com.wilson.tasker.ui.dialogs.AppListDialog;
 import com.wilson.tasker.ui.dialogs.EditBatteryLevelConditionDialog;
@@ -36,7 +39,8 @@ import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
-public class SceneDetailFragment extends Fragment implements OnConditionChangedListener {
+public class SceneDetailFragment extends Fragment
+	implements OnConditionChangedListener, OnActionChangedListener {
 
 	private EditText edtSceneName;
 	private Button btnSave;
@@ -63,7 +67,9 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater,
+	                         @Nullable ViewGroup container,
+	                         @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_scene_detail, container, false);
 		setupViews(view);
 		return view;
@@ -99,8 +105,8 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 	}
 
 	private void setUpConditionList(LayoutInflater inflater) {
-		View conditionListFooter = inflater.inflate(R.layout.condition_list_footer, conditionList, false);
-		conditionList.addFooterView(conditionListFooter);
+		View addConditionFooter = inflater.inflate(R.layout.condition_list_footer, conditionList, false);
+		conditionList.addFooterView(addConditionFooter);
 		conditionList.setAdapter(conditionListAdapter);
 		conditionList.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -113,7 +119,7 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Condition condition = (Condition) parent.getAdapter().getItem(position);
-				// TODO - 根据不同类型的Condition显示对应的UI
+				// TODO - 根据不同类型的Condition显示对应的Condition编辑界面
 				switch (condition.eventCode) {
 					case Event.EVENT_TOP_APP_CHANGED:
 						AppListDialog appListDialog = AppListDialog.newInstance();
@@ -132,48 +138,59 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 						batteryLevelDialog.show(getFragmentManager(), "edit_battery_level_dialog");
 						break;
 					default:
-						Log.d(Utils.LOG_TAG, Event.eventCodeToString(condition.eventCode) + " condition click");
+						Log.d(Utils.LOG_TAG,
+							Event.eventCodeToString(condition.eventCode) + " condition click");
 						break;
 				}
 			}
 		});
 		conditionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				final Condition condition = (Condition) conditionListAdapter.getItem(position);
-				new AlertDialog.Builder(getActivity())
-						.setMessage("Are you sure you want to delete this item?")
-						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								conditionListAdapter.handleConditionChanged(condition, null);
-								setListViewHeightBasedOnChildren(conditionList);
-							}
-						})
-						.setNegativeButton("No", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.dismiss();
-							}
-						})
-						.show();
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+			                               long id) {
+				Condition condition = (Condition) conditionListAdapter.getItem(position);
+				showDeleteConditionDialog(condition);
 				return true;
 			}
 		});
-		conditionListFooter.setOnClickListener(new View.OnClickListener() {
+		addConditionFooter.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AddConditionDialog dialog = AddConditionDialog.newInstance();
-				dialog.setOnConditionChangedListener(SceneDetailFragment.this);
-				dialog.show(getFragmentManager(), "condition_list");
+				showAddConditionDialog();
 			}
 		});
 		setListViewHeightBasedOnChildren(conditionList);
 	}
 
+	private void showDeleteConditionDialog(final Condition condition) {
+		new AlertDialog.Builder(getActivity())
+			.setMessage("Are you sure you want to delete this item?")
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					conditionListAdapter.handleConditionChanged(condition, null);
+					setListViewHeightBasedOnChildren(conditionList);
+				}
+			})
+			.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	private void showAddConditionDialog() {
+		AddConditionDialog dialog = AddConditionDialog.newInstance();
+		dialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		dialog.show(getFragmentManager(), "condition_list");
+	}
+
 	private void setUpActionList(LayoutInflater inflater) {
-		View actionListFooter = inflater.inflate(R.layout.action_list_footer, conditionList, false);
-		actionList.addFooterView(actionListFooter);
+		View addActionFooter
+			= inflater.inflate(R.layout.action_list_footer, actionList, false);
+		actionList.addFooterView(addActionFooter);
 		actionList.setAdapter(actionListAdapter);
 
 		actionList.setOnTouchListener(new View.OnTouchListener() {
@@ -183,13 +200,55 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 				return false;
 			}
 		});
-		actionListFooter.setOnClickListener(new View.OnClickListener() {
+
+		actionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 			}
 		});
+		actionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+			                               long id) {
+				Action action = (Action) actionListAdapter.getItem(position);
+				showDeleteActionDialog(action);
+				return true;
+			}
+		});
+
+		addActionFooter.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showAddActionDialog();
+			}
+		});
 		setListViewHeightBasedOnChildren(actionList);
+	}
+
+	private void showDeleteActionDialog(final Action action) {
+		new AlertDialog.Builder(getActivity())
+			.setMessage("Are you sure you want to delete this item?")
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					actionListAdapter.handleActionChanged(action, null);
+					setListViewHeightBasedOnChildren(actionList);
+				}
+			})
+			.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
+
+	private void showAddActionDialog() {
+		AddActionDialog dialog = AddActionDialog.newInstance();
+		dialog.setOnActionChangedListener(SceneDetailFragment.this);
+		dialog.show(getFragmentManager(), "action_list");
 	}
 
 	public void onEvent(SceneDetailEvent event) {
@@ -201,6 +260,12 @@ public class SceneDetailFragment extends Fragment implements OnConditionChangedL
 	public void onConditionChanged(Condition previous, Condition current) {
 		conditionListAdapter.handleConditionChanged(previous, current);
 		setListViewHeightBasedOnChildren(conditionList);
+	}
+
+	@Override
+	public void onActionChanged(Action previous, Action current) {
+		actionListAdapter.handleActionChanged(previous, current);
+		setListViewHeightBasedOnChildren(actionList);
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {

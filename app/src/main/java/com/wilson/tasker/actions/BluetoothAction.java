@@ -19,7 +19,7 @@ public class BluetoothAction extends Action {
 	public boolean on;
 
 	public BluetoothAction(boolean on) {
-		super("bluetooth");
+		super(TYPE_BLUETOOTH, "Bluetooth", R.drawable.icon_bluetooth);
 		this.on = on;
 	}
 
@@ -35,14 +35,17 @@ public class BluetoothAction extends Action {
 	@Override
 	public View getView(Context context, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.action_switch, parent, false);
-		TextView actionName = (TextView) view.findViewById(R.id.tv_action_name);
-		ImageView actionIcon = (ImageView) view.findViewById(R.id.iv_action_icon);
-		final TextView actionDesc = (TextView) view.findViewById(R.id.tv_action_desc);
-		Switch swEnabled = (Switch) view.findViewById(R.id.sw_enabled);
+		View view = inflater.inflate(R.layout.action_switch_common, parent, false);
+		TextView actionName = (TextView) view.findViewById(R.id.name);
+		ImageView actionIcon = (ImageView) view.findViewById(R.id.icon);
+		final TextView actionDesc = (TextView) view.findViewById(R.id.desc);
+		Switch swEnabled = (Switch) view.findViewById(R.id.is_on);
+
 		actionName.setText("Bluetooth");
 		actionName.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		actionIcon.setImageResource(R.drawable.icon_bluetooth);
+		if (iconRes != 0) {
+			actionIcon.setImageResource(iconRes);
+		}
 		actionDesc.setText(String.format("Turn %s Bluetooth", on ? "on" : "off"));
 		actionDesc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		swEnabled.setChecked(on);

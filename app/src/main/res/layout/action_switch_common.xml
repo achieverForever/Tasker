@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:src="@drawable/abc_ic_search_api_mtrl_alpha"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
 
@@ -22,7 +21,7 @@
         android:layout_toRightOf="@+id/icon"
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
-        tools:text="Condition Title" />
+        android:text="Action Name" />
 
     <TextView
         android:id="@+id/desc"
@@ -33,8 +32,13 @@
         android:layout_alignBottom="@id/icon"
         android:gravity="center"
         android:textSize="10sp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        tools:text="Condition Description" />
+        android:text="Action Description" />
+
+    <Switch
+        android:id="@+id/is_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

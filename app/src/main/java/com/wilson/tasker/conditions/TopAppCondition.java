@@ -3,7 +3,6 @@ package com.wilson.tasker.conditions;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +36,9 @@ public class TopAppCondition extends Condition {
 	public View getView(final Context context, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View view = inflater.inflate(R.layout.list_item_condition, parent, false);
-		ImageView appIcon = (ImageView) view.findViewById(R.id.iv_icon);
-		TextView appLabel = (TextView) view.findViewById(R.id.tv_title);
-		TextView conditionDesc = (TextView) view.findViewById(R.id.tv_desc);
+		ImageView appIcon = (ImageView) view.findViewById(R.id.icon);
+		TextView appLabel = (TextView) view.findViewById(R.id.name);
+		TextView conditionDesc = (TextView) view.findViewById(R.id.desc);
 
 		PackageManager pm = context.getPackageManager();
 		Drawable appIconDrawable = null;
