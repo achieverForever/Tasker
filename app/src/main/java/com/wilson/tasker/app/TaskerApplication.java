@@ -50,7 +50,7 @@ public class TaskerApplication extends Application {
 		startService(new Intent(this, WorkerService.class));
 		initDefaultScenes();
 
-		test();
+//		test();
 	}
 
 	private void initDefaultScenes() {

@@ -37,14 +37,15 @@ public class AirplaneModeAction extends Action {
 		ImageView icon = (ImageView) view.findViewById(R.id.icon);
 		TextView name = (TextView) view.findViewById(R.id.name);
 		final TextView desc = (TextView) view.findViewById(R.id.desc);
-		Switch isOn = (Switch) view.findViewById(R.id.is_on);
+		com.gc.materialdesign.views.Switch isOn = (com.gc.materialdesign.views.Switch) view.findViewById(R.id.is_on);
 
 		isOn.setChecked(on);
-		isOn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		isOn.setOncheckListener(new com.gc.materialdesign.views.Switch.OnCheckListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				on = isChecked;
+			public void onCheck(boolean checked) {
+				on = checked;
 				desc.setText(String.format("Turn %s Airplane Mode", on ? "on" : "off"));
+
 			}
 		});
 		if (iconRes != 0) {

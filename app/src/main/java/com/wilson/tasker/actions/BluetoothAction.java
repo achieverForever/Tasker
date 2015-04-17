@@ -39,7 +39,8 @@ public class BluetoothAction extends Action {
 		TextView actionName = (TextView) view.findViewById(R.id.name);
 		ImageView actionIcon = (ImageView) view.findViewById(R.id.icon);
 		final TextView actionDesc = (TextView) view.findViewById(R.id.desc);
-		Switch swEnabled = (Switch) view.findViewById(R.id.is_on);
+		com.gc.materialdesign.views.Switch swEnabled
+				= (com.gc.materialdesign.views.Switch) view.findViewById(R.id.is_on);
 
 		actionName.setText("Bluetooth");
 		actionName.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
@@ -49,10 +50,10 @@ public class BluetoothAction extends Action {
 		actionDesc.setText(String.format("Turn %s Bluetooth", on ? "on" : "off"));
 		actionDesc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		swEnabled.setChecked(on);
-		swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		swEnabled.setOncheckListener(new com.gc.materialdesign.views.Switch.OnCheckListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				on = isChecked;
+			public void onCheck(boolean b) {
+				on = b;
 				actionDesc.setText(String.format("Turn %s Bluetooth", on ? "on" : "off"));
 			}
 		});
