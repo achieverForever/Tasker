@@ -26,6 +26,7 @@ import com.wilson.tasker.adapters.ConditionListAdapter;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.ChargerCondition;
+import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.events.RefreshSceneListEvent;
@@ -44,6 +45,7 @@ import com.wilson.tasker.ui.dialogs.AppListDialog;
 import com.wilson.tasker.ui.dialogs.EditBatteryLevelConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.utils.Utils;
 
@@ -177,6 +179,10 @@ public class SceneDetailFragment extends Fragment
 						showChargerDialog((ChargerCondition) condition);
 						break;
 
+					case Event.EVENT_ORIENTATION:
+						showOrientationDialog((OrientationCondition) condition);
+						break;
+
 					default:
 						Log.d(Utils.LOG_TAG,
 							Event.eventCodeToString(condition.eventCode) + " condition click");
@@ -223,6 +229,14 @@ public class SceneDetailFragment extends Fragment
 	private void showChargerDialog(ChargerCondition condition) {
 		EditChargerConditionDialog editChargerDialog
 				= EditChargerConditionDialog.newInstance(condition.isCharging);
+		editChargerDialog.setCondition(condition);
+		editChargerDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		editChargerDialog.show(getFragmentManager(), "edit_charger_dialog");
+	}
+
+	private void showOrientationDialog(OrientationCondition condition) {
+		EditOrientationConditionDialog editChargerDialog
+				= EditOrientationConditionDialog.newInstance(condition.targetOrientation);
 		editChargerDialog.setCondition(condition);
 		editChargerDialog.setOnConditionChangedListener(SceneDetailFragment.this);
 		editChargerDialog.show(getFragmentManager(), "edit_charger_dialog");

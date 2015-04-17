@@ -16,7 +16,7 @@ import com.wilson.tasker.model.Event;
 
 //CHECK
 public class OrientationCondition extends Condition {
-	private int targetOrientation;
+	public int targetOrientation;
 
 	public OrientationCondition(int targetOrientation) {
 		super(Event.EVENT_ORIENTATION, "Orientation", R.drawable.icon_orientation, false);
