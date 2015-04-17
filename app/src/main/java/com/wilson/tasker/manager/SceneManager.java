@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SceneManager {
-	public static final String KEY_SCENES = "scenes";
 
 	/** 单例 */
 	private static SceneManager sInstance = new SceneManager();
@@ -68,11 +67,6 @@ public class SceneManager {
 	public synchronized void removeScene(Context context, Scene scene) {
 		scenes.remove(scene);
 		unregisterManager(context, scene.getConditions());
-	}
-
-	public synchronized void changeScene(Context context, Scene oldScene, Scene newScene) {
-		removeScene(context, oldScene);
-		addScene(context, newScene);
 	}
 
 	/**
