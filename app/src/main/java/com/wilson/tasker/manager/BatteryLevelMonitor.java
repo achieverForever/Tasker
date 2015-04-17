@@ -55,6 +55,8 @@ public class BatteryLevelMonitor {
 
 	public void register() {
 		if (!isRegistered) {
+			Log.d(Utils.LOG_TAG, "register BatteryLevelMonitor");
+
 			IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 			context.registerReceiver(chargerStateReceiver, intentFilter);
 			isRegistered = true;
@@ -63,6 +65,8 @@ public class BatteryLevelMonitor {
 
 	public void unregister() {
 		if (isRegistered) {
+			Log.d(Utils.LOG_TAG, "unregister BatteryLevelMonitor");
+
 			context.unregisterReceiver(chargerStateReceiver);
 			isRegistered = false;
 		}
@@ -72,7 +76,7 @@ public class BatteryLevelMonitor {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-			boolean isChargingNow= (status == BatteryManager.BATTERY_STATUS_CHARGING ||
+			boolean isChargingNow = (status == BatteryManager.BATTERY_STATUS_CHARGING ||
 					status == BatteryManager.BATTERY_STATUS_FULL);
 			if (isChargingNow != isCharging) {
 				isCharging = isChargingNow;

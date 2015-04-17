@@ -81,7 +81,7 @@ public class SceneManager {
 	 * @param context Context对象
 	 * @param conditions 新增加的Conditions
 	 */
-	private void registerManager(Context context, List<Condition> conditions) {
+	public synchronized void registerManager(Context context, List<Condition> conditions) {
 		for (Condition c : conditions) {
 			switch (c.eventCode) {
 				case Event.EVENT_BATTERY_LEVEL:
@@ -120,7 +120,7 @@ public class SceneManager {
 		}
 	}
 
-	private void unregisterManager(Context context, List<Condition> conditions) {
+	public synchronized void unregisterManager(Context context, List<Condition> conditions) {
 		// 找出不再被引用的Manager
 		Map<Integer, Boolean> registrationMap = new HashMap<>();
 		for (Condition condition : Condition.asList()) {
@@ -150,13 +150,11 @@ public class SceneManager {
 			case Event.EVENT_CALLER:
 				if (PhoneCallManager.getInstance(context).isRegistered()) {
 					PhoneCallManager.getInstance(context).unregister();
-					Log.d(Utils.LOG_TAG, "unregister PhoneCallManager");
 				}
 				break;
 			case Event.EVENT_CHARGER:
 				if (BatteryLevelMonitor.getInstance(context).isRegistered()) {
 					BatteryLevelMonitor.getInstance(context).unregister();
-					Log.d(Utils.LOG_TAG, "unregister BatteryLevelMonitor");
 				}
 				break;
 			case Event.EVENT_LOCATION:
@@ -165,13 +163,11 @@ public class SceneManager {
 			case Event.EVENT_ORIENTATION:
 				if (OrientationManager.getInstance(context).isRegistered()) {
 					OrientationManager.getInstance(context).unregister();
-					Log.d(Utils.LOG_TAG, "unregister OrientationManager");
 				}
 				break;
 			case Event.EVENT_SMS:
 				if (SmsManager.getInstance(context).isRegistered()) {
 					SmsManager.getInstance(context).unregister();
-					Log.d(Utils.LOG_TAG, "unregister SmsManager");
 				}
 				break;
 

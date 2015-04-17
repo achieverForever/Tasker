@@ -31,6 +31,8 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	public void register() {
 		if (!isRegistered) {
+			Log.d(Utils.LOG_TAG, "register PhoneCallManager");
+
 			telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
 			isRegistered = true;
 		}
@@ -38,6 +40,8 @@ public class PhoneCallManager extends PhoneStateListener {
 
 	public void unregister() {
 		if (isRegistered) {
+			Log.d(Utils.LOG_TAG, "unregister PhoneCallManager");
+
 			telephonyManager.listen(this, 0);
 			isRegistered = false;
 		}

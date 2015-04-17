@@ -23,7 +23,7 @@ public class BatteryConditionFragment extends BaseFragment {
 	private TextView tvBatteryLevelPct;
 
 	public BatteryConditionFragment() {
-		condition = new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 0.0f);
+		condition = new BatteryLevelCondition(BatteryLevelCondition.TYPE_ABOVE, 0.0f);
 	}
 
 	@Nullable
@@ -45,9 +45,9 @@ public class BatteryConditionFragment extends BaseFragment {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 				if (i == 0) {
-					((BatteryLevelCondition) condition).type = BatteryLevelCondition.BatteryLevelType.ABOVE;
+					((BatteryLevelCondition) condition).type = BatteryLevelCondition.TYPE_ABOVE;
 				} else {
-					((BatteryLevelCondition) condition).type = BatteryLevelCondition.BatteryLevelType.BELOW;
+					((BatteryLevelCondition) condition).type = BatteryLevelCondition.TYPE_BELOW;
 				}
 			}
 
@@ -78,7 +78,7 @@ public class BatteryConditionFragment extends BaseFragment {
 	@Override
 	protected Condition onPreSaveCondition() {
 		BatteryLevelCondition c = (BatteryLevelCondition) condition;
-		String aboveOrBelow = c.type == BatteryLevelCondition.BatteryLevelType.ABOVE ?
+		String aboveOrBelow = c.type == BatteryLevelCondition.TYPE_ABOVE ?
 				"Above" : "Below";
 		return c;
 	}

@@ -117,7 +117,7 @@ public abstract class Condition {
 	public static List<Condition> asList() {
 		// TODO - 每增加一个Condition，都要在这里新增一项
 		List<Condition> conditions = new ArrayList<>();
-		conditions.add(new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.BELOW, 0.3f));
+		conditions.add(new BatteryLevelCondition(BatteryLevelCondition.TYPE_BELOW, 0.3f));
 		conditions.add(new CallerCondition("10086"));
 		conditions.add(new ChargerCondition(true));
 		conditions.add(new LocationCondition("Home"));

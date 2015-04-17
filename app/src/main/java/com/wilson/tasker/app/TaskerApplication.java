@@ -77,7 +77,7 @@ public class TaskerApplication extends Application {
 
 	private void test() {
 
-		BatteryLevelCondition condition = new BatteryLevelCondition(BatteryLevelCondition.BatteryLevelType.ABOVE, 100);
+		BatteryLevelCondition condition = new BatteryLevelCondition(BatteryLevelCondition.TYPE_ABOVE, 100);
 		String streamCondition = Utils.GSON.toJson(condition, Condition.class);
 		BatteryLevelCondition condition2 = (BatteryLevelCondition) Utils.GSON.fromJson(streamCondition, Condition.class);
 

@@ -24,12 +24,16 @@ android {
 }
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 
 dependencies {
+    compile 'com.nineoldandroids:library:2.4.+'
+    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.robbypond:material-dialogs:1.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     compile files('libs/baidumapapi_v3_3_0.jar')

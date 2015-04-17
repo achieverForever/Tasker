@@ -5,8 +5,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.wilson.tasker.events.OrientationEvent;
+import com.wilson.tasker.utils.Utils;
 
 import de.greenrobot.event.EventBus;
 
@@ -41,6 +43,8 @@ public class OrientationManager implements SensorEventListener {
 
 	public void register() {
 		if (!isRegistered) {
+			Log.d(Utils.LOG_TAG, "register OrientationManager");
+
 			sensorManager.registerListener(this,
 					sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
 					SensorManager.SENSOR_DELAY_NORMAL);
@@ -50,6 +54,8 @@ public class OrientationManager implements SensorEventListener {
 
 	public void unregister() {
 		if (isRegistered) {
+			Log.d(Utils.LOG_TAG, "unregister BatteryLevelMonitor");
+
 			sensorManager.unregisterListener(this);
 			isRegistered = false;
 		}

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
 import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.AppListAdapter;
 import com.wilson.tasker.conditions.TopAppCondition;
@@ -28,6 +29,7 @@ public class AppListDialog extends DialogFragment
 
 	private AppListAdapter adapter;
 	private GridView appList;
+	private ProgressBarCircularIndeterminate progressBar;
 	private TopAppCondition condition;
 	private OnConditionChangedListener listener;
 
@@ -71,6 +73,8 @@ public class AppListDialog extends DialogFragment
 		getDialog().setTitle("Select a Trigger App");
 		setCancelable(false);
 		appList = (GridView) rootView.findViewById(R.id.gv_app_list);
+		progressBar = (ProgressBarCircularIndeterminate) rootView.findViewById(R.id.progress);
+		progressBar.setVisibility(View.VISIBLE);
 		appList.setOnItemClickListener(this);
 	}
 
@@ -89,6 +93,7 @@ public class AppListDialog extends DialogFragment
 
 	@Override
 	public void onLoadFinished(Loader<List<AppEntry>> loader, List<AppEntry> data) {
+		progressBar.setVisibility(View.GONE);
 		adapter.setData(data);
 		if (condition != null) {
 			int pos = findSelection(condition.targetPkgName, data);

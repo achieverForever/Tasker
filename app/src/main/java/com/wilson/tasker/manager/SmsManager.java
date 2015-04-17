@@ -31,6 +31,8 @@ public class SmsManager {
 
 	public synchronized void register() {
 		if (!isRegistered) {
+			Log.d(Utils.LOG_TAG, "register SmsManager");
+
 			IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 			context.registerReceiver(smsReceiver, intentFilter);
 			isRegistered = true;
@@ -39,6 +41,8 @@ public class SmsManager {
 
 	public synchronized void unregister() {
 		if (isRegistered) {
+			Log.d(Utils.LOG_TAG, "unregister SmsManager");
+
 			context.unregisterReceiver(smsReceiver);
 			isRegistered = false;
 		}

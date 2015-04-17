@@ -6,24 +6,32 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.gc.materialdesign.views.ButtonFlat;
 import com.wilson.tasker.R;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
 
 public class EditBatteryLevelConditionDialog extends DialogFragment implements View.OnClickListener {
+	private static final String EXTRA_BATTERY_LEVEL_TYPE = "com.wilson.tasker.battery_level_type";
+	private static final String EXTRA_TARGET_VALUE = "com.wilson.tasker.target_value";
+
 	private Spinner batteryLevelList;
 	private Spinner batteryLevelType;
-	private Button confirmBtn;
+	private ButtonFlat confirmBtn;
 	private BatteryLevelCondition condition;
 	private OnConditionChangedListener listener;
 
-	public static EditBatteryLevelConditionDialog newInstance() {
-		return new EditBatteryLevelConditionDialog();
+	public static EditBatteryLevelConditionDialog newInstance(int type, float targetValue) {
+		Bundle data = new Bundle();
+		data.putInt(EXTRA_BATTERY_LEVEL_TYPE, type);
+		data.putFloat(EXTRA_TARGET_VALUE, targetValue);
+		EditBatteryLevelConditionDialog dialog = new EditBatteryLevelConditionDialog();
+		dialog.setArguments(data);
+		return dialog;
 	}
 
 	public EditBatteryLevelConditionDialog() {
@@ -42,7 +50,7 @@ public class EditBatteryLevelConditionDialog extends DialogFragment implements V
 		getDialog().setTitle("Edit Battery Level Condition");
 		batteryLevelList = (Spinner) rootView.findViewById(R.id.battery_level_list);
 		batteryLevelType = (Spinner) rootView.findViewById(R.id.battery_level_type);
-		confirmBtn = (Button) rootView.findViewById(R.id.confirm);
+		confirmBtn = (ButtonFlat) rootView.findViewById(R.id.confirm);
 		confirmBtn.setOnClickListener(this);
 	}
 
@@ -57,9 +65,10 @@ public class EditBatteryLevelConditionDialog extends DialogFragment implements V
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		batteryLevelList.setAdapter(adapter);
 		batteryLevelType.setAdapter(adapter2);
+		batteryLevelType.setSelection(getArguments().getInt(EXTRA_BATTERY_LEVEL_TYPE, 0));
+		int selection = (int) (getArguments().getFloat(EXTRA_TARGET_VALUE, 0.1f) * 10 - 1);
+		batteryLevelList.setSelection(selection);
 	}
-
-
 
 	public void setCondition(BatteryLevelCondition condition) {
 		this.condition = condition;
@@ -73,10 +82,10 @@ public class EditBatteryLevelConditionDialog extends DialogFragment implements V
 		return Float.parseFloat(percentStr.replace("%", "")) / 100f;
 	}
 
-	private BatteryLevelCondition.BatteryLevelType getBatteryLevelType(String typeStr) {
+	private int getBatteryLevelType(String typeStr) {
 		return typeStr.equals("Above") ?
-			BatteryLevelCondition.BatteryLevelType.ABOVE :
-			BatteryLevelCondition.BatteryLevelType.BELOW;
+			BatteryLevelCondition.TYPE_ABOVE :
+			BatteryLevelCondition.TYPE_BELOW;
 	}
 
 	@Override

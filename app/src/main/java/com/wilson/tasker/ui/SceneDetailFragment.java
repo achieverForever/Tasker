@@ -18,15 +18,21 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.ActionListAdapter;
 import com.wilson.tasker.adapters.ConditionListAdapter;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
+import com.wilson.tasker.conditions.CallerCondition;
+import com.wilson.tasker.conditions.ChargerCondition;
+import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
 import com.wilson.tasker.manager.FontManager;
+import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -35,7 +41,13 @@ import com.wilson.tasker.ui.dialogs.AddActionDialog;
 import com.wilson.tasker.ui.dialogs.AddConditionDialog;
 import com.wilson.tasker.ui.dialogs.AppListDialog;
 import com.wilson.tasker.ui.dialogs.EditBatteryLevelConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -51,6 +63,9 @@ public class SceneDetailFragment extends Fragment
 	private Button btnAddCondition;
 	private Button btnAddAction;
 	private Scene scene;
+
+	/** 保存被删除的Condition，用于后续反注册Manager */
+	private List<Condition> removedConditions = new ArrayList<>();
 
 	public static SceneDetailFragment newInstance() {
 		return new SceneDetailFragment();
@@ -96,18 +111,14 @@ public class SceneDetailFragment extends Fragment
 		setUpConditionList(inflater);
 		setUpActionList(inflater);
 
-		btnSave.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
+		btnSave.setOnClickListener(new OnSaveSceneClickListener());
 	}
 
 	private void setUpConditionList(LayoutInflater inflater) {
 		View addConditionFooter = inflater.inflate(R.layout.condition_list_footer, conditionList, false);
 		conditionList.addFooterView(addConditionFooter);
 		conditionList.setAdapter(conditionListAdapter);
+
 		conditionList.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -115,35 +126,7 @@ public class SceneDetailFragment extends Fragment
 				return false;
 			}
 		});
-		conditionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Condition condition = (Condition) parent.getAdapter().getItem(position);
-				// TODO - 根据不同类型的Condition显示对应的Condition编辑界面
-				switch (condition.eventCode) {
-					case Event.EVENT_TOP_APP_CHANGED:
-						AppListDialog appListDialog = AppListDialog.newInstance();
-						appListDialog.setCondition((TopAppCondition) condition);
-						appListDialog.setOnConditionChangedListener(SceneDetailFragment.this);
-						appListDialog.show(getFragmentManager(), "app_list");
-						break;
-					case Event.EVENT_LOCATION:
-						Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
-						startActivity(intent);
-					case Event.EVENT_BATTERY_LEVEL:
-						EditBatteryLevelConditionDialog batteryLevelDialog
-							= EditBatteryLevelConditionDialog.newInstance();
-						batteryLevelDialog.setCondition((BatteryLevelCondition) condition);
-						batteryLevelDialog.setOnConditionChangedListener(SceneDetailFragment.this);
-						batteryLevelDialog.show(getFragmentManager(), "edit_battery_level_dialog");
-						break;
-					default:
-						Log.d(Utils.LOG_TAG,
-							Event.eventCodeToString(condition.eventCode) + " condition click");
-						break;
-				}
-			}
-		});
+
 		conditionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
@@ -153,32 +136,118 @@ public class SceneDetailFragment extends Fragment
 				return true;
 			}
 		});
+
 		addConditionFooter.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showAddConditionDialog();
 			}
 		});
+
+		conditionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Condition condition = (Condition) parent.getAdapter().getItem(position);
+				// TODO - 根据不同类型的Condition显示对应的Condition编辑界面
+				switch (condition.eventCode) {
+
+					case Event.EVENT_TOP_APP_CHANGED:
+						showAppListDialog((TopAppCondition) condition);
+						break;
+
+					case Event.EVENT_LOCATION:
+						Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
+						startActivity(intent);
+						break;
+
+					case Event.EVENT_BATTERY_LEVEL:
+						showBatteryLevelDialog((BatteryLevelCondition) condition);
+						break;
+
+					case Event.EVENT_CALLER:
+						showCallerDialog((CallerCondition) condition);
+						break;
+
+					case Event.EVENT_SMS:
+						showSmsDialog((SmsCondition) condition);
+						break;
+
+					case Event.EVENT_CHARGER:
+						showChargerDialog((ChargerCondition) condition);
+						break;
+
+					default:
+						Log.d(Utils.LOG_TAG,
+							Event.eventCodeToString(condition.eventCode) + " condition click");
+						break;
+				}
+			}
+		});
+
 		setListViewHeightBasedOnChildren(conditionList);
 	}
 
+	private void showAppListDialog(TopAppCondition condition) {
+		AppListDialog appListDialog = AppListDialog.newInstance();
+		appListDialog.setCondition(condition);
+		appListDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		appListDialog.show(getFragmentManager(), "app_list");
+	}
+
+	private void showBatteryLevelDialog(BatteryLevelCondition condition) {
+		EditBatteryLevelConditionDialog batteryLevelDialog
+				= EditBatteryLevelConditionDialog.newInstance(
+				condition.type, condition.targetValue);
+		batteryLevelDialog.setCondition(condition);
+		batteryLevelDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		batteryLevelDialog.show(getFragmentManager(), "edit_battery_level_dialog");
+	}
+
+	private void showCallerDialog(CallerCondition condition) {
+		EditCallerConditionDialog editCallerDialog
+				= EditCallerConditionDialog.newInstance((condition.callerNumber));
+		editCallerDialog.setCondition(condition);
+		editCallerDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		editCallerDialog.show(getFragmentManager(), "edit_caller_dialog");
+	}
+
+	private void showSmsDialog(SmsCondition condition) {
+		EditSmsConditionDialog editSmsDialog
+				= EditSmsConditionDialog.newInstance(condition.msgFromPtn, condition.msgBodyPtn);
+		editSmsDialog.setCondition(condition);
+		editSmsDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		editSmsDialog.show(getFragmentManager(), "edit_sms_dialog");
+	}
+
+	private void showChargerDialog(ChargerCondition condition) {
+		EditChargerConditionDialog editChargerDialog
+				= EditChargerConditionDialog.newInstance(condition.isCharging);
+		editChargerDialog.setCondition(condition);
+		editChargerDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		editChargerDialog.show(getFragmentManager(), "edit_charger_dialog");
+	}
+
 	private void showDeleteConditionDialog(final Condition condition) {
-		new AlertDialog.Builder(getActivity())
-			.setMessage("Are you sure you want to delete this item?")
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					conditionListAdapter.handleConditionChanged(condition, null);
-					setListViewHeightBasedOnChildren(conditionList);
-				}
-			})
-			.setNegativeButton("No", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
+		new MaterialDialog.Builder(getActivity())
+				.content("Are your sure you want to delete this item?")
+				.positiveText("Yes")
+				.negativeText("No")
+				.callback(new MaterialDialog.Callback() {
+					@Override
+					public void onPositive(MaterialDialog materialDialog) {
+						removedConditions.add(condition);
+						conditionListAdapter.handleConditionChanged(condition, null);
+						setListViewHeightBasedOnChildren(conditionList);
+					}
+
+					@Override
+					public void onNegative(MaterialDialog materialDialog) {
+						materialDialog.dismiss();
+					}
+				})
+				.build()
+				.show();
+
 	}
 
 	private void showAddConditionDialog() {
@@ -188,8 +257,7 @@ public class SceneDetailFragment extends Fragment
 	}
 
 	private void setUpActionList(LayoutInflater inflater) {
-		View addActionFooter
-			= inflater.inflate(R.layout.action_list_footer, actionList, false);
+		View addActionFooter = inflater.inflate(R.layout.action_list_footer, actionList, false);
 		actionList.addFooterView(addActionFooter);
 		actionList.setAdapter(actionListAdapter);
 
@@ -207,6 +275,7 @@ public class SceneDetailFragment extends Fragment
 
 			}
 		});
+
 		actionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
@@ -223,6 +292,7 @@ public class SceneDetailFragment extends Fragment
 				showAddActionDialog();
 			}
 		});
+
 		setListViewHeightBasedOnChildren(actionList);
 	}
 
@@ -254,6 +324,8 @@ public class SceneDetailFragment extends Fragment
 	public void onEvent(SceneDetailEvent event) {
 		Log.d(Utils.LOG_TAG, "onEvent [" + Event.eventCodeToString(event.eventCode) + "]");
 		scene = event.scene;
+		// Scene处于编辑状态时不允许被调度执行
+		scene.setState(Scene.STATE_DISABLED);
 	}
 
 	@Override
@@ -285,5 +357,19 @@ public class SceneDetailFragment extends Fragment
 		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
 		listView.requestLayout();
+	}
+
+	private class OnSaveSceneClickListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			scene.setDesc(edtSceneName.getText().toString());
+			scene.setState(Scene.STATE_ENABLED);
+
+			// 反注册删除的Condition相关的Manager，减少资源占用
+			SceneManager.getInstance().unregisterManager(getActivity(), removedConditions);
+			// 为新增的Condition重新注册Manager
+			SceneManager.getInstance().registerManager(getActivity(), scene.getConditions());
+			getActivity().finish();
+		}
 	}
 }

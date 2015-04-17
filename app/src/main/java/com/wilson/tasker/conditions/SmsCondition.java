@@ -12,12 +12,13 @@ import com.wilson.tasker.events.SmsEvent;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
+import com.wilson.tasker.utils.Utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // CHECK
 public class SmsCondition extends Condition {
-	public static final String DOT_ALL = ".*";
 
 	public String msgFromPtn;
 	public String msgBodyPtn;
@@ -32,8 +33,9 @@ public class SmsCondition extends Condition {
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		SmsEvent ev = (SmsEvent) event;
-		return Pattern.matches(DOT_ALL + msgFromPtn + DOT_ALL, ev.msgFrom)
-			&& Pattern.matches(DOT_ALL + msgBodyPtn + DOT_ALL, ev.msgBody);
+		String cleanNumber = Utils.cleanNumber(msgFromPtn);
+		return Pattern.matches(Utils.DOT_ALL + cleanNumber + Utils.DOT_ALL, ev.msgFrom)
+			&& Pattern.matches(Utils.DOT_ALL + msgBodyPtn + Utils.DOT_ALL, ev.msgBody);
 	}
 
 	@Override

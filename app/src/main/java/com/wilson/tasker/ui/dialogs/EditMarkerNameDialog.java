@@ -56,6 +56,7 @@ public class EditMarkerNameDialog extends DialogFragment {
 		final View view = LayoutInflater.from(getActivity())
 				.inflate(R.layout.dialog_marker_name, null, false);
 		final EditText markerName = (EditText) view.findViewById(R.id.marker_name);
+
 		markerName.setText(defaultAddr);
 		markerName.setSelection(defaultAddr.length());
 

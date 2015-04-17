@@ -95,8 +95,8 @@ public class WorkerService extends Service {
 		if (intent == null) {
 			Log.d(TAG, "service recreated.");
 		}
-		Log.d(TAG, String.format("onStartCommand: myPid=%d, myTid=%d, myUid=%d",
-				Process.myPid(), Process.myTid(), Process.myUid()));
+//		Log.d(TAG, String.format("onStartCommand: myPid=%d, myTid=%d, myUid=%d",
+//				Process.myPid(), Process.myTid(), Process.myUid()));
 
 		handler.post(new Runnable() {
 			@Override

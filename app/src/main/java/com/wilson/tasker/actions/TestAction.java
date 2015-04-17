@@ -1,11 +1,14 @@
 package com.wilson.tasker.actions;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wilson.tasker.R;
 import com.wilson.tasker.model.Action;
 
 public class TestAction extends Action {
@@ -22,8 +25,10 @@ public class TestAction extends Action {
 
 	@Override
 	public View getView(Context context, ViewGroup parent) {
-		TextView view = new TextView(context);
-		view.setText("Test Action");
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View view = inflater.inflate(R.layout.list_item_action_common, parent, false);
+		TextView name = (TextView) view.findViewById(R.id.name);
+		name.setText("Test Action");
 		return view;
 	}
 }

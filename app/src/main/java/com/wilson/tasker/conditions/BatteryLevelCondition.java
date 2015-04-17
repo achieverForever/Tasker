@@ -15,15 +15,16 @@ import com.wilson.tasker.model.Event;
 
 //CHECK
 public class BatteryLevelCondition extends Condition {
-	public enum BatteryLevelType {ABOVE, BELOW}
+	public static final int TYPE_ABOVE = 0;
+	public static final int TYPE_BELOW = 1;
 
 	/** 电量类型 */
-	public BatteryLevelType type;
+	public int type;
 
 	/** 电量值 0.0~1.0之间 */
 	public float targetValue;
 
-	public BatteryLevelCondition(BatteryLevelType type, float targetValue) {
+	public BatteryLevelCondition(int type, float targetValue) {
 		super(Event.EVENT_BATTERY_LEVEL, "Battery Level", R.drawable.ic_battery_high, true);
 		this.type = type;
 		this.targetValue = targetValue;
@@ -33,7 +34,7 @@ public class BatteryLevelCondition extends Condition {
 	public boolean performCheckEvent(Event event) {
 		super.performCheckEvent(event);
 		BatteryLevelEvent ev = (BatteryLevelEvent) event;
-		if (type == BatteryLevelType.ABOVE) {
+		if (type == TYPE_ABOVE) {
 			return ev.batteryLevel > targetValue;
 		} else {
 			return ev.batteryLevel < targetValue;
@@ -53,7 +54,7 @@ public class BatteryLevelCondition extends Condition {
 		}
 		title.setText("Battery Level");
 		title.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
-		String typeStr = type == BatteryLevelType.ABOVE ? "above" : "below";
+		String typeStr = type == TYPE_ABOVE ? "above" : "below";
 		desc.setText(String.format("Trigger When Battery Level is %s %.0f%%", typeStr, targetValue * 100));
 		desc.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		return view;
