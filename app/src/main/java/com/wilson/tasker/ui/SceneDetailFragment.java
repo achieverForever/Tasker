@@ -28,6 +28,7 @@ import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.ChargerCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
+import com.wilson.tasker.events.RefreshSceneListEvent;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
@@ -364,6 +365,8 @@ public class SceneDetailFragment extends Fragment
 		public void onClick(View v) {
 			scene.setDesc(edtSceneName.getText().toString());
 			scene.setState(Scene.STATE_ENABLED);
+
+			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
 
 			// 反注册删除的Condition相关的Manager，减少资源占用
 			SceneManager.getInstance().unregisterManager(getActivity(), removedConditions);

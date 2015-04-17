@@ -77,6 +77,8 @@
                     android:text="Save Changes"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
+                    android:singleLine="true"
+                    android:maxLines="1"
                     style="@style/ColorfulButtonGreen">
 
                     <requestFocus />
