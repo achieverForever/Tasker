@@ -8,4 +8,7 @@
         android:dashGap="3dp"
         android:dashWidth="2dp" />
 
+    <solid
+        android:color="@color/transparent" />
+
 </shape>
