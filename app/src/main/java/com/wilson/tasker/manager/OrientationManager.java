@@ -54,7 +54,7 @@ public class OrientationManager implements SensorEventListener {
 
 	public void unregister() {
 		if (isRegistered) {
-			Log.d(Utils.LOG_TAG, "unregister BatteryLevelMonitor");
+			Log.d(Utils.LOG_TAG, "unregister OrientationManager");
 
 			sensorManager.unregisterListener(this);
 			isRegistered = false;

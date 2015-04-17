@@ -1,19 +1,26 @@
 package com.wilson.tasker.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
+import com.wilson.tasker.service.WorkerService;
 import com.wilson.tasker.utils.Utils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SceneManager {
+	public static final String PREF_KEY_SCENES = "com.wilson.tasker.scenes";
 
 	/** 单例 */
 	private static SceneManager sInstance = new SceneManager();
@@ -57,6 +64,17 @@ public class SceneManager {
 	public void handleSceneDeactivated(Context context, Scene scene) {
 		// TODO - implements me
 		scene.setState(Scene.STATE_ENABLED);
+	}
+
+	public void handleAfterSceneSaved(Context context, List<Condition> removedConditions,
+	                                 List<Condition> newConditions) {
+		// 反注册删除的Condition相关的Manager，减少资源占用
+		SceneManager.getInstance().unregisterManager(context, removedConditions);
+		// 为新增的Condition重新注册Manager
+		SceneManager.getInstance().registerManager(context, newConditions);
+		// 保存所有序列化后的Scenes到SharedPrefs
+		SceneManager.getInstance()
+				.saveScenes(context.getSharedPreferences(WorkerService.SHARED_PREF_NAME, 0));
 	}
 
 	public synchronized void addScene(Context context, Scene scene) {
@@ -178,6 +196,28 @@ public class SceneManager {
 
 	public ArrayList<Scene> getScenes() {
 		return scenes;
+	}
+
+	public synchronized void saveScenes(SharedPreferences sharedPrefs) {
+		List<String> flattenScenes = new ArrayList<>();
+		for (int i = 0; i < scenes.size(); i++) {
+			flattenScenes.add(Utils.GSON.toJson(scenes.get(i), Scene.class));
+		}
+		Log.d(Utils.LOG_TAG, String.format("saveScenes: %d scenes", flattenScenes.size()));
+		Log.d(Utils.LOG_TAG, "serialized scenes:" + flattenScenes);
+		sharedPrefs.edit().putString(PREF_KEY_SCENES, Utils.GSON.toJson(flattenScenes)).commit();
+	}
+
+	public synchronized void loadScenes(Context context, SharedPreferences sharedPreferences) {
+		scenes.clear();
+		Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+		List<String> serializedScenes
+				= Utils.GSON.fromJson(sharedPreferences.getString(PREF_KEY_SCENES, ""), listType);
+		for (String serializedScene : serializedScenes) {
+			Scene scene = Utils.GSON.fromJson(serializedScene, Scene.class);
+			addScene(context, scene);
+		}
+		Log.d(Utils.LOG_TAG, String.format("loadScenes: %d scenes", serializedScenes.size()));
 	}
 
 }

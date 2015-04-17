@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 
@@ -29,23 +30,18 @@ public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 		String name = jsonObject.get("name").getAsString();
 		String desc = jsonObject.get("desc").getAsString();
 		int state = jsonObject.get("state").getAsInt();
-		List<Condition> conditions = new ArrayList<>();
-		List<Action> actions = new ArrayList<>();
+
+		Scene scene = new Scene(name, desc, false);
+		scene.setState(state);
 
 		JsonArray jsonArray = jsonObject.get("conditions").getAsJsonArray();
 		for (int i = 0; i < jsonArray.size(); i++) {
-			conditions.add(Utils.GSON.fromJson(jsonArray.get(i), Condition.class));
+			scene.addCondition(Utils.GSON.fromJson(jsonArray.get(i), Condition.class));
 		}
 
 		JsonArray jsonArray2 = jsonObject.get("actions").getAsJsonArray();
 		for (int j = 0; j < jsonArray2.size(); j++) {
-			actions.add(Utils.GSON.fromJson(jsonArray2.get(j), Action.class));
-		}
-
-		Scene scene = new Scene(name, desc, false);
-		scene.setState(state);
-		for (Condition c : scene.getConditions()) {
-			c.listener = scene;
+			scene.addAction(Utils.GSON.fromJson(jsonArray2.get(j), Action.class));
 		}
 
 		return scene;

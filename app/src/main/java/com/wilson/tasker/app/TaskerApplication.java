@@ -48,9 +48,15 @@ public class TaskerApplication extends Application {
 		// 初始化百度地图SDK
 		SDKInitializer.initialize(this);
 		startService(new Intent(this, WorkerService.class));
-		initDefaultScenes();
 
-//		test();
+		//test();
+		if (Utils.isFreshInstall(this)) {
+			initDefaultScenes();
+		} else {
+			SceneManager.getInstance()
+					.loadScenes(this, getSharedPreferences(WorkerService.SHARED_PREF_NAME, 0));
+		}
+
 	}
 
 	private void initDefaultScenes() {
@@ -73,6 +79,9 @@ public class TaskerApplication extends Application {
 		SceneManager.getInstance().addScene(this, batteryScene);
 		SceneManager.getInstance().addScene(this, homeScene);
 		SceneManager.getInstance().addScene(this, sleepScene);
+		SceneManager.getInstance()
+				.saveScenes(getSharedPreferences(WorkerService.SHARED_PREF_NAME, 0));
+
 	}
 
 	private void test() {

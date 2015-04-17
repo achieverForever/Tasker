@@ -1,10 +1,14 @@
 package com.wilson.tasker.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
+import com.wilson.tasker.service.WorkerService;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,4 +38,15 @@ public class Utils {
 		}
 		return cleanNumber;
 	}
+
+	public static boolean isFreshInstall(Context context) {
+		SharedPreferences sharedPrefs
+				= context.getSharedPreferences(WorkerService.SHARED_PREF_NAME, 0);
+		boolean freshInstall = sharedPrefs.getBoolean("is_fresh_install", true);
+		if (freshInstall) {
+			sharedPrefs.edit().putBoolean("is_fresh_install", false).commit();
+		}
+		return freshInstall;
+	}
 }
+
