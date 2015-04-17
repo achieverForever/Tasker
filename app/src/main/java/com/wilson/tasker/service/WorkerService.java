@@ -11,13 +11,9 @@ import android.os.IBinder;
 import android.os.Process;
 import android.util.Log;
 
-import com.baidu.location.BDGeofence;
-import com.baidu.location.BDLocationStatusCodes;
-import com.baidu.location.GeofenceClient;
-import com.baidu.location.LocationClient;
 import com.wilson.tasker.events.AddGeofenceEvent;
+import com.wilson.tasker.events.AfterSceneSavedEvent;
 import com.wilson.tasker.events.BatteryLevelEvent;
-import com.wilson.tasker.events.LocationEvent;
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
 import com.wilson.tasker.manager.ApplicationManager;
@@ -41,6 +37,7 @@ import de.greenrobot.event.EventBus;
 //TODO - 将定位相关代码从Service中剥离
 public class WorkerService extends Service {
 	public static final String TAG = "WorkerService";
+	public static final String SHARED_PREF_NAME = "com.wilson.tasker.pref_scenes";
 
 	public static final int SECOND = 1000;
 	public static final int MINUTE = 60 * SECOND;
@@ -94,9 +91,10 @@ public class WorkerService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent == null) {
 			Log.d(TAG, "service recreated.");
+			SceneManager.getInstance().loadScenes(this, getSharedPreferences(SHARED_PREF_NAME, 0));
 		}
-//		Log.d(TAG, String.format("onStartCommand: myPid=%d, myTid=%d, myUid=%d",
-//				Process.myPid(), Process.myTid(), Process.myUid()));
+		Log.d(TAG, String.format("onStartCommand: myPid=%d, myTid=%d, myUid=%d",
+				Process.myPid(), Process.myTid(), Process.myUid()));
 
 		handler.post(new Runnable() {
 			@Override
@@ -141,6 +139,13 @@ public class WorkerService extends Service {
 						// 处理新增地理围栏事件
 						LocationManager.getInstance(WorkerService.this)
 							.handleAddGeofenceEvent((AddGeofenceEvent) event);
+						return;
+					}
+					case Event.EVENT_AFTER_SCENE_SAVED: {
+						AfterSceneSavedEvent event1 = (AfterSceneSavedEvent) event;
+						SceneManager.getInstance()
+								.handleAfterSceneSaved(WorkerService.this,
+										event1.removedConditions, event1.newConditions);
 						return;
 					}
 					default:

@@ -1,8 +1,6 @@
 package com.wilson.tasker.ui;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +17,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gc.materialdesign.views.ButtonRectangle;
 import com.wilson.tasker.R;
 import com.wilson.tasker.adapters.ActionListAdapter;
 import com.wilson.tasker.adapters.ConditionListAdapter;
@@ -29,12 +26,12 @@ import com.wilson.tasker.conditions.ChargerCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
+import com.wilson.tasker.events.AfterSceneSavedEvent;
 import com.wilson.tasker.events.RefreshSceneListEvent;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
 import com.wilson.tasker.manager.FontManager;
-import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -121,14 +118,6 @@ public class SceneDetailFragment extends Fragment
 		View addConditionFooter = inflater.inflate(R.layout.condition_list_footer, conditionList, false);
 		conditionList.addFooterView(addConditionFooter);
 		conditionList.setAdapter(conditionListAdapter);
-
-		conditionList.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});
 
 		conditionList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
@@ -244,7 +233,7 @@ public class SceneDetailFragment extends Fragment
 
 	private void showDeleteConditionDialog(final Condition condition) {
 		new MaterialDialog.Builder(getActivity())
-				.content("Are your sure you want to delete this item?")
+				.content("Are your sure you want to delete this condition?")
 				.positiveText("Yes")
 				.negativeText("No")
 				.callback(new MaterialDialog.Callback() {
@@ -276,14 +265,6 @@ public class SceneDetailFragment extends Fragment
 		actionList.addFooterView(addActionFooter);
 		actionList.setAdapter(actionListAdapter);
 
-		actionList.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});
-
 		actionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -312,22 +293,24 @@ public class SceneDetailFragment extends Fragment
 	}
 
 	private void showDeleteActionDialog(final Action action) {
-		new AlertDialog.Builder(getActivity())
-			.setMessage("Are you sure you want to delete this item?")
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					actionListAdapter.handleActionChanged(action, null);
-					setListViewHeightBasedOnChildren(actionList);
-				}
-			})
-			.setNegativeButton("No", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			})
-			.show();
+		new MaterialDialog.Builder(getActivity())
+				.content("Are your sure you want to delete this action?")
+				.positiveText("Yes")
+				.negativeText("No")
+				.callback(new MaterialDialog.Callback() {
+					@Override
+					public void onPositive(MaterialDialog materialDialog) {
+						actionListAdapter.handleActionChanged(action, null);
+						setListViewHeightBasedOnChildren(actionList);
+					}
+
+					@Override
+					public void onNegative(MaterialDialog materialDialog) {
+						materialDialog.dismiss();
+					}
+				})
+				.build()
+				.show();
 	}
 
 	private void showAddActionDialog() {
@@ -381,11 +364,7 @@ public class SceneDetailFragment extends Fragment
 			scene.setState(Scene.STATE_ENABLED);
 
 			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
-
-			// 反注册删除的Condition相关的Manager，减少资源占用
-			SceneManager.getInstance().unregisterManager(getActivity(), removedConditions);
-			// 为新增的Condition重新注册Manager
-			SceneManager.getInstance().registerManager(getActivity(), scene.getConditions());
+			EventBus.getDefault().post(new AfterSceneSavedEvent(removedConditions, scene.getConditions()));
 			getActivity().finish();
 		}
 	}
