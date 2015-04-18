@@ -39,7 +39,7 @@ public class ApplicationManager {
 			lastPkgName = pkgName;
 			Intent launchIntent = pm.getLaunchIntentForPackage(pkgName);
 			notifyTopAppChanged(pkgName, launchIntent);
-			Log.d(Utils.LOG_TAG, "Top app changed: pkgName=" + pkgName + ", intent=" + launchIntent.toString());
+			Log.d(Utils.LOG_TAG, "Top app changed: pkgName=" + pkgName);
 			return true;
 		} else {
 			return false;
