@@ -13,6 +13,10 @@ import com.wilson.tasker.model.Action;
 
 public class WallpaperAction extends Action {
 
+	public WallpaperAction() {
+		super(TYPE_WALL_PAPER, "Wallpaper", R.drawable.icon_wallpaper);
+	}
+
 	@Override
 	public boolean performAction(Context context) {
 		return false;

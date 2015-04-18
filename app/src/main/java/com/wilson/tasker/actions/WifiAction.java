@@ -18,7 +18,7 @@ public class WifiAction extends Action {
 	public boolean on;
 
 	public WifiAction(boolean on) {
-		super(TYPE_WIFI, "Wi-Fi", R.drawable.icon_wifi);
+		super(TYPE_WIFI, "Wi-Fi", R.drawable.ic_signal_wifi_3_bar_grey600_48dp);
 		this.on = on;
 	}
 

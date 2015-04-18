@@ -24,7 +24,7 @@ public abstract class Action {
 	public static final int TYPE_AIRPLANE_MODE = TYPE_MIN_VALUE + 2;
 	public static final int TYPE_BLUETOOTH = TYPE_MIN_VALUE + 3;
 	public static final int TYPE_BRIGHTNESS = TYPE_MIN_VALUE + 4;
-	public static final int TYPE_WALL_PAPER_= TYPE_MIN_VALUE + 5;
+	public static final int TYPE_WALL_PAPER= TYPE_MIN_VALUE + 5;
 	public static final int TYPE_WIFI = TYPE_MIN_VALUE + 6;
 	public static final int TYPE_WIFI_CONNECT = TYPE_MIN_VALUE + 7;
 

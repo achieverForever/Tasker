@@ -16,7 +16,7 @@ public class WifiConnectAction extends Action {
 	public int networkId;
 
 	public WifiConnectAction(int networkId) {
-		super(TYPE_WIFI_CONNECT, "Connect to Specified AP", R.drawable.ic_wifi_signal_3);
+		super(TYPE_WIFI_CONNECT, "Connect to Specified AP", R.drawable.ic_connect_to_wifi);
 		this.networkId = networkId;
 	}
 
