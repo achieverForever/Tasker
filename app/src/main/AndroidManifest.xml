@@ -78,9 +78,6 @@
         <activity
             android:name=".ui.SceneDetailActivity"
             android:label="@string/title_activity_scene_detail"></activity>
-        <activity
-            android:name=".ui.EditConditionActivity"
-            android:label="@string/title_activity_edit_condition"></activity>
 
         <service android:name=".service.WorkerService" />
 
