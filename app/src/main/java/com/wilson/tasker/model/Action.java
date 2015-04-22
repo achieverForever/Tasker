@@ -91,7 +91,7 @@ public abstract class Action {
 		actions.add(new AirplaneModeAction(true));
 		actions.add(new BluetoothAction(true));
 		actions.add(new BrightnessAction(200));
-		actions.add(new WallpaperAction());
+		actions.add(new WallpaperAction(null));
 		actions.add(new WifiAction(true));
 		actions.add(new WifiConnectAction(1));
 		return actions;

@@ -37,7 +37,7 @@ public class AddActionDialog extends DialogFragment implements AdapterView.OnIte
 	}
 
 	private void setupViews(View rootView) {
-		getDialog().setTitle("Select a Condition");
+		getDialog().setTitle("Select an Action");
 		actionList = (GridView) rootView.findViewById(R.id.action_list);
 		actionList.setOnItemClickListener(this);
 	}
