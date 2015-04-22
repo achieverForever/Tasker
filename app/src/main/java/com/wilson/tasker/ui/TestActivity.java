@@ -112,17 +112,6 @@ public class TestActivity extends Activity {
 			}
 		});
 
-		wallpaper.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				try {
-					displayManager.setWallpaper(TestActivity.this.getAssets().open("wallpaper.jpg"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
 		screenOffTimeOut.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {

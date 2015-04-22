@@ -56,8 +56,6 @@ public class SceneManager {
 		} else {
 			Log.d(Utils.LOG_TAG, "runScene [" + scene.toString() + "] failed.");
 		}
-		// 恢复Scene的状态为ENABLED
-		scene.setState(Scene.STATE_ENABLED);
 		return success;
 	}
 

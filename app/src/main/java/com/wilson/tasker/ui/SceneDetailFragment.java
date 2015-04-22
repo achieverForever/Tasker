@@ -1,6 +1,7 @@
 package com.wilson.tasker.ui;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,9 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wilson.tasker.R;
+import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.WallpaperAction;
+import com.wilson.tasker.actions.WifiConnectAction;
 import com.wilson.tasker.adapters.ActionListAdapter;
 import com.wilson.tasker.adapters.ConditionListAdapter;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
@@ -31,6 +35,7 @@ import com.wilson.tasker.events.RefreshSceneListEvent;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
+import com.wilson.tasker.manager.DisplayManager;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
@@ -40,12 +45,15 @@ import com.wilson.tasker.ui.dialogs.AddActionDialog;
 import com.wilson.tasker.ui.dialogs.AddConditionDialog;
 import com.wilson.tasker.ui.dialogs.AppListDialog;
 import com.wilson.tasker.ui.dialogs.EditBatteryLevelConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditBrightnessActionDialog;
 import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.utils.Utils;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +61,7 @@ import de.greenrobot.event.EventBus;
 
 public class SceneDetailFragment extends Fragment
 	implements OnConditionChangedListener, OnActionChangedListener {
+	private static final int REQUEST_PICK_IMAGE = 100;
 
 	private EditText edtSceneName;
 	private Button btnSave;
@@ -268,7 +277,20 @@ public class SceneDetailFragment extends Fragment
 		actionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Action action = (Action) actionListAdapter.getItem(position);
+				switch (action.actionType) {
+					case Action.TYPE_BRIGHTNESS:
+						showBrightnessDialog((BrightnessAction) action);
+						break;
 
+					case Action.TYPE_WALL_PAPER:
+						showWallpaperDialog((WallpaperAction) action);
+						break;
+
+					case Action.TYPE_WIFI_CONNECT:
+						showWifiConnectDialog((WifiConnectAction) action);
+						break;
+				}
 			}
 		});
 
@@ -290,6 +312,25 @@ public class SceneDetailFragment extends Fragment
 		});
 
 		setListViewHeightBasedOnChildren(actionList);
+	}
+
+	private void showBrightnessDialog(BrightnessAction action) {
+		EditBrightnessActionDialog dialog
+				= EditBrightnessActionDialog.newInstance(action.brightness);
+		dialog.setAction(action);
+		dialog.setOnActionChangedListener(this);
+		dialog.show(getFragmentManager(), "edit_brightness_dialog");
+	}
+
+	private void showWallpaperDialog(WallpaperAction action) {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, REQUEST_PICK_IMAGE);
+	}
+
+	private void showWifiConnectDialog(WifiConnectAction action) {
+
 	}
 
 	private void showDeleteActionDialog(final Action action) {
@@ -366,6 +407,23 @@ public class SceneDetailFragment extends Fragment
 			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
 			EventBus.getDefault().post(new AfterSceneSavedEvent(removedConditions, scene.getConditions()));
 			getActivity().finish();
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+			if (data == null) {
+				Log.e(Utils.LOG_TAG, "No image data returned");
+				return;
+			}
+			// TODO - 这里比较挫，如何将返回的Uri赋值给WallpaperAction
+			for (Action action : scene.getActions()) {
+				if (action.actionType == Action.TYPE_WALL_PAPER) {
+					((WallpaperAction) action).imageUri = data.getData();
+				}
+			}
 		}
 	}
 }

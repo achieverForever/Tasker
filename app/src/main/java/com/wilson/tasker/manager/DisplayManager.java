@@ -5,6 +5,7 @@ import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.WindowManager;
@@ -73,29 +74,41 @@ public class DisplayManager {
 	/**
 	 * 设置壁纸
 	 *
-	 * @param in 壁纸的图片文件输入流
+	 * @param uri 壁纸的Uri
 	 */
-	public void setWallpaper(InputStream in) {
-		WallpaperManager wm = WallpaperManager.getInstance(context);
-		final int minHeight = wm.getDesiredMinimumHeight();
-		final int minWidth = wm.getDesiredMinimumWidth() * 2;
-
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inJustDecodeBounds = true;
-		BitmapFactory.decodeStream(in, null, opts);
-		final int width = opts.outWidth;
-		final int height = opts.outHeight;
-		opts.inSampleSize = Math.min(width / minWidth, height / minHeight);
-
-		opts.inJustDecodeBounds = false;
-		Bitmap bitmap = BitmapFactory.decodeStream(in, null, opts);
-		if (bitmap != null) {
-			try {
-				wm.setBitmap(bitmap);
-			} catch (IOException e) {
-				Log.e(Utils.LOG_TAG, "Error on decoding bitmap");
-			}
+	public void setWallpaper(Uri uri) {
+		if (uri == null) {
+			throw new NullPointerException("Image uri must not be null.");
 		}
+
+		WallpaperManager wm = WallpaperManager.getInstance(context);
+		try {
+			wm.setStream(context.getContentResolver().openInputStream(uri));
+		} catch (IOException e) {
+			Log.e(Utils.LOG_TAG, "Error on opening image file");
+		}
+
+//		final int minHeight = wm.getDesiredMinimumHeight();
+//		final int minWidth = wm.getDesiredMinimumWidth() * 2;
+//
+//		BitmapFactory.Options opts = new BitmapFactory.Options();
+//		opts.inJustDecodeBounds = true;
+//		BitmapFactory.decodeStream(in, null, opts);
+//		final int width = opts.outWidth;
+//		final int height = opts.outHeight;
+//		opts.inSampleSize = Math.min(width / minWidth, height / minHeight);
+//
+//		opts.inJustDecodeBounds = false;
+//		Bitmap bitmap = BitmapFactory.decodeStream(in, null, opts);
+//		if (bitmap != null) {
+//			try {
+//				wm.setBitmap(bitmap);
+//			} catch (IOException e) {
+//				Log.e(Utils.LOG_TAG, "Error on decoding bitmap");
+//			}
+//		} else {
+//			Log.e(Utils.LOG_TAG, "decodeStream returned null");
+//		}
 	}
 
 	/**

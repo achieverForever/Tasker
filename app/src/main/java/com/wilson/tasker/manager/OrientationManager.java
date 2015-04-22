@@ -101,8 +101,8 @@ public class OrientationManager implements SensorEventListener {
 			lastOrientation = ORIENTATION_FACE_UP;
 			lastReportOrientation = ORIENTATION_FACE_UP;
 			EventBus.getDefault().post(new OrientationEvent(ORIENTATION_FACE_UP));
-//			Log.d(Utils.LOG_TAG, "face up");
-		}
+			Log.d(Utils.LOG_TAG, "face up");
+			}
 	}
 
 	private void onFaceDown() {
@@ -110,7 +110,7 @@ public class OrientationManager implements SensorEventListener {
 			lastOrientation = ORIENTATION_FACE_DOWN;
 			lastReportOrientation = ORIENTATION_FACE_DOWN;
 			EventBus.getDefault().post(new OrientationEvent(ORIENTATION_FACE_DOWN));
-//			Log.d(Utils.LOG_TAG, "face down");
+			Log.d(Utils.LOG_TAG, "face down");
 		}
 	}
 }

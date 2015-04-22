@@ -1,6 +1,7 @@
 package com.wilson.tasker.actions;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +9,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wilson.tasker.R;
+import com.wilson.tasker.manager.DisplayManager;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Action;
 
 public class WallpaperAction extends Action {
+	public Uri imageUri;
 
-	public WallpaperAction() {
+	public WallpaperAction(Uri imageUri) {
 		super(TYPE_WALL_PAPER, "Wallpaper", R.drawable.icon_wallpaper);
+		this.imageUri = imageUri;
 	}
 
 	@Override
 	public boolean performAction(Context context) {
-		return false;
+		DisplayManager.getsInstance(context).setWallpaper(imageUri);
+		return true;
 	}
 
 	@Override
