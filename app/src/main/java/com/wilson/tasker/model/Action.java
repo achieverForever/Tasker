@@ -93,7 +93,7 @@ public abstract class Action {
 		actions.add(new BrightnessAction(200));
 		actions.add(new WallpaperAction(null));
 		actions.add(new WifiAction(true));
-		actions.add(new WifiConnectAction(1));
+		actions.add(new WifiConnectAction(1, "unknown"));
 		return actions;
 	}
 }

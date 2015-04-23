@@ -2,8 +2,10 @@ package com.wilson.tasker.ui;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -37,6 +39,7 @@ import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
 import com.wilson.tasker.manager.DisplayManager;
 import com.wilson.tasker.manager.FontManager;
+import com.wilson.tasker.manager.WifiManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -50,6 +53,7 @@ import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditWifiConnectActionDialog;
 import com.wilson.tasker.utils.Utils;
 
 import java.io.FileNotFoundException;
@@ -329,8 +333,35 @@ public class SceneDetailFragment extends Fragment
 		startActivityForResult(intent, REQUEST_PICK_IMAGE);
 	}
 
-	private void showWifiConnectDialog(WifiConnectAction action) {
+	private void showWifiConnectDialog(final WifiConnectAction action) {
+		android.net.wifi.WifiManager wifiManager = (android.net.wifi.WifiManager) getActivity()
+				.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled()) {
+			new MaterialDialog.Builder(getActivity())
+					.content("To continue, Wi-Fi must be enabled.\n Do you want to enable it now?")
+					.positiveText("Yes")
+					.negativeText("No")
+					.callback(new MaterialDialog.Callback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+							startActivity(intent);
+						}
 
+						@Override
+						public void onNegative(MaterialDialog materialDialog) {
+							actionListAdapter.handleActionChanged(action, null);
+						}
+					})
+					.build()
+					.show();
+		} else {
+			EditWifiConnectActionDialog dialog
+					= EditWifiConnectActionDialog.newInstance(action.networkId, action.ssid);
+			dialog.setAction(action);
+			dialog.setOnActionChangedListener(this);
+			dialog.show(getFragmentManager(), "edit_wifi_connect_dialog");
+		}
 	}
 
 	private void showDeleteActionDialog(final Action action) {

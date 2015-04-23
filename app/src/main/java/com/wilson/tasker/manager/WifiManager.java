@@ -37,11 +37,17 @@ public class WifiManager {
 	 * @return 成功返回true，否则为false
 	 */
 	public boolean connectToNetwork(int networkId) {
-		boolean ret;
-		setWifiEnabled(true);
-		ret = wifiManager.disconnect();
-		ret = ret & wifiManager.enableNetwork(networkId, true);
-		ret = ret & wifiManager.reconnect();
+		boolean ret = true;
+		synchronized (this) {
+			try {
+				setWifiEnabled(true);
+				wait(2000);
+				ret = wifiManager.disconnect();
+				ret = ret & wifiManager.enableNetwork(networkId, true);
+				ret = ret & wifiManager.reconnect();
+			} catch (InterruptedException e) {
+			}
+		}
 		return ret;
 	}
 }

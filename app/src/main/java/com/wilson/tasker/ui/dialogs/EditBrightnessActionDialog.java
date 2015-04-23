@@ -61,7 +61,6 @@ public class EditBrightnessActionDialog extends DialogFragment implements View.O
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				float value = MIN_BRIGHTNESS + progress * STEP;
-				Log.d(Utils.LOG_TAG, "" + value);
 			}
 
 			@Override
