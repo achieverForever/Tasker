@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.wilson.tasker.actions.AirplaneModeAction;
 import com.wilson.tasker.actions.BluetoothAction;
 import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.SendSmsAction;
 import com.wilson.tasker.actions.WallpaperAction;
 import com.wilson.tasker.actions.WifiAction;
 import com.wilson.tasker.actions.WifiConnectAction;
@@ -27,6 +28,7 @@ public abstract class Action {
 	public static final int TYPE_WALL_PAPER= TYPE_MIN_VALUE + 5;
 	public static final int TYPE_WIFI = TYPE_MIN_VALUE + 6;
 	public static final int TYPE_WIFI_CONNECT = TYPE_MIN_VALUE + 7;
+	public static final int TYPE_SEND_SMS = TYPE_MIN_VALUE + 8;
 
 	/** Action当前状态 */
 	public int state;
@@ -94,6 +96,7 @@ public abstract class Action {
 		actions.add(new WallpaperAction(null));
 		actions.add(new WifiAction(true));
 		actions.add(new WifiConnectAction(1, "unknown"));
+		actions.add(new SendSmsAction("10086", "hi"));
 		return actions;
 	}
 }

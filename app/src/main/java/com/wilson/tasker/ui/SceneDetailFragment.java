@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wilson.tasker.R;
 import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.SendSmsAction;
 import com.wilson.tasker.actions.WallpaperAction;
 import com.wilson.tasker.actions.WifiConnectAction;
 import com.wilson.tasker.adapters.ActionListAdapter;
@@ -29,6 +30,7 @@ import com.wilson.tasker.adapters.ConditionListAdapter;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.ChargerCondition;
+import com.wilson.tasker.conditions.LocationCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
@@ -52,6 +54,7 @@ import com.wilson.tasker.ui.dialogs.EditBrightnessActionDialog;
 import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditSendSmsAcitionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditWifiConnectActionDialog;
 import com.wilson.tasker.utils.Utils;
@@ -66,6 +69,7 @@ import de.greenrobot.event.EventBus;
 public class SceneDetailFragment extends Fragment
 	implements OnConditionChangedListener, OnActionChangedListener {
 	private static final int REQUEST_PICK_IMAGE = 100;
+	private static final int REQUEST_GET_LOCATION = 200;
 
 	private EditText edtSceneName;
 	private Button btnSave;
@@ -162,7 +166,7 @@ public class SceneDetailFragment extends Fragment
 
 					case Event.EVENT_LOCATION:
 						Intent intent = new Intent(getActivity(), BaiduMapActivity.class);
-						startActivity(intent);
+						startActivityForResult(intent, REQUEST_GET_LOCATION);
 						break;
 
 					case Event.EVENT_BATTERY_LEVEL:
@@ -294,6 +298,10 @@ public class SceneDetailFragment extends Fragment
 					case Action.TYPE_WIFI_CONNECT:
 						showWifiConnectDialog((WifiConnectAction) action);
 						break;
+
+					case Action.TYPE_SEND_SMS:
+						showSendSmsDialog((SendSmsAction) action);
+						break;
 				}
 			}
 		});
@@ -362,6 +370,14 @@ public class SceneDetailFragment extends Fragment
 			dialog.setOnActionChangedListener(this);
 			dialog.show(getFragmentManager(), "edit_wifi_connect_dialog");
 		}
+	}
+
+	private void showSendSmsDialog(SendSmsAction action) {
+		EditSendSmsAcitionDialog dialog
+				= EditSendSmsAcitionDialog.newInstance(action.smsTo, action.content);
+		dialog.setAction(action);
+		dialog.setOnActionChangedListener(this);
+		dialog.show(getFragmentManager(), "edit_send_sms_dialog");
 	}
 
 	private void showDeleteActionDialog(final Action action) {
@@ -453,6 +469,19 @@ public class SceneDetailFragment extends Fragment
 			for (Action action : scene.getActions()) {
 				if (action.actionType == Action.TYPE_WALL_PAPER) {
 					((WallpaperAction) action).imageUri = data.getData();
+				}
+			}
+		} else if (requestCode == REQUEST_GET_LOCATION && resultCode == Activity.RESULT_OK) {
+			if (data == null) {
+				Log.e(Utils.LOG_TAG, "No location data returned");
+				return;
+			}
+			String markerName = data.getStringExtra(BaiduMapActivity.KEY_MARKER_NAME);
+			// TODO - 这里也比较挫
+			for (Condition condition : scene.getConditions()) {
+				if (condition.eventCode == Event.EVENT_LOCATION) {
+					conditionListAdapter.handleConditionChanged(((LocationCondition) condition),
+							new LocationCondition(markerName));
 				}
 			}
 		}

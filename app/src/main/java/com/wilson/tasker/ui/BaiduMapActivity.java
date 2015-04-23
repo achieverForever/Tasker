@@ -142,11 +142,11 @@ public class BaiduMapActivity extends ActionBarActivity
 		baiduMap.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
 			@Override
 			public void onMapLongClick(LatLng latLng) {
+				confirmBtn.setEnabled(false);
 				clearOverlay();
 				OverlayOptions options = new MarkerOptions().position(latLng)
 						.icon(markerIcon).zIndex(9).draggable(true);
 				marker = (Marker) (baiduMap.addOverlay(options));
-				confirmBtn.setEnabled(true);
 
 				handleLocationSelected(marker.getPosition());
 			}
@@ -248,18 +248,20 @@ public class BaiduMapActivity extends ActionBarActivity
 				public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
 					if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 						// 没有找到检索结果
-						markerName = "";
+						markerName = "unknown";
 					} else {
 						// 获取反地理编码结果
 						markerName = result.getAddress();
 					}
 					Log.d(Utils.LOG_TAG, "reverse geocode result: " + result.getAddress());
+					confirmBtn.setEnabled(true);
 					showInfoWindow();
 				}
 			};
 
 			reverseGeoCode(marker.getPosition(), listener);
 		} else {
+			confirmBtn.setEnabled(true);
 			showInfoWindow();
 		}
 	}
