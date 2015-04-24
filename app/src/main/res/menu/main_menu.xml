@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_task"
+        android:id="@+id/action_new_scene"
         android:icon="@drawable/ic_action_new_show"
         app:showAsAction="always"
-        android:title="Add Task" />
+        android:title="New Scene" />
     <item
-        android:id="@+id/action_priority"
+        android:id="@+id/action_view_timeline"
         android:icon="@drawable/ic_action_filter"
         app:showAsAction="always"
-        android:title="Priority" />
+        android:title="Timeline" />
 
 </menu>

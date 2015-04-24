@@ -80,12 +80,7 @@ public class SceneListFragment extends Fragment {
 		btnNewScene.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Scene scene = new Scene("", "New Scene", false);
-				SceneManager.getInstance().addScene(getActivity(), scene);
-				EventBus.getDefault().postSticky(new SceneDetailEvent(scene));
-				startActivity(new Intent(getActivity(), SceneDetailActivity.class));
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-				adapter.notifyDataSetChanged();
+				createScene();
 			}
 		});
 	}
@@ -110,6 +105,15 @@ public class SceneListFragment extends Fragment {
 				.build()
 				.show();
 
+	}
+
+	public void createScene() {
+		Scene scene = new Scene("", "New Scene", false);
+		SceneManager.getInstance().addScene(getActivity(), scene);
+		EventBus.getDefault().postSticky(new SceneDetailEvent(scene));
+		startActivity(new Intent(getActivity(), SceneDetailActivity.class));
+		getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		adapter.notifyDataSetChanged();
 	}
 
 	public void onEvent(RefreshSceneListEvent event) {

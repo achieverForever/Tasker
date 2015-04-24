@@ -1,7 +1,9 @@
 package com.wilson.tasker.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.*;
 import android.os.Process;
 import android.util.Log;
@@ -22,6 +24,8 @@ import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
+import com.wilson.tasker.dao.DaoMaster;
+import com.wilson.tasker.dao.DaoSession;
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
@@ -40,6 +44,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TaskerApplication extends Application {
+
+	private static DaoMaster daoMaster;
+	private static DaoSession daoSession;
 
 	@Override
 	public void onCreate() {
@@ -100,6 +107,26 @@ public class TaskerApplication extends Application {
 		String streamScene = Utils.GSON.toJson(batteryScene, Scene.class);
 		Scene scene2 = Utils.GSON.fromJson(streamScene, Scene.class);
 
+	}
+
+	public static DaoMaster getDaoMaster(Context context)
+	{
+		if (daoMaster == null) {
+			DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "timeline-db", null);
+			daoMaster = new DaoMaster(helper.getWritableDatabase());
+		}
+		return daoMaster;
+	}
+
+	public static DaoSession getDaoSession(Context context)
+	{
+		if (daoSession == null) {
+			if (daoMaster == null) {
+				daoMaster = getDaoMaster(context);
+			}
+			daoSession = daoMaster.newSession();
+		}
+		return daoSession;
 	}
 
 }

@@ -11,6 +11,9 @@ import android.os.IBinder;
 import android.os.Process;
 import android.util.Log;
 
+import com.wilson.tasker.app.TaskerApplication;
+import com.wilson.tasker.dao.SceneActivity;
+import com.wilson.tasker.dao.SceneActivityDao;
 import com.wilson.tasker.events.AddGeofenceEvent;
 import com.wilson.tasker.events.AfterSceneSavedEvent;
 import com.wilson.tasker.events.BatteryLevelEvent;
@@ -26,6 +29,7 @@ import com.wilson.tasker.model.Scene;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -126,6 +130,7 @@ public class WorkerService extends Service {
 						SceneManager.getInstance()
 								.handleSceneActivated(WorkerService.this,
 										((SceneActivatedEvent) event).scene);
+						trackSceneActivated(((SceneActivatedEvent) event).scene);
 						return;
 					}
 					case Event.EVENT_SCENE_DEACTIVATED: {
@@ -133,6 +138,7 @@ public class WorkerService extends Service {
 						SceneManager.getInstance()
 								.handleSceneDeactivated(WorkerService.this,
 										((SceneDeactivatedEvent) event).scene);
+						trackSceneDeactivated(((SceneDeactivatedEvent) event).scene);
 						return;
 					}
 					case Event.EVENT_ADD_GEOFENCE: {
@@ -226,5 +232,17 @@ public class WorkerService extends Service {
 		PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
 //		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, pi);
 		alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SCHEDULE_INTERVAL, SCHEDULE_INTERVAL, pi);
+	}
+
+	private void trackSceneActivated(Scene scene) {
+		SceneActivityDao sceneActivityDao = ((TaskerApplication) getApplication())
+				.getDaoSession(this).getSceneActivityDao();
+		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getName(), 0));
+	}
+
+	private void trackSceneDeactivated(Scene scene) {
+		SceneActivityDao sceneActivityDao = ((TaskerApplication) getApplication())
+				.getDaoSession(this).getSceneActivityDao();
+		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getName(), 1));
 	}
 }

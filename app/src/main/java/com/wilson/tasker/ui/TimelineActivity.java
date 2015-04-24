@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBar;
 
 import com.wilson.tasker.R;
 
-public class PriorityActivity extends BaseActivity {
+public class TimelineActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class PriorityActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
-					.replace(R.id.content, PriorityFragment.newInstance())
+					.replace(R.id.content, TimelineFragment.newInstance())
 					.commit();
 		}
 

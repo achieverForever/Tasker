@@ -73,8 +73,8 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ui.PriorityActivity"
-            android:label="@string/title_activity_priority"></activity>
+            android:name=".ui.TimelineActivity"
+            android:label="@string/title_activity_timeline"></activity>
         <activity
             android:name=".ui.SceneDetailActivity"
             android:label="@string/title_activity_scene_detail"></activity>

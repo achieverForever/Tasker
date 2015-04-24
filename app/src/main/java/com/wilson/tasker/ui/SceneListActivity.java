@@ -1,5 +1,6 @@
 package com.wilson.tasker.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -20,7 +21,7 @@ public class SceneListActivity extends BaseActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
 					.beginTransaction()
-					.add(R.id.content, SceneListFragment.newInstance())
+					.add(R.id.content, SceneListFragment.newInstance(), "scene_list")
 					.commit();
 		}
 	}
@@ -34,9 +35,13 @@ public class SceneListActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.action_add_task:
+			case R.id.action_new_scene:
+				((SceneListFragment) getSupportFragmentManager()
+						.findFragmentByTag("scene_list")).createScene();
 				return true;
-			case R.id.action_priority:
+			case R.id.action_view_timeline:
+				Intent intent = new Intent(this, TimelineActivity.class);
+				startActivity(intent);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
