@@ -19,7 +19,7 @@ public class WifiConnectAction extends Action {
 	public String ssid;
 
 	public WifiConnectAction(int networkId, String ssid) {
-		super(TYPE_WIFI_CONNECT, "Connect to Specific AP", R.drawable.ic_connect_to_wifi);
+		super(TYPE_WIFI_CONNECT, "Connect to Specific AP", R.drawable.ic_connect_wifi2);
 		this.networkId = networkId;
 		this.ssid = ssid;
 	}
