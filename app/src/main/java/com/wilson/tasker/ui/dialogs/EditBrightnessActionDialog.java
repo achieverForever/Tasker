@@ -54,9 +54,10 @@ public class EditBrightnessActionDialog extends DialogFragment implements View.O
 		getDialog().setTitle("Edit Brightness Action");
 		confirmBtn = (ButtonFlat) rootView.findViewById(R.id.confirm);
 		brightness = (SeekBar) rootView.findViewById(R.id.brightness);
-		brightness.setMax((MAX_BRIGHTNESS - MIN_BRIGHTNESS) / STEP);
+		brightness.setMax((int) (1.0 * (MAX_BRIGHTNESS - MIN_BRIGHTNESS) / STEP));
 
 		confirmBtn.setOnClickListener(this);
+		brightness.setProgress((int) (1.0 * (action.brightness - MIN_BRIGHTNESS) / STEP));
 		brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

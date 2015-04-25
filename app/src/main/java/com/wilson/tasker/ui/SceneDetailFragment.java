@@ -14,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wilson.tasker.R;
@@ -67,6 +70,7 @@ public class SceneDetailFragment extends Fragment
 	private static final int REQUEST_GET_LOCATION = 200;
 
 	private EditText edtSceneName;
+	private CheckBox rollbackable;
 	private Button btnSave;
 	private ListView conditionList;
 	private ListView actionList;
@@ -111,6 +115,7 @@ public class SceneDetailFragment extends Fragment
 	private void setupViews(View root) {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		edtSceneName = (EditText) root.findViewById(R.id.edt_scene_name);
+		rollbackable = (CheckBox) root.findViewById(R.id.rollbackable);
 		conditionList = (ListView) root.findViewById(R.id.lv_conditions);
 		actionList = (ListView) root.findViewById(R.id.lv_actions);
 		btnSave = (Button) root.findViewById(R.id.btn_save);
@@ -124,6 +129,13 @@ public class SceneDetailFragment extends Fragment
 		setUpActionList(inflater);
 
 		btnSave.setOnClickListener(new OnSaveSceneClickListener());
+		rollbackable.setChecked(scene.isRollbackNeeded());
+		rollbackable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				scene.setIsRollbackNeeded(isChecked);
+			}
+		});
 	}
 
 	private void setUpConditionList(LayoutInflater inflater) {

@@ -61,8 +61,10 @@ public class SceneManager {
 	}
 
 	public void handleSceneDeactivated(Context context, Scene scene) {
-		// TODO - implements me
 		scene.setState(Scene.STATE_ENABLED);
+		if (scene.isRollbackNeeded()) {
+			scene.rollback(context);
+		}
 	}
 
 	public void handleAfterSceneSaved(Context context, List<Condition> removedConditions,
