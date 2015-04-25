@@ -183,17 +183,19 @@ Android是基于Linux2.6内核，其核心系统服务如安全性、内存管�
 ### 交互设计 & 界面设计
 
 主界面
-![主界面](https://dn-raysnote.qbox.me/p%2Fnotes%2F42c59b306940aef "图片标题")
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F563b9dcead8e140 "图片标题")
 
 Scene详情页面
-![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F7b44ee685d13f83 "图片标题")
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2Fc5e077eede689a1 "图片标题")
 
 新增Condition页面
-![新增Condition页面](https://dn-raysnote.qbox.me/p%2Fnotes%2F1be3a44d49bdfc4 "图片标题")
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F8b7ca86af64a56e "图片标题")
 
 Condition编辑页面(以LocationCondition为例)
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F6f89e1d8617cf1f "图片标题")
 
+Scene执行情况时间轴页面
+![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2Fcc02250ff099795 "图片标题")
 
 ### 第四章 系统设计与技术实现
 
