@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wilson.tasker.R;
+import com.wilson.tasker.manager.DisplayManager;
 import com.wilson.tasker.manager.FontManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.ui.RefreshBrightnessActivity;
 
 public class BrightnessAction extends Action {
 	public int brightness;    // 1~255
+	public int previousState;
 
 	public BrightnessAction(int brightness) {
 		super(TYPE_BRIGHTNESS, "Brightness", R.drawable.icon_brightness);
@@ -23,9 +25,19 @@ public class BrightnessAction extends Action {
 
 	@Override
 	public boolean performAction(Context context) {
+		previousState = DisplayManager.getsInstance(context).getBrightness();
 		Intent intent = new Intent(context, RefreshBrightnessActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(RefreshBrightnessActivity.EXTRA_BRIGHTNESS, brightness);
+		context.startActivity(intent);
+		return true;
+	}
+
+	@Override
+	public boolean rollback(Context context) {
+		Intent intent = new Intent(context, RefreshBrightnessActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(RefreshBrightnessActivity.EXTRA_BRIGHTNESS, previousState);
 		context.startActivity(intent);
 		return true;
 	}

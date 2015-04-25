@@ -17,6 +17,7 @@ import com.wilson.tasker.model.Action;
 
 public class BluetoothAction extends Action {
 	public boolean on;
+	public boolean previousState;
 
 	public BluetoothAction(boolean on) {
 		super(TYPE_BLUETOOTH, "Bluetooth", R.drawable.icon_bluetooth);
@@ -28,7 +29,14 @@ public class BluetoothAction extends Action {
 		if (!BluetoothEnabler.getsInstance().isBluetoothSupported()) {
 			return false;
 		}
+		previousState = BluetoothEnabler.getsInstance().isBluetoothEnabled();
 		BluetoothEnabler.getsInstance().setBluetoothEnabled(on);
+		return true;
+	}
+
+	@Override
+	public boolean rollback(Context context) {
+		BluetoothEnabler.getsInstance().setBluetoothEnabled(previousState);
 		return true;
 	}
 

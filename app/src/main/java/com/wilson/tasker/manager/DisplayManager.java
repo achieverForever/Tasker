@@ -50,14 +50,13 @@ public class DisplayManager {
 		activity.getWindow().setAttributes(lp);
 	}
 
-	public void getBrightness() {
+	public int getBrightness() {
 		try {
-			int b = android.provider.Settings.System.getInt(context.getContentResolver(),
+			return android.provider.Settings.System.getInt(context.getContentResolver(),
 					android.provider.Settings.System.SCREEN_BRIGHTNESS);
-			Log.d(Utils.LOG_TAG, "brightness=" + b);
 		} catch (Settings.SettingNotFoundException e) {
 			e.printStackTrace();
-			Log.d(Utils.LOG_TAG, "brightness=" + -1);
+			return -1;
 		}
 	}
 

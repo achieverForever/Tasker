@@ -30,6 +30,10 @@ public class WifiManager {
 		return wifiManager.setWifiEnabled(enabled);
 	}
 
+	public boolean isWifiEnabled() {
+		return wifiManager.isWifiEnabled();
+	}
+
 	/**
 	 * 连接到指定networkId的Wifi网络
 	 *

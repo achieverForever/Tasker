@@ -39,6 +39,13 @@ public final class BluetoothEnabler {
 		return false;
 	}
 
+	public boolean isBluetoothEnabled() {
+		if (localAdapter != null) {
+			return localAdapter.isEnabled();
+		}
+		return false;
+	}
+
 	/**
 	 * 获取设备是否支持蓝牙
 	 *

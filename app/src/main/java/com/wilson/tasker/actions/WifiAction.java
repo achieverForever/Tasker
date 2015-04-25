@@ -16,6 +16,7 @@ import com.wilson.tasker.model.Action;
 
 public class WifiAction extends Action {
 	public boolean on;
+	public boolean previousState;
 
 	public WifiAction(boolean on) {
 		super(TYPE_WIFI, "Wi-Fi", R.drawable.ic_signal_wifi_3_bar_grey600_48dp);
@@ -24,7 +25,14 @@ public class WifiAction extends Action {
 
 	@Override
 	public boolean performAction(Context context) {
+		previousState = WifiManager.getsInstance(context).isWifiEnabled();
 		return WifiManager.getsInstance(context).setWifiEnabled(on);
+	}
+
+	@Override
+	public boolean rollback(Context context) {
+		WifiManager.getsInstance(context).setWifiEnabled(previousState);
+		return true;
 	}
 
 	@Override

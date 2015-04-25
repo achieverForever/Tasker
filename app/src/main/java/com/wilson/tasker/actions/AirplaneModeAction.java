@@ -16,6 +16,7 @@ import com.wilson.tasker.model.Action;
 
 public class AirplaneModeAction extends Action {
 	public boolean on;
+	public boolean previousState;
 
 	public AirplaneModeAction(boolean on) {
 		super(TYPE_AIRPLANE_MODE, "Airplane Mode", R.drawable.ic_airplane_mode);
@@ -25,8 +26,15 @@ public class AirplaneModeAction extends Action {
 	@Override
 	public boolean performAction(Context context) {
 		if (on != AirplaneModeEnabler.getInstance(context).isAirplaneModeOn()) {
+			previousState = AirplaneModeEnabler.getInstance(context).isAirplaneModeOn();
 			AirplaneModeEnabler.getInstance(context).setAirplaneModeOn(on);
 		}
+		return true;
+	}
+
+	@Override
+	public boolean rollback(Context context) {
+		AirplaneModeEnabler.getInstance(context).setAirplaneModeOn(previousState);
 		return true;
 	}
 
