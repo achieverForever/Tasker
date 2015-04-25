@@ -80,7 +80,9 @@ public class SceneManager {
 
 	public synchronized void addScene(Context context, Scene scene) {
 		scenes.add(scene);
-		registerManager(context, scene.getConditions());
+		if (scene.getState() != Scene.STATE_DISABLED) {
+			registerManager(context, scene.getConditions());
+		}
 	}
 
 	public synchronized void removeScene(Context context, Scene scene) {
@@ -212,8 +214,8 @@ public class SceneManager {
 	public synchronized void loadScenes(Context context, SharedPreferences sharedPreferences) {
 		scenes.clear();
 		Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-		List<String> serializedScenes
-				= Utils.GSON.fromJson(sharedPreferences.getString(PREF_KEY_SCENES, ""), listType);
+		List<String> serializedScenes = Utils.GSON.fromJson(sharedPreferences
+				.getString(PREF_KEY_SCENES, ""), listType);
 		for (String serializedScene : serializedScenes) {
 			Scene scene = Utils.GSON.fromJson(serializedScene, Scene.class);
 			addScene(context, scene);

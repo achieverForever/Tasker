@@ -456,7 +456,9 @@ public class SceneDetailFragment extends Fragment
 			scene.setDesc(edtSceneName.getText().toString());
 
 			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
-			EventBus.getDefault().post(new SceneChangedEvent(removedConditions, scene.getConditions()));
+			if (scene.getState() != Scene.STATE_DISABLED) {
+				EventBus.getDefault().post(new SceneChangedEvent(removedConditions, scene.getConditions()));
+			}
 			getActivity().finish();
 		}
 	}
