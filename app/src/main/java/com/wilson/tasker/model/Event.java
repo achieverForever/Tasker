@@ -8,7 +8,7 @@ public abstract class Event {
 	public static final int EVENT_SCENE_DETAIL = 131;
 	public static final int EVENT_ADD_GEOFENCE = 132;
 	public static final int EVENT_REFRESH_SCENE_LIST = 133;
-	public static final int EVENT_AFTER_SCENE_SAVED = 134;
+	public static final int EVENT_SCENE_CHANGED = 134;
 
 	public static final int EVENT_BATTERY_LEVEL = 1;
 	public static final int EVENT_CALLER = 2;
@@ -56,7 +56,7 @@ public abstract class Event {
 			case 133:
 				return "EVENT_REFRESH_SCENE_LIST";
 			case 134:
-				return "EVENT_AFTER_SCENE_SAVED";
+				return "EVENT_SCENE_CHANGED";
 			default:
 				return "EVENT_UNKNOWN";
 		}

@@ -15,7 +15,7 @@ import com.wilson.tasker.app.TaskerApplication;
 import com.wilson.tasker.dao.SceneActivity;
 import com.wilson.tasker.dao.SceneActivityDao;
 import com.wilson.tasker.events.AddGeofenceEvent;
-import com.wilson.tasker.events.AfterSceneSavedEvent;
+import com.wilson.tasker.events.SceneChangedEvent;
 import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.events.SceneActivatedEvent;
 import com.wilson.tasker.events.SceneDeactivatedEvent;
@@ -147,8 +147,8 @@ public class WorkerService extends Service {
 							.handleAddGeofenceEvent((AddGeofenceEvent) event);
 						return;
 					}
-					case Event.EVENT_AFTER_SCENE_SAVED: {
-						AfterSceneSavedEvent event1 = (AfterSceneSavedEvent) event;
+					case Event.EVENT_SCENE_CHANGED: {
+						SceneChangedEvent event1 = (SceneChangedEvent) event;
 						SceneManager.getInstance()
 								.handleAfterSceneSaved(WorkerService.this,
 										event1.removedConditions, event1.newConditions);

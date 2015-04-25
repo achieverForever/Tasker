@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,14 +33,12 @@ import com.wilson.tasker.conditions.LocationCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
-import com.wilson.tasker.events.AfterSceneSavedEvent;
+import com.wilson.tasker.events.SceneChangedEvent;
 import com.wilson.tasker.events.RefreshSceneListEvent;
 import com.wilson.tasker.events.SceneDetailEvent;
 import com.wilson.tasker.listeners.OnActionChangedListener;
 import com.wilson.tasker.listeners.OnConditionChangedListener;
-import com.wilson.tasker.manager.DisplayManager;
 import com.wilson.tasker.manager.FontManager;
-import com.wilson.tasker.manager.WifiManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Event;
@@ -59,8 +56,6 @@ import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditWifiConnectActionDialog;
 import com.wilson.tasker.utils.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -410,8 +405,6 @@ public class SceneDetailFragment extends Fragment
 	public void onEvent(SceneDetailEvent event) {
 		Log.d(Utils.LOG_TAG, "onEvent [" + Event.eventCodeToString(event.eventCode) + "]");
 		scene = event.scene;
-		// Scene处于编辑状态时不允许被调度执行
-		scene.setState(Scene.STATE_DISABLED);
 	}
 
 	@Override
@@ -449,10 +442,9 @@ public class SceneDetailFragment extends Fragment
 		@Override
 		public void onClick(View v) {
 			scene.setDesc(edtSceneName.getText().toString());
-			scene.setState(Scene.STATE_ENABLED);
 
 			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
-			EventBus.getDefault().post(new AfterSceneSavedEvent(removedConditions, scene.getConditions()));
+			EventBus.getDefault().post(new SceneChangedEvent(removedConditions, scene.getConditions()));
 			getActivity().finish();
 		}
 	}

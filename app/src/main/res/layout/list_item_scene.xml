@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    android:orientation="horizontal">
 
     <com.wilson.tasker.ui.widget.FillableCircleView
         android:id="@+id/name"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:textSize="16sp"
         android:gravity="center"
         android:text="1"
@@ -23,10 +25,23 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/name"
         android:layout_marginLeft="15dp"
-        android:layout_gravity="center"
+        android:layout_centerVertical="true"
         android:textSize="24sp"
         android:text="TEST"
         android:typeface="monospace" />
 
+    <Switch
+        android:id="@+id/toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textOn=" "
+        android:textOff=" "
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:thumb="@drawable/custom_switch_thumb_selector"
+        android:track="@drawable/custom_switch_track_selector"
+        android:switchMinWidth="56dp"/>
 
-</LinearLayout>
+</RelativeLayout>
