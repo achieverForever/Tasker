@@ -3,6 +3,7 @@ package com.wilson.tasker.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,6 +58,8 @@ public class SceneManager {
 		} else {
 			Log.d(Utils.LOG_TAG, "runScene [" + scene.toString() + "] failed.");
 		}
+		Toast.makeText(context, String.format("Scene %s is activated", scene.getName()),
+				Toast.LENGTH_SHORT).show();
 		return success;
 	}
 
@@ -65,10 +68,12 @@ public class SceneManager {
 		if (scene.isRollbackNeeded()) {
 			scene.rollback(context);
 		}
+		Toast.makeText(context, String.format("Scene %s is deactivated", scene.getName()),
+				Toast.LENGTH_SHORT).show();
 	}
 
-	public void handleAfterSceneSaved(Context context, List<Condition> removedConditions,
-	                                 List<Condition> newConditions) {
+	public void handleSceneChanged(Context context, List<Condition> removedConditions,
+	                               List<Condition> newConditions) {
 		// 反注册删除的Condition相关的Manager，减少资源占用
 		SceneManager.getInstance().unregisterManager(context, removedConditions);
 		// 为新增的Condition重新注册Manager

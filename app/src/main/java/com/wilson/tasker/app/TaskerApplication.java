@@ -3,45 +3,21 @@ package com.wilson.tasker.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.*;
-import android.os.Process;
-import android.util.Log;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.wilson.tasker.actions.BluetoothAction;
 import com.wilson.tasker.actions.BrightnessAction;
-import com.wilson.tasker.actions.TestAction;
-import com.wilson.tasker.actions.WifiAction;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
-import com.wilson.tasker.conditions.CallerCondition;
 import com.wilson.tasker.conditions.SmsCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.dao.DaoMaster;
 import com.wilson.tasker.dao.DaoSession;
-import com.wilson.tasker.events.BatteryLevelEvent;
 import com.wilson.tasker.manager.SceneManager;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.service.WorkerService;
-import com.wilson.tasker.utils.ActionTypeAdapter;
-import com.wilson.tasker.utils.ConditionTypeAdapter;
-import com.wilson.tasker.utils.SceneTypeAdapter;
 import com.wilson.tasker.utils.Utils;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TaskerApplication extends Application {
 
@@ -78,7 +54,6 @@ public class TaskerApplication extends Application {
 //		batteryScene.addCondition(new CallerCondition("26888"));
 //		batteryScene.addAction(new BluetoothAction(true));
 //		batteryScene.addAction(new WifiAction(true));
-		batteryScene.addAction(new TestAction());
 
 		Scene homeScene = new Scene("home", "Home", false);
 		Scene sleepScene = new Scene("sleep", "Sleep", false);
