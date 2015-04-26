@@ -150,15 +150,15 @@ public class WorkerService extends Service {
 					case Event.EVENT_SCENE_CHANGED: {
 						SceneChangedEvent event1 = (SceneChangedEvent) event;
 						SceneManager.getInstance()
-								.handleAfterSceneSaved(WorkerService.this,
+								.handleSceneChanged(WorkerService.this,
 										event1.removedConditions, event1.newConditions);
 						return;
 					}
 					default:
 						break;
 				}
-				List<Scene> interestedScenes
-						= SceneManager.getInstance().findScenesByEvent(event.eventCode);
+				List<Scene> interestedScenes = SceneManager.getInstance()
+						.findScenesByEvent(event.eventCode);
 				if (interestedScenes.size() <= 0) {
 					return;
 				}
