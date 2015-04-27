@@ -15,9 +15,9 @@
 
 ### 摘要
 
-在移动互联网的时代，android平台早已经普及开来。人类正在前所未有的享受着科技所带来的前所未有的便利。而随着各种移动设备以及物联网的普及，人类可以让软件实现更加智能的管理各种设备。比如在晚上休息时不想被人打扰，可以自动的屏蔽手机上Email、短信、电话的接受，而等到明天早上才自动提醒用户；又比如当你打开Instagram分享照片时，你可能想把所分享的照片同时上传到你的Dropbox同步盘上。
+在移动互联网的时代，Android平台早已经普及开来。人类正享受着科技所带来的前所未有的便利。而随着各种移动设备以及物联网的普及，人类可以让软件实现更加智能的管理各种设备。比如在晚上休息时不想被人打扰，可以自动的屏蔽手机上Email、短信、电话，等到明天早上才自动提醒用户；又比如当你打开Instagram分享照片时，你可能想把所分享的照片同时上传到你的Dropbox上。
 
-本文就基于条件触发的Android自动化任务执行App进行设计和研究。本文首先介绍分析了当前基于情景等条件触发的app研究现状。然后介绍可以触发任务的情景，例如获取到用户的位置就应该调用相关的位置服务（LBS），设计好相关的情景是这个系统成功的关键。然后在介绍运用的Android开发技术，
+本文就基于条件触发的Android自动化任务执行App进行设计和研究。本文首先介绍了当前基于情景触发的APP研究现状，然后介绍可以触发任务的情景，例如获取到用户的位置就应该调用相关的位置服务（LBS），设计好相关的情景是这个系统成功的关键。然后在介绍运用的Android开发技术，
 论文给出了Android应用Tasker的实例。该实例实现了几种常用的自动化情景，以及提供接口给用户自定义情景任务。
 
 关键词：*Android*, *自动任务*，*LBS*, *情景*
@@ -204,7 +204,7 @@ Scene执行情况时间轴页面
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F05b4d706aecb1b5 "图片标题")
 Tasker主要包括WorkerService、SceneManager和各种监控或修改系统状态的Manager三大模块组成。以上是整个App的时序图，展示了Tasker从初始化启动到触发Scene执行的整个控制流。在WorkerService的`onCreate()`方法中，创建了一个HandlerThread以执行定时任务和处理各种事件，避免因为耗时的后台操作阻塞主线程。`scheduleSelf()`方法通过Android系统的`AlarmManager`调度Alarm，定时唤起WorkerService。最后WorkerService把自己注册到EventBus上，接收EventBus分发的消息。
 
-每次由Alarm唤起WorkerService后，执行`checkConditions()`，检测当前所有活动的Scene对应的Condition状态是否发生了变化。各种Condition的状态变更也是通过EventBus分发出去的。在WorkerService的`onEvent()`方法中，处理EventBus分发过来的各种事件。首先判断是否为Scene状态变更的事件(SCENE_ACTIVATED或SCENE_DEACTIVATED)，若是，则调用SceneManager的`handleSceneActivated/Deactivated()`方法处理；否该事件是来自各种事件源的事件。通过调用SceneManager的`findScenesByEvent()`找到与该事件类型关联的Scenes列表，再通过Scene的`dispatchEvent()`分发给对应的Scenes。Scene获得了这个事件后，具体的Condition满足性判断是有Scene所包含的Condition的`performCheckEvent()`处理的。如果Condition的满足性发生了变化，就会调用listener的`onConditionChanged()`通告其监听者，而Scene实现了这一方法。Scene收到Condition Changed这一通告以后，会考虑是否所有的Condition都已经满足。若是，则会向EventBus投递一个SCENE_ACTIVATED事件，带上Scene自己为参数，交由WorkerService去执行。WorkerService最终会调用Scene的`runScene()`执行某个Scene，具体的执行动作是由每个Action的`performAction()`进行的。
+唤起WorkerService的方式有两种，一是通过调度Alarm唤起，执行`checkConditions()`，检测当前所有活动的Scene对应的Condition状态是否发生了变化；另一种是由EventBus唤起，响应EventBus分发的事件。在WorkerService的`onEvent()`方法中，处理EventBus分发过来的各种事件。在`onEvent()`中，WorkerService首先判断该事件是否为Scene状态变更的事件(SCENE_ACTIVATED或SCENE_DEACTIVATED)，若是，则调用SceneManager的`handleSceneActivated/Deactivated()`方法处理否则该事件是来自各种事件源的事件，然后通过调用SceneManager的`findScenesByEvent()`找到与该事件类型关联的Scenes列表，再通过Scene的`dispatchEvent()`分发给对应的Scenes。Scene获得了这个事件后，由Scene所包含的Condition的`performCheckEvent()`负责判断Condition的满足性。如果Condition的满足性发生了变化，就会调用listener的`onConditionStateChanged()`通告其监听者，即Condition所在的Scene。Scene在`onConditionStateChanged()`这一回调中，会考虑所有的Condition是否都已经满足。若是，则会向EventBus投递一个SCENE_ACTIVATED事件，附上Scene为参数，交由WorkerService去执行。WorkerService最终会调用Scene的`runScene()`执行某个Scene的Action，具体的执行是由每个Action的`performAction()`完成的。
 
 
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F69a1aa1e53601a3 "图片标题")
@@ -213,11 +213,11 @@ Tasker主要包括WorkerService、SceneManager和各种监控或修改系统状�
 
 ### 4.2 数据模型定义
 
-经过分析，我们建立了以下几个Model表示App的数据结构，分别是Condition，Action，Scene和Event。其中Event用于在EventBus中传递消息，携带了事件类型及其参数。Condition是对一个条件的抽象，包含条件的状态，参数等信息。Action是各种操作的抽象表示，泛指一个可以执行的操作，例如修改系统某项设置，发短信，播放音乐等等。Scene表示情景，一个情景是由若干个Condition和若干个Action组成的。当且仅当所有Condition都满足的时候，该情景的Action才会执行。下面详细讨论每个Model的定义。
+经过分析，我们建立了以下几个Model表示App的数据结构，分别是Condition，Action，Scene和Event。其中Event用于在EventBus中传递消息，携带了事件类型及其参数。Condition是对一个条件的抽象，包含事件类型，条件的状态，参数等信息。Action是各种操作的抽象表示，泛指一个可以执行的操作，例如修改系统某项设置，发短信，播放音乐等等。Scene表示情景，一个情景是由若干个Condition和若干个Action组成的。当且仅当所有Condition都满足的时候，该情景的Action才会执行。下面详细讨论每个Model的定义。
 
 ### Condition
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F97c77d63b94dbf0 "图片标题")
-Condition表示一个Scene的前置条件，只有所有的前置条件都满足的情况下，这个Scene才会被执行。Condition和Event都带有一个eventType字段，基本上Event和Condition是一对一的关系。所有的条件都继承自Condition，派生类需要重写`performCheckEvent()`和`getView()`两个方法。派生类在`performCheckEvent()`实现条件是否满足的判断逻辑，在`getView()`中创建UI布局，返回的View将会作为一个Item在Condition的列表中显示。派生类在重写`performCheckEvent()`时，还必须先调用父类的实现，否则会抛出`IllegalStateException`。通过这种异常机制的约束，能确保Event和其派生类间能正确的转型。另外，Condition还定义了`ConditionStateChangedListener`接口，用于通告监听者Condition的状态发生了变更，这个监听者是由Scene来实现的。Scene在Condition的状态发生了变更的时候，可以判断是否需要执行或回滚Action，并变更自己的状态。
+Condition表示一个Scene的前置条件，只有所有的前置条件都满足的情况下，这个Scene才会被执行。Condition和Event都带有一个eventType字段，基本上Event和Condition是一对一的关系，根据eventType可以实现Event的分发和转型。所有的条件都继承自Condition，派生类需要重写`performCheckEvent()`和`getView()`两个方法。派生类在`performCheckEvent()`实现条件满足性的判断逻辑，在`getView()`中创建UI布局，返回的View将会作为一个Item在Condition的列表中显示。派生类在重写`performCheckEvent()`时，还必须先调用父类的实现，否则会抛出`IllegalStateException`。通过这种异常机制的约束，能确保Event和其派生类间能正确的转型。另外，Condition还定义了`ConditionStateChangedListener`接口，用于通告监听者Condition的状态发生了变更，这个监听者是由Scene来实现的。Scene在Condition的状态发生了变更的时候，可以判断是否需要执行或回滚Action，并变更自己的状态。
 
 ### Action
 ![图片描述](https://dn-raysnote.qbox.me/p%2Fnotes%2F8ea26af7d357131 "图片标题")
@@ -257,15 +257,21 @@ EventBus还提供了对多线程的支持，事件分发可以与事件投递线
 
 ### 4.4 持久化存储
 
-Gson是Google公司发布的一个开放源代码的Java库，主要用途为序列化Java对象为JSON字符串，或反序列化JSON字符串成Java对象。Gson提供了toJson()和fromJson()方便的接口用于在Java对象和JSON字符串之间互转，并实现了对所有Java基本数据类型的自动序列化/反序列化，同时还支持用户自定义的序列化器/反序列化器。对于我们的App，我们需求是实现Condition、Action和Scene对象的序列化/反序列化，由于涉及到继承关系，所以需要提供自定义的序列化器/反序列化器。其具体实现是在序列化的时候，往待返回的JSONObject中增加"type"和"properties"两个key，其中"type"保存了派生类的ClassName，"properties"保存了派生类的包括基类在内的所有成员；而在反序列化时，从"type"中获取派生类的ClassName，并提供给JsonDeserializationContext.deserialize()作为参数，让Gson的ClassLoader能知道派生类的路径，确保能加载到正确的派生类。实现了对象的序列化，下一步就是要解决存在哪里的问题了。鉴于我们的数据量比较少，且数据关系较简单，所以我们采用了Android提供的SharedPreferences存储。SharedPreferences提供了只在App内部才可访问的权限机制，并且能保证数据读写的一致性。将Scene的ID作为Key，可以将Scene的序列化存储到SharedPreferences中。
+在我们的App中，需要持久化存储的地方主要有两个。一是Scene的持久化，使得Service被杀死然后重启的时候能够不丢失之前的Scene数据；二是持久化存储Scene的触发记录，从而能够在Timeline页面显示所有Scene的触发历史。
+
+Scene的持久化存储我们采用了Gson库，下面简要介绍一下Gson以及我们在使用这个库的时候做的适配。
+
+Gson是Google公司发布的一个开放源代码的Java库，主要用途为序列化Java对象为JSON字符串，或反序列化JSON字符串成Java对象。Gson提供了toJson()和fromJson()方便的接口用于在Java对象和JSON字符串之间互转，并实现了对所有Java基本数据类型的自动序列化/反序列化，同时还支持用户自定义的序列化器/反序列化器。对于我们的App，我们需要实现序列化/反序列化的类太多了，不可能每个类都手工去实现`fromJson()`和`toJson()`方法。为了减少代码量，避免重复劳动，我们使用了自定义的序列化器/反序列化器，让Gson自动的帮我们完成这些工作。其具体实现是在序列化的时候，往待返回的JSONObject中增加"type"和"properties"两个映射，其中"type"保存了派生类的ClassName，"properties"保存了派生类的包括基类在内的所有成员；而在反序列化时，从"type"中获取派生类的ClassName，并提供给JsonDeserializationContext.deserialize()作为参数，让Gson的ClassLoader能知道派生类的路径，确保能加载到正确的派生类。实现了对象的序列化，下一步就是要解决存在哪里的问题了。鉴于我们的数据量比较少，且数据关系较简单，所以我们采用了Android提供的SharedPreferences存储。SharedPreferences提供了只在App内部才可访问的权限机制，并且支持多线程访问，保证数据读写的一致性。我们将Scene的列表序列化为JSON字符串后，再写入SharedPreference。每次对Scene的修改以后（如增加一个Condition，修改一个Action），我们都会执行`saveScenes()`保存所有的Scene到SharedPreference。然后在Application的`onCreate()`中，调用`loadScenes()`把保存的Scene加载回来。这样就能保证不会因为Service的杀死和重启丢失数据。
+
+我们是通过SQLite数据库实现Scene触发历史的持久化的。SQLite是Android框架自带的小型关系型数据库，但是数据库开发涉及到人工的去编写建表，查询，解析查询结果等繁琐且易错的SQL语句，而这一工作完全可以通过ORM技术完成。greenDAO是一个Android上的高性能ORM库，能自动完成Java对象到数据库表的映射，并提供了简单易用的增删改查API。greenDAO要求创建一个Java模块，在Java模块中定义自己的Schema，再通过greenDAO提供的API创建对应的DAO(数据访问对象)。这样，我们就能通过SceneActivityDao方便的实现SQLite数据库中SCENE_ACTIVITY表的增删改查了。
 
 ### 4.5 LBS
 
-本APP很重要的一个功能是LBS，即能根据用户所处的位置作出响应。为了开发方便，我们使用了百度地图的SDK。百度地图 Android SDK是一套基于Android 2.1及以上版本设备的应用程序接口，可以使用该套 SDK开发适用于Android系统移动设备的地图应用，通过调用地图SDK接口，可以轻松访问百度地图服务和数据，构建功能丰富、交互性强的地图类应用程序。根据我们的需求，我们用到了百度地图SDK的以下几个功能：2D地图的展示，反地理编码，地图选点，定位服务和地理围栏服务。
+本APP很重要的一个功能是LBS，即能根据用户所处的位置作出响应。为了方便开发，我们使用了百度地图的SDK。百度地图 Android SDK是一套基于Android 2.1及以上版本设备的应用程序接口，可以使用该套 SDK开发适用于Android系统移动设备的地图应用，通过调用地图SDK接口，可以轻松访问百度地图服务和数据，构建功能丰富、交互性强的地图类应用程序。根据我们的需求，我们用到了百度地图SDK的以下几个功能：2D地图的展示，反地理编码，地图选点，定位服务和地理围栏服务。
 
 ### 4.6 常驻后台
 
-在实现过程中另一个比较棘手的问题是如何常驻后台，在系统杀死进程后能自动重启，并且能保持一定的时间间隔唤醒CPU，实现对系统状态的监控。由于涉及到比较多的后台操作，所以我们实现了自己的WorkerService类，利用Android的AlarmManager每隔一段时间发出Alarm，调度执行WorkerService。为了进程被杀死后，Service能重启，需要在`onStartCommand()`返回`START_STICKY`，告诉Android系统重新创建我们的Service。使用AlarmManager的一个问题是无法精确控制Alarm之间的时间间隔。根据官方文档，从API 19开始所有的Alarm都是不精确的，Android系统为了减少手机被唤醒的次数以及较少耗电，会优化Alarm的间隔。如何实现一个可靠的调度机制，是一个值得商榷的问题。。。
+在实现过程中另一个比较棘手的问题是如何常驻后台，在系统杀死进程后能自动重启，并且能保持一定的时间间隔唤醒CPU，实现对系统状态的监控。由于涉及到比较多的后台操作，所以我们实现了自己的WorkerService类，利用Android的AlarmManager每隔一段时间发出Alarm，调度执行WorkerService。为了进程被杀死后，Service能重启，需要在`onStartCommand()`返回`START_STICKY`，告诉Android系统重新创建我们的Service。使用AlarmManager的一个问题是无法精确控制Alarm之间的时间间隔。根据官方文档，从API 19开始所有的Alarm都是不精确的，Android系统为了减少手机被唤醒的次数以及较少耗电，会优化Alarm的间隔，尽量让Alarm对Batch在一起。这个问题可能会造成我们App在条件状态判断的时候由一定的时延。
 
 WorkerService是整个程序的事件处理中心，我们把所有事件都注册到WorkerService上，这样我们就能方便的观察到各模块的事件流动和实现统一的事件分发。当WorkerService接收到一个事件时，会根据事件的类型作出不同的处理。如EVENT_SCENE_ATIVATED/DEACTIVATED事件会交由SceneManager处理，其他事件则会分发给对应的Scene。Android系统Service是默认运行在主线程的，为了避免后台操作阻塞UI显示，所以我们在WorkerService新创建的时候，开启了一个HandlerThread线程。当WorkerService接收到Alarm时，会将具体操作封装成一个Runnable，Post到后台线程的消息队列中执行，能保持访问的一致性。
 
