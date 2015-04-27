@@ -2,6 +2,7 @@ package com.wilson.tasker.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,6 +28,7 @@ public class Utils {
 		gsonBuilder.registerTypeAdapter(Condition.class, new ConditionTypeAdapter());
 		gsonBuilder.registerTypeAdapter(Action.class, new ActionTypeAdapter());
 		gsonBuilder.registerTypeAdapter(Scene.class, new SceneTypeAdapter());
+		gsonBuilder.registerTypeAdapter(Uri.class, new UriTypeAdapter());
 		GSON = gsonBuilder.create();
 	}
 
