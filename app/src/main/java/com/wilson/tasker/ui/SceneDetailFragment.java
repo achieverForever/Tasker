@@ -24,6 +24,7 @@ import android.widget.Switch;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wilson.tasker.R;
 import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.RingerModeAction;
 import com.wilson.tasker.actions.SendSmsAction;
 import com.wilson.tasker.actions.WallpaperAction;
 import com.wilson.tasker.actions.WifiConnectAction;
@@ -54,6 +55,7 @@ import com.wilson.tasker.ui.dialogs.EditBrightnessActionDialog;
 import com.wilson.tasker.ui.dialogs.EditCallerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditChargerConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditRingerModeAcitionDialog;
 import com.wilson.tasker.ui.dialogs.EditSendSmsAcitionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditWifiConnectActionDialog;
@@ -309,6 +311,10 @@ public class SceneDetailFragment extends Fragment
 					case Action.TYPE_SEND_SMS:
 						showSendSmsDialog((SendSmsAction) action);
 						break;
+
+					case Action.TYPE_RINGER_MODE:
+						showRingerModeDialog((RingerModeAction) action);
+						break;
 				}
 			}
 		});
@@ -380,11 +386,19 @@ public class SceneDetailFragment extends Fragment
 	}
 
 	private void showSendSmsDialog(SendSmsAction action) {
-		EditSendSmsAcitionDialog dialog
-				= EditSendSmsAcitionDialog.newInstance(action.smsTo, action.content);
+		EditSendSmsAcitionDialog dialog = EditSendSmsAcitionDialog
+				.newInstance(action.smsTo, action.content);
 		dialog.setAction(action);
 		dialog.setOnActionChangedListener(this);
 		dialog.show(getFragmentManager(), "edit_send_sms_dialog");
+	}
+
+	private void showRingerModeDialog(RingerModeAction action) {
+		EditRingerModeAcitionDialog dialog = EditRingerModeAcitionDialog
+				.newInstance(action.ringerMode);
+		dialog.setAction(action);
+		dialog.setOnActionChangedListener(this);
+		dialog.show(getFragmentManager(), "edit_ringer_mode_dialog");
 	}
 
 	private void showDeleteActionDialog(final Action action) {

@@ -29,4 +29,10 @@
         <item>Below</item>
     </string-array>
 
+    <string-array name="ringer_mode_list">
+        <item>Normal</item>
+        <item>Silent</item>
+        <item>Vibrate</item>
+    </string-array>
+
 </resources>

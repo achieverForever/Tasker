@@ -18,7 +18,7 @@ public class RingtoneManager {
 		audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 	}
 
-	public static RingtoneManager getsInstance(Context context) {
+	public static RingtoneManager getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new RingtoneManager(context.getApplicationContext());
 		}
@@ -32,6 +32,10 @@ public class RingtoneManager {
 	 */
 	public void setRingerMode(int ringerMode) {
 		audioManager.setRingerMode(ringerMode);
+	}
+
+	public int getRingerMode() {
+		return audioManager.getRingerMode();
 	}
 
 	//TODO - fixme (require the Activity to call startActivityForResult() and get the returned URI in onActivityResult())

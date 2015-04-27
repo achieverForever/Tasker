@@ -1,12 +1,15 @@
 package com.wilson.tasker.model;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.RingtoneManager;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wilson.tasker.actions.AirplaneModeAction;
 import com.wilson.tasker.actions.BluetoothAction;
 import com.wilson.tasker.actions.BrightnessAction;
+import com.wilson.tasker.actions.RingerModeAction;
 import com.wilson.tasker.actions.SendSmsAction;
 import com.wilson.tasker.actions.WallpaperAction;
 import com.wilson.tasker.actions.WifiAction;
@@ -29,6 +32,7 @@ public abstract class Action {
 	public static final int TYPE_WIFI = TYPE_MIN_VALUE + 6;
 	public static final int TYPE_WIFI_CONNECT = TYPE_MIN_VALUE + 7;
 	public static final int TYPE_SEND_SMS = TYPE_MIN_VALUE + 8;
+	public static final int TYPE_RINGER_MODE = TYPE_MIN_VALUE + 9;
 
 	/** Action当前状态 */
 	public int state;
@@ -97,6 +101,7 @@ public abstract class Action {
 		actions.add(new WifiAction(true));
 		actions.add(new WifiConnectAction(1, "unknown"));
 		actions.add(new SendSmsAction("10086", "hi"));
+		actions.add(new RingerModeAction(AudioManager.RINGER_MODE_NORMAL));
 		return actions;
 	}
 }

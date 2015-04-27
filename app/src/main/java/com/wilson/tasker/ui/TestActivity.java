@@ -1,7 +1,5 @@
 package com.wilson.tasker.ui;
 
-import java.io.IOException;
-
 import com.wilson.tasker.R;
 import com.wilson.tasker.manager.AirplaneModeEnabler;
 import com.wilson.tasker.manager.BatteryLevelMonitor;
@@ -72,7 +70,7 @@ public class TestActivity extends Activity {
 		final OrientationManager orientationManager = OrientationManager.getInstance(this);
 		final PhoneCallManager phoneCallManager = PhoneCallManager.getInstance(this);
 		final SmsManager smsManager = SmsManager.getInstance(this);
-		final RingtoneManager ringtoneManager = RingtoneManager.getsInstance(this);
+		final RingtoneManager ringtoneManager = RingtoneManager.getInstance(this);
 
 		wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
