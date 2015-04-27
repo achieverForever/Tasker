@@ -237,12 +237,12 @@ public class WorkerService extends Service {
 	private void trackSceneActivated(Scene scene) {
 		SceneActivityDao sceneActivityDao = ((TaskerApplication) getApplication())
 				.getDaoSession(this).getSceneActivityDao();
-		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getName(), 0));
+		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getDesc(), 0));
 	}
 
 	private void trackSceneDeactivated(Scene scene) {
 		SceneActivityDao sceneActivityDao = ((TaskerApplication) getApplication())
 				.getDaoSession(this).getSceneActivityDao();
-		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getName(), 1));
+		sceneActivityDao.insert(new SceneActivity(null, new Date(), scene.getDesc(), 1));
 	}
 }
