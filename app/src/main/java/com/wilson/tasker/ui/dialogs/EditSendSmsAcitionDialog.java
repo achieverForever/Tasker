@@ -56,7 +56,7 @@ public class EditSendSmsAcitionDialog extends DialogFragment implements View.OnC
 	}
 
 	private void setupViews(View rootView) {
-		getDialog().setTitle("Edit Sms Condition");
+		getDialog().setTitle("Edit Send Sms Action");
 		smsTo = (EditText) rootView.findViewById(R.id.sender_number);
 		content = (EditText) rootView.findViewById(R.id.sms_content);
 		browseBtn = (Button) rootView.findViewById(R.id.browse_contacts);
