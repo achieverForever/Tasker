@@ -11,6 +11,7 @@ import com.wilson.tasker.conditions.ChargerCondition;
 import com.wilson.tasker.conditions.LocationCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
+import com.wilson.tasker.conditions.TimeCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.manager.OrientationManager;
 
@@ -124,6 +125,7 @@ public abstract class Condition {
 		conditions.add(new OrientationCondition(OrientationManager.ORIENTATION_FACE_DOWN));
 		conditions.add(new SmsCondition("10086", "hi"));
 		conditions.add(new TopAppCondition("com.android.anything"));
+		conditions.add(new TimeCondition(0, 0));
 		return conditions;
 	}
 

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.wilson.tasker.app.TaskerApplication;
+import com.wilson.tasker.conditions.TimeCondition;
 import com.wilson.tasker.model.Event;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
@@ -120,7 +121,6 @@ public class SceneManager {
 					}
 					break;
 				case Event.EVENT_LOCATION:
-					// TODO - implement me
 					break;
 				case Event.EVENT_ORIENTATION:
 					if (!OrientationManager.getInstance(context).isRegistered()) {
@@ -128,6 +128,7 @@ public class SceneManager {
 					}
 					break;
 				case Event.EVENT_TIME:
+					TimerManager.getInstance().scheduleTimer(context, (TimeCondition) c);
 					break;
 				case Event.EVENT_SMS:
 					if (!SmsManager.getInstance(context).isRegistered()) {
@@ -145,6 +146,9 @@ public class SceneManager {
 		Map<Integer, Boolean> registrationMap = new HashMap<>();
 		for (Condition condition : Condition.asList()) {
 			registrationMap.put(condition.eventCode, false);
+			if (condition.eventCode == Event.EVENT_TIME) {
+				TimerManager.getInstance().unscheduleTimer(context, (TimeCondition) condition);
+			}
 		}
 
 		for (Scene scene : SceneManager.getInstance().getScenes()) {

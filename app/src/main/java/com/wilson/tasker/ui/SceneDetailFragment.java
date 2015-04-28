@@ -36,6 +36,7 @@ import com.wilson.tasker.conditions.ChargerCondition;
 import com.wilson.tasker.conditions.LocationCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
 import com.wilson.tasker.conditions.SmsCondition;
+import com.wilson.tasker.conditions.TimeCondition;
 import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.events.SceneChangedEvent;
 import com.wilson.tasker.events.RefreshSceneListEvent;
@@ -58,6 +59,7 @@ import com.wilson.tasker.ui.dialogs.EditOrientationConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditRingerModeAcitionDialog;
 import com.wilson.tasker.ui.dialogs.EditSendSmsAcitionDialog;
 import com.wilson.tasker.ui.dialogs.EditSmsConditionDialog;
+import com.wilson.tasker.ui.dialogs.EditTimeConditionDialog;
 import com.wilson.tasker.ui.dialogs.EditWifiConnectActionDialog;
 import com.wilson.tasker.utils.Utils;
 
@@ -198,6 +200,10 @@ public class SceneDetailFragment extends Fragment
 						showOrientationDialog((OrientationCondition) condition);
 						break;
 
+					case Event.EVENT_TIME:
+						showTimeDialog((TimeCondition) condition);
+						break;
+
 					default:
 						Log.d(Utils.LOG_TAG,
 							Event.eventCodeToString(condition.eventCode) + " condition click");
@@ -255,6 +261,14 @@ public class SceneDetailFragment extends Fragment
 		editChargerDialog.setCondition(condition);
 		editChargerDialog.setOnConditionChangedListener(SceneDetailFragment.this);
 		editChargerDialog.show(getFragmentManager(), "edit_charger_dialog");
+	}
+
+	private void showTimeDialog(TimeCondition condition) {
+		EditTimeConditionDialog editTimeConditionDialog
+				= new EditTimeConditionDialog();
+		editTimeConditionDialog.setCondition(condition);
+		editTimeConditionDialog.setOnConditionChangedListener(SceneDetailFragment.this);
+		editTimeConditionDialog.show(getFragmentManager(), "edit_time_dialog");
 	}
 
 	private void showDeleteConditionDialog(final Condition condition) {

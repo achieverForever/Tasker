@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/content_padding">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Start"
+            android:textSize="18sp"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/time"
+            android:layout_toRightOf="@+id/label"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/down_arrow"
+            android:text="2015/4/16"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/down_arrow"
+            android:text="10:30"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/label2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Duration"
+            android:textSize="16sp"
+            android:textColor="@color/dark_gray"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/label2"
+            android:drawableRight="@drawable/down_arrow"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical" />
+
+    </RelativeLayout>
+
+    <com.gc.materialdesign.views.ButtonFlat
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="right|bottom"
+        android:text="OK"/>
+
+</LinearLayout>
