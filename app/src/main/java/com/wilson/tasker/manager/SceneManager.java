@@ -59,7 +59,7 @@ public class SceneManager {
 		} else {
 			Log.d(Utils.LOG_TAG, "runScene [" + scene.toString() + "] failed.");
 		}
-		Toast.makeText(context, String.format("Scene %s is activated", scene.getDesc()),
+		Toast.makeText(context, String.format("Scene %s is activated", scene.getName()),
 				Toast.LENGTH_SHORT).show();
 		return success;
 	}
@@ -69,7 +69,7 @@ public class SceneManager {
 		if (scene.isRollbackNeeded()) {
 			scene.rollback(context);
 		}
-		Toast.makeText(context, String.format("Scene %s is deactivated", scene.getDesc()),
+		Toast.makeText(context, String.format("Scene %s is deactivated", scene.getName()),
 				Toast.LENGTH_SHORT).show();
 	}
 

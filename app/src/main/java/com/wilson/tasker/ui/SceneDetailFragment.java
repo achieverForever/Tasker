@@ -124,7 +124,7 @@ public class SceneDetailFragment extends Fragment
 		actionList = (ListView) root.findViewById(R.id.lv_actions);
 		btnSave = (Button) root.findViewById(R.id.btn_save);
 
-		edtSceneName.setText(scene.getDesc());
+		edtSceneName.setText(scene.getName());
 		edtSceneName.setTypeface(FontManager.getsInstance().loadFont(getActivity(), "fonts/Roboto-Thin.ttf"));
 		conditionListAdapter = new ConditionListAdapter(getActivity(), scene.getConditions(), scene);
 		actionListAdapter = new ActionListAdapter(getActivity(), scene.getActions(), scene);
@@ -481,7 +481,7 @@ public class SceneDetailFragment extends Fragment
 	private class OnSaveSceneClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View v) {
-			scene.setDesc(edtSceneName.getText().toString());
+			scene.setName(edtSceneName.getText().toString());
 
 			EventBus.getDefault().postSticky(new RefreshSceneListEvent());
 			if (scene.getState() != Scene.STATE_DISABLED) {

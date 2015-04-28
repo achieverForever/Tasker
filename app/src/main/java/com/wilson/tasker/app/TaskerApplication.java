@@ -9,20 +9,15 @@ import com.baidu.mapapi.SDKInitializer;
 import com.wilson.tasker.actions.BluetoothAction;
 import com.wilson.tasker.actions.BrightnessAction;
 import com.wilson.tasker.actions.RingerModeAction;
-import com.wilson.tasker.actions.WallpaperAction;
 import com.wilson.tasker.actions.WifiAction;
 import com.wilson.tasker.actions.WifiConnectAction;
 import com.wilson.tasker.conditions.BatteryLevelCondition;
 import com.wilson.tasker.conditions.LocationCondition;
 import com.wilson.tasker.conditions.OrientationCondition;
-import com.wilson.tasker.conditions.SmsCondition;
-import com.wilson.tasker.conditions.TopAppCondition;
 import com.wilson.tasker.dao.DaoMaster;
 import com.wilson.tasker.dao.DaoSession;
 import com.wilson.tasker.manager.OrientationManager;
 import com.wilson.tasker.manager.SceneManager;
-import com.wilson.tasker.model.Action;
-import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
 import com.wilson.tasker.service.WorkerService;
 import com.wilson.tasker.utils.Utils;
@@ -50,18 +45,18 @@ public class TaskerApplication extends Application {
 	}
 
 	private void initDefaultScenes() {
-		Scene battery = new Scene("battery", "Battery", true);
+		Scene battery = new Scene("Battery", true);
 		battery.addCondition(new BatteryLevelCondition(BatteryLevelCondition.TYPE_BELOW, 0.2f));
 		battery.addAction(new BluetoothAction(false));
 		battery.addAction(new BrightnessAction(64));
 		battery.addAction(new WifiAction(false));
 
-		Scene home = new Scene("home", "Home", true);
+		Scene home = new Scene("Home", true);
 		home.addCondition(new LocationCondition("Home"));
 		home.addAction(new WifiConnectAction(0, "home"));
 		home.addAction(new BrightnessAction(194));
 
-		Scene meeting = new Scene("meeting", "Meeting", true);
+		Scene meeting = new Scene("Meeting", true);
 		meeting.addCondition(new OrientationCondition(OrientationManager.ORIENTATION_FACE_DOWN));
 		meeting.addAction(new RingerModeAction(AudioManager.RINGER_MODE_SILENT));
 

@@ -6,19 +6,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.wilson.tasker.model.Action;
 import com.wilson.tasker.model.Condition;
 import com.wilson.tasker.model.Scene;
 
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 
@@ -28,10 +20,9 @@ public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 		JsonObject jsonObject = json.getAsJsonObject();
 
 		String name = jsonObject.get("name").getAsString();
-		String desc = jsonObject.get("desc").getAsString();
 		int state = jsonObject.get("state").getAsInt();
 
-		Scene scene = new Scene(name, desc, false);
+		Scene scene = new Scene(name, false);
 		scene.setState(state);
 
 		JsonArray jsonArray = jsonObject.get("conditions").getAsJsonArray();

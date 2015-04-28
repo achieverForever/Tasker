@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wilson.tasker.R;
@@ -108,7 +107,7 @@ public class SceneListFragment extends Fragment {
 	}
 
 	public void createScene() {
-		Scene scene = new Scene("", "New Scene", false);
+		Scene scene = new Scene("New Scene", false);
 		SceneManager.getInstance().addScene(getActivity(), scene);
 		EventBus.getDefault().postSticky(new SceneDetailEvent(scene));
 		startActivity(new Intent(getActivity(), SceneDetailActivity.class));

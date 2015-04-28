@@ -79,7 +79,7 @@ public class SceneListAdapter extends BaseAdapter {
 
 		sceneName.setTypeface(FontManager.getsInstance().loadFont(context, "fonts/Roboto-Light.ttf"));
 		label.setText(String.valueOf(position + 1));
-		sceneName.setText(scene.getDesc());
+		sceneName.setText(scene.getName());
 		return convertView;
 	}
 }

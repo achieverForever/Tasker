@@ -24,9 +24,6 @@ public class Scene implements Condition.ConditionStateChangedListener {
 	/** Scene的名称 */
 	private String name;
 
-	/** Scene的简短文字描述 */
-	private String desc;
-
 	/** Scene的当前状态 */
 	private int state;
 
@@ -43,9 +40,8 @@ public class Scene implements Condition.ConditionStateChangedListener {
 		// Required empty constructor for serialize/deserialize
 	}
 
-	public Scene(String name, String desc, boolean isRollbackNeeded) {
+	public Scene(String name, boolean isRollbackNeeded) {
 		this.name = name;
-		this.desc = desc;
 		this.isRollbackNeeded = isRollbackNeeded;
 		this.state = STATE_ENABLED;
 		conditions = new CopyOnWriteArrayList<>();
@@ -169,14 +165,6 @@ public class Scene implements Condition.ConditionStateChangedListener {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
 	}
 
 	public int getState() {
