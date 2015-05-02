@@ -21,8 +21,9 @@ public class SceneTypeAdapter implements JsonDeserializer<Scene> {
 
 		String name = jsonObject.get("name").getAsString();
 		int state = jsonObject.get("state").getAsInt();
+		boolean isRollbackNeeded = jsonObject.get("isRollbackNeeded").getAsBoolean();
 
-		Scene scene = new Scene(name, false);
+		Scene scene = new Scene(name, isRollbackNeeded);
 		scene.setState(state);
 
 		JsonArray jsonArray = jsonObject.get("conditions").getAsJsonArray();
