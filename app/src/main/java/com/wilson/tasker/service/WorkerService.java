@@ -38,7 +38,6 @@ import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 
-//TODO - 将定位相关代码从Service中剥离
 public class WorkerService extends Service {
 	public static final String TAG = "WorkerService";
 	public static final String SHARED_PREF_NAME = "com.wilson.tasker.pref_scenes";

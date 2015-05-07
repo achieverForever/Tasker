@@ -92,7 +92,6 @@ public abstract class Action {
 	public abstract View getView(Context context, ViewGroup parent);
 
 	public static List<Action> asList() {
-		// TODO - 创建Action的Dialog中显示所有Action的列表
 		List<Action> actions = new ArrayList<>();
 		actions.add(new AirplaneModeAction(true));
 		actions.add(new BluetoothAction(true));

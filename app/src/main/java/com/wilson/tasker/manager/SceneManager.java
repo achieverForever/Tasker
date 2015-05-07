@@ -181,9 +181,6 @@ public class SceneManager {
 					BatteryLevelMonitor.getInstance(context).unregister();
 				}
 				break;
-			case Event.EVENT_LOCATION:
-				// TODO - implement me
-				break;
 			case Event.EVENT_ORIENTATION:
 				if (OrientationManager.getInstance(context).isRegistered()) {
 					OrientationManager.getInstance(context).unregister();
@@ -199,6 +196,7 @@ public class SceneManager {
 			case Event.EVENT_TOP_APP_CHANGED:
 			case Event.EVENT_TIME:
 			case Event.EVENT_BATTERY_LEVEL:
+			case Event.EVENT_LOCATION:
 				break;
 
 			default:

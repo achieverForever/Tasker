@@ -168,7 +168,6 @@ public class SceneDetailFragment extends Fragment
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Condition condition = (Condition) parent.getAdapter().getItem(position);
-				// TODO - 根据不同类型的Condition显示对应的Condition编辑界面
 				switch (condition.eventCode) {
 
 					case Event.EVENT_TOP_APP_CHANGED:
@@ -499,7 +498,6 @@ public class SceneDetailFragment extends Fragment
 				Log.e(Utils.LOG_TAG, "No image data returned");
 				return;
 			}
-			// TODO - 这里比较挫，如何将返回的Uri赋值给WallpaperAction
 			for (Action action : scene.getActions()) {
 				if (action.actionType == Action.TYPE_WALL_PAPER) {
 					((WallpaperAction) action).imageUri = data.getData();
@@ -511,7 +509,6 @@ public class SceneDetailFragment extends Fragment
 				return;
 			}
 			String markerName = data.getStringExtra(BaiduMapActivity.KEY_MARKER_NAME);
-			// TODO - 这里也比较挫
 			for (Condition condition : scene.getConditions()) {
 				if (condition.eventCode == Event.EVENT_LOCATION) {
 					conditionListAdapter.handleConditionChanged(((LocationCondition) condition),
